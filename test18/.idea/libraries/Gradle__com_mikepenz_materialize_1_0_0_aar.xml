@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.mikepenz:materialize:1.0.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/59e2e27518a58580d703b3f2beeb28afd590c71c/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/59e2e27518a58580d703b3f2beeb28afd590c71c/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
