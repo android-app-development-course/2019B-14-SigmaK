@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="listitemview-1.1.1">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/3f24ce2173d92d3dfdc135c594b718bc4e25a60c/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/3f24ce2173d92d3dfdc135c594b718bc4e25a60c/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lucasurbas/listitemview/1.1.1/9a125df91c0e078edf65c88f25e8b71dce0baa48/listitemview-1.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
