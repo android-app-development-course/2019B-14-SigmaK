@@ -1,0 +1,174 @@
+//账号信息
+public class AccountInfo implements Serializable {
+    public int UserID;
+	public String Email;
+    public String Name;
+	public Bitmap ProfilePhoto;
+    }
+
+//用户状态信息
+public class UserInfo  implements Serializable {
+    public int Follows;
+    public int Followers;
+    public int Coins;
+    public int Likes;
+}
+//继承加上用户的权重
+
+    枚举Article.BlogCategory{计算机科学,数学科学,文学批评,英语}
+    Manager.PostType{Mix,Question,Blog}
+
+class TextContent implements Serializable {
+	public int PostID;//对应的post的id
+	public char[] Text;
+	public Bitmap[] Images;
+	public int[] ImageLocation;//插图对应的位置
+}
+
+Class Post implements Serializable{
+	public int ID;
+	public String Title;
+	public Date PostDate;
+	public AccountInfo Author;
+	public int Likes;
+	public int Reads;
+	public int Comments;
+}
+//	继承来显示public int Disapproves;//不显示在UI上
+	
+//这样是否也有implements Serializable
+class Article extends Post{
+	public Date LastEditedDate;
+	public BlogCategory Category;
+	public String[] KeyWords;
+}
+
+
+class Comment{
+	public int ID;
+	public int ArticleID;
+	public String UserName;
+	public Date PostDate;
+	public int Likes;
+	public char[] Content;//最长200中文字符
+}
+	//	继承来显示public int Disapproves;//不显示在UI上
+	
+    枚举Question.QuestionStatus{
+	NoFinished,Closed/*无满意回答*/,Accepted//有满意回答
+    }
+	
+class Question extends Post{
+	public Date LastEditedDate;
+	public BlogCategory Category;
+	public String[] KeyWords;
+	public int Answers;
+	public QuestionStatus Status;
+}
+
+class Answer extends Post{
+	public int QuestionID;
+	public Date LastEditedDate;
+	public TextContent Content; 
+}
+
+class manager:
+	//获取登陆状态
+	public static boolean LoginStatus()；
+	
+	//如果已有本地记录的登陆状态，获取已登陆的账号信息
+	//RecordException:No local login record.
+	public static AccountInfo GetAccountInfo();
+	
+	//获取用户的状态信息
+	//RecordException:No valid account.
+	//ConnectException:No connection.
+	public static UserInfo GetUserInfo();
+	
+	//发出注册请求（现阶段是直接就注册了，没有服务器）
+	//ConnectException:No connection.
+	public static void SignUp(String Name, String Email, char[] password);
+	
+	//登陆
+	//ConnectException:No connection.
+	//AccountException:No such UserID/Email.
+	//AccountException:Password is wrong.
+	//AccountException:Try logging in with wrong password more than 7 times, please try after 2 hours.
+	public static void LogIn(String NameorEmail, char[] password);
+	
+	//退出登陆
+	//RecordException:No valid account has logged in.
+	public static void LogOut();
+	
+	//修改用户头像
+	public static void ChangeProfilePhoto(Bitmap Photo);
+	
+	//获取用户关注的人
+	public static List<AccountInfo> GetFollows();
+	
+	//获取用户的粉丝
+	public static List<AccountInfo> GetFollowers();
+	
+	//获取收藏的博文或者是问题
+	public static List<Post> GetFavourites(PostType Type);
+	
+	//关注该用户
+	public static void Follow(int UserID);
+	
+	//收藏该内容
+	public static void Favourite(int PostID);
+	
+	//获取新的NumOfPosts篇推荐内容
+	//ConnectException:No connection.
+	public static List<Post> GetRecommandPosts(int NumOfPosts);
+	
+	//获取新的NumOfQuestions篇推荐问题
+	//ConnectException:No connection.
+	public static List<Question> GetRecommandQuestions(int NumOfQuestions);
+	
+	//获取新的NumOfArticles篇推荐博文
+	//ConnectException:No connection.
+	public static List<Article> GetRecommandArticles(int NumOfArticles);
+	
+	//搜索获取博文或问题或者两者兼有
+	//ConnectException:No connection.
+	public static List<Post> Search(String SearchCommand, PostType Type, int NumOfPosts);
+	
+	//获取上一次搜索获取博文或问题或者两者兼有剩下的结果
+	//ConnectException:No connection.
+	//ExecutionException: No search executed.
+	//RecordException:No more qualified post.
+	public static List<Post> GetMoreSearchResult(int NumOfPosts);
+	
+	//获取PostID对应的内容
+	//RecordException:No such PostID.
+	public static TextContent GetPostCotent(int PostID);
+	
+	//获取PostID对应的评论
+	//RecordException:No such PostID.
+	public static List<Comment> GetPostComment(int PostID);
+	
+	//发表PostID内容的评论
+	//RecordException:No valid login.
+	//ExecutionException: Comment too long.
+	public static void PostComment(int CommentOfPostID, char[] CommentText);
+	
+	//发表博文
+	//RecordException:No valid login.
+	//ExecutionException: .
+	public static void PostComment(String Title, TextContent Content, BlogCategory Category, String[] KeyWords);
+	
+	//发表问题
+	//RecordException:No valid login.
+	//ExecutionException: .
+	public static void PostQuestion(String Title, TextContent Content, BlogCategory Category, String[] KeyWords);
+	
+	//关闭问题
+	public static void CloseQuestion(int QuestionID);
+	
+	//接受问题
+	public static void AcceptQuestion(int QuestionID, int[] SatisfiedAnswerID);
+	
+	//获取问题对应的答案
+	public static List<Answer> GetAnswers(int QuestionID);
+	
