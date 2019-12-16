@@ -1,0 +1,4 @@
+Follow:UserID,FollowerID,FollowDate
+Favourites:UserID,PostID,Type
+
+CHECK TODO

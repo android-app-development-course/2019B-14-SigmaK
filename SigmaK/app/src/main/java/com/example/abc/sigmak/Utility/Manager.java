@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import com.example.abc.sigmak.Utility.Tools;
 
@@ -50,9 +52,94 @@ public class Manager {
     private Manager() {
     }
 
+    /**
+     * 检查是否登陆了
+     * @throws RecordException
+     */
     private void checkStatus() throws RecordException {
         if(!_loginStatus)
             throw new RecordException("No valid account has logged in.");
+    }
+
+    /**
+     * 将PostIDs对应的PostInfo读取出来
+     * @param PostIDs Integer//CHECK
+     * @return
+     * @throws RecordException
+     */
+    private static List<Post> fromPostIDtoPostList(List<Object> PostIDs) throws RecordException {
+        List<Post> list = new LinkedList<Post>();
+        List<Object> temp,tmpq;
+        Question tmpQuestion;
+        Answer tmpAnswer;
+        for(int i=0;i<PostIDs.size();++i){
+            temp = sqlite.rawQuery("SELECT * FROM PostInfo WHERE PostID="+(int)PostIDs.get(i));
+            if(temp==null)
+                throw new RecordException("Can't find postInfo of PostID="+(int)PostIDs.get(i));
+            if((Post.PostType)temp.get(ConstantValue.TablePostInfo.Type.ordinal())== Post.PostType.Blog){
+                list.add(new Article((int)temp.get(ConstantValue.TablePostInfo.PostID.ordinal()),
+                        (String)temp.get(ConstantValue.TablePostInfo.Title.ordinal()),
+                        (Post.PostType)temp.get(ConstantValue.TablePostInfo.Type.ordinal()),
+                        (Date)temp.get(ConstantValue.TablePostInfo.PostDate.ordinal()),
+                        (Date)temp.get(ConstantValue.TablePostInfo.LastEditedDate.ordinal()),
+                        (Post.PostCategory) temp.get(ConstantValue.TablePostInfo.Category.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.AuthorID.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.Likes.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.Reads.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.Comments.ordinal()),
+                        Tools.ChangeCombinedStringToStringArray(
+                                (String)temp.get(ConstantValue.TablePostInfo.KeyWords.ordinal()))
+                ));
+            }else if((Post.PostType)temp.get(ConstantValue.TablePostInfo.Type.ordinal())== Post.PostType.Question){
+                tmpQuestion = new Question((int)temp.get(ConstantValue.TablePostInfo.PostID.ordinal()),
+                        (String)temp.get(ConstantValue.TablePostInfo.Title.ordinal()),
+                        (Post.PostType)temp.get(ConstantValue.TablePostInfo.Type.ordinal()),
+                        (Date)temp.get(ConstantValue.TablePostInfo.PostDate.ordinal()),
+                        (Date)temp.get(ConstantValue.TablePostInfo.LastEditedDate.ordinal()),
+                        (Post.PostCategory) temp.get(ConstantValue.TablePostInfo.Category.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.AuthorID.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.Likes.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.Reads.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.Comments.ordinal()),
+                        Tools.ChangeCombinedStringToStringArray(
+                                (String)temp.get(ConstantValue.TablePostInfo.KeyWords.ordinal()))
+                );
+                //QuestionInfo:ID,PostID,Answers,Status.
+                tmpq = sqlite.rawQuery(String.format("SELECT * FROM QuestionInfo WHERE PostID=%d",
+                        (int)temp.get(ConstantValue.TablePostInfo.PostID.ordinal())));
+                if(tmpq==null)
+                    throw new RecordException("No QuestionInfo which PostID="+
+                            (int)temp.get(ConstantValue.TablePostInfo.PostID.ordinal()));
+                tmpQuestion.Answers = (int)tmpq.get(ConstantValue.TableQuestionInfo.Answers.ordinal());
+                tmpQuestion.Status = (Question.QuestionStatus) tmpq.get(ConstantValue.TableQuestionInfo.Status.ordinal());
+                tmpQuestion.StatisfiedAnswerIDs = Tools.ChangeCombinedStringToIntegerArray(
+                        (String)tmpq.get(ConstantValue.TableQuestionInfo.StatisfiedAnswerIDs.ordinal()));
+                list.add(tmpQuestion);
+            }else{
+                tmpAnswer = new Answer((int)temp.get(ConstantValue.TablePostInfo.PostID.ordinal()),
+                        (String)temp.get(ConstantValue.TablePostInfo.Title.ordinal()),
+                        (Post.PostType)temp.get(ConstantValue.TablePostInfo.Type.ordinal()),
+                        (Date)temp.get(ConstantValue.TablePostInfo.PostDate.ordinal()),
+                        (Date)temp.get(ConstantValue.TablePostInfo.LastEditedDate.ordinal()),
+                        (Post.PostCategory) temp.get(ConstantValue.TablePostInfo.Category.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.AuthorID.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.Likes.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.Reads.ordinal()),
+                        (int)temp.get(ConstantValue.TablePostInfo.Comments.ordinal()),
+                        Tools.ChangeCombinedStringToStringArray(
+                                (String)temp.get(ConstantValue.TablePostInfo.KeyWords.ordinal()))
+                );
+                //AnswerInfo:ID,QuestionID,AnswerID
+                tmpq = sqlite.rawQuery(String.format("SELECT QuestionID FROM AnswerInfo WHERE AnswerID=%d",
+                        (int)temp.get(ConstantValue.TablePostInfo.PostID.ordinal())));
+                if(tmpq==null)
+                    throw new RecordException("No QuestionInfo which PostID="+
+                            (int)temp.get(ConstantValue.TablePostInfo.PostID.ordinal()));
+                tmpAnswer.QuestionID = (int)tmpq.get(0);
+                list.add(tmpAnswer);
+            }
+        }
+        return list;
     }
 
     /**
@@ -320,9 +407,7 @@ public class Manager {
      * @throws RecordException "Favourites is empty."
      */
     public List<Post> GetFavourites(Post.PostType Type) throws RecordException {
-        List<Post> list = new LinkedList<Post>();
         List<Object> posts;
-        List<Object> temp;
         if(Type== Post.PostType.Mix){
             posts = sqlite.rawQuery(String.format("SELECT PostID FROM Favourites WHERE UserID='%s'",_accountInfo.UserID));
         }else{
@@ -331,21 +416,8 @@ public class Manager {
         }
         if(posts==null)
             throw new RecordException("Favourites is empty.");
-        for(int i=0;i<posts.size();++i){
-            temp = sqlite.rawQuery("SELECT * FROM Post WHERE PostID="+(int)posts.get(i));
-            if(temp==null)
-                throw new RecordException("Can't find postInfo of PostID="+(int)posts.get(i));
-            list.add(new Post((int)temp.get(ConstantValue.TablePostInfo.PostID.ordinal()),
-                    (String)temp.get(ConstantValue.TablePostInfo.Title.ordinal()),
-                    (Date)temp.get(ConstantValue.TablePostInfo.PostDate.ordinal()),
-                    (int)temp.get(ConstantValue.TablePostInfo.AuthorID.ordinal()),
-                    (int)temp.get(ConstantValue.TablePostInfo.Likes.ordinal()),
-                    (int)temp.get(ConstantValue.TablePostInfo.Reads.ordinal()),
-                    (int)temp.get(ConstantValue.TablePostInfo.Comments.ordinal())
-            ));
-        }
 
-        return list;
+        return fromPostIDtoPostList(posts);
     }
 
     /**
@@ -409,8 +481,14 @@ public class Manager {
     //RecordException:No more qualified post.
     public static List<Post> GetMoreSearchResult(int NumOfPosts){return null;}
 
-    //获取PostID对应的内容
-    //RecordException:No such PostID.
+    /**
+     * 获取PostID对应的内容
+     * @param PostID
+     * @return
+     * @throws RecordException No such PostID.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public static TextContent GetPostCotent(int PostID) throws RecordException, IOException, ClassNotFoundException {
         List<Object> temp = sqlite.rawQuery("SELECT TextContent FROM PostContent WHERE PostID="+PostID);
         if(temp==null)
@@ -419,36 +497,150 @@ public class Manager {
         TextContent context = (TextContent)Tools.ChangeStringToObject((String)temp.get(0));
         return context;
     }
-    /下了 晚安w
 
-    //获取PostID对应的评论
-    //RecordException:No such PostID.
-    public static List<Comment> GetPostComment(int PostID){return null;}
+    /**
+     * 获取PostID对应的评论
+     * @param PostID
+     * @return
+     * @throws RecordException No such PostID.
+     */
+    public static List<Comment> GetPostComment(int PostID) throws RecordException {
+        List<Object> temp = sqlite.rawQuery("SELECT * FROM Comment WHERE PostID="+PostID);
+        if(temp==null)
+            throw new RecordException("No comment of post which PostID="+PostID);
+        List<Comment> comments = new LinkedList<Comment>();
+        for(int i=0;i<temp.size();++i){
+            comments.add(new Comment((int)temp.get(i+ConstantValue.TableComment.CommentID.ordinal()),
+                    (int)temp.get(i+ConstantValue.TableComment.PostID.ordinal()),
+                    (int)temp.get(i+ConstantValue.TableComment.UserID.ordinal()),
+                    (Date) temp.get(i+ConstantValue.TableComment.PostDate.ordinal()),
+                    (int)temp.get(i+ConstantValue.TableComment.Likes.ordinal()),
+                    (char[])temp.get(i+ConstantValue.TableComment.Content.ordinal())
+                    ));
+            i += ConstantValue.TableComment.values().length;
+        }
+        return comments;
+    }
 
-    //发表PostID内容的评论
-    //RecordException:No valid login.
-    //ExecutionException: Comment too long.
-    public static void PostComment(int CommentOfPostID, char[] CommentText){}
+    /**
+     * 发表文章或问题id为PostID的内容的评论
+     * @param PostID
+     * @param CommentText
+     * @throws Exception Comment too long. No valid login.
+     */
+    public void PostComment(int PostID, char[] CommentText) throws Exception {
+        if(!_loginStatus)
+            throw new RecordException("No valid login.");
+        if(CommentText.length>=400)
+            throw new Exception("Comment length exceed 400.");
+        //CHECK:这里是否能够自动生成日期和likes
+        //CommentID,PostID,UserID,PostDate,Likes,Content
+        sqlite.ExecuteSql(String.format("INSERT INTO Comment(PostID,UserID,Content) VALUES (%d,%d,%s"
+                ,PostID,_accountInfo.UserID,CommentText));
 
-    //发表博文
-    //RecordException:No valid login.
-    //ExecutionException: .
-    public static void PostComment(String Title, TextContent Content,
-                                   Article.BlogCategory Category, String[] KeyWords){}
+    }
 
-    //发表问题
-    //RecordException:No valid login.
-    //ExecutionException: .
-    public static void PostQuestion(String Title, TextContent Content,
-                                    Article.BlogCategory Category, String[] KeyWords){}
+    /**
+     * 删除评论
+     * @param CommentID
+     */
+    public void DeleteComment(int CommentID){
+        sqlite.ExecuteSql(String.format("DELETE FROM Comment WHERE CommentID=%d AND UserID=%d",
+                CommentID,_accountInfo.UserID));
+    }
 
-    //关闭问题
-    public static void CloseQuestion(int QuestionID){}
+    /**
+     * 发表博文或者问题.
+     * @param Title 标题
+     * @param _Content 内容
+     * @param _Category 分类
+     * @param KeyWords 关键词
+     * @param _PostType 博文还是提问
+     * @throws RecordException No valid login.
+     * @throws FormatException Invalid PostType.
+     */
+    public void PostArticle(String Title, TextContent _Content,
+                            Post.PostCategory _Category, String[] KeyWords, Post.PostType _PostType) throws RecordException, FormatException {
+        if(!_loginStatus)
+            throw new RecordException("No valid login.");
+        if(_PostType == Post.PostType.Mix)
+            throw new FormatException("Invalid PostType.");
 
-    //接受问题
-    public static void AcceptQuestion(int QuestionID, int[] SatisfiedAnswerID){}
 
-    //获取问题对应的答案
-    public static List<Answer> GetAnswers(int QuestionID){return null;}
+        //创建新的PostInfo
+        //PostID,Title,Type,PostDate,LastEditedDate,Category,KeyWords,AuthorID,Likes,Reads,Comments
+        //CHECK:这里是否能够自动生成PostID/PostDate/LastEditedDate/Likes/Reads/Comments
+        sqlite.ExecuteSql(String.format("INSERT INTO PostInfo(Title,Type,Category,KeyWords,AuthorID) " +
+                "VALUES(%s,%s,%s,%s,%d)",
+                Title,_PostType.name(), _Category.name(),Tools.ChangeStringArrayToString(KeyWords),
+                _accountInfo.UserID));
 
+        List<Object> ltmp = sqlite.rawQuery(String.format("SELECT PostID FROM PostInfo" +
+                " WHERE Title='%s' ORDER BY PostDate DESC",Title));
+        //CHECK:ID是否正确
+        int postID = (int)ltmp.get(0);
+        //创建新的文章内容
+        //ContentID,PostID,TextContent
+        try {
+            sqlite.ExecuteSql(String.format("INSERT INTO PostContent(PostID,TextContent) " +
+                    "VALUES(%d,%s)",postID,Tools.ChangeObjectToString(_Content)));
+
+            if(_PostType == Post.PostType.Question){
+                //ID,PostID,Answers,Status
+                //CHECK:Answers,Status,StatisfiedAnswerID能否由默认值填入
+                sqlite.ExecuteSql(String.format("INSERT INTO QuestionInfo(PostID) " +
+                        "VALUES(%d)",postID));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 关闭问题
+     * @param QuestionID->PostID
+     * @throws RecordException No valid account has logged in.
+     */
+    public void CloseQuestion(int QuestionID) throws RecordException {
+        checkStatus();
+        sqlite.ExecuteSql(String.format("UPDATE QuestionInfo SET Status='%s' WHERE PostID=%d",
+                Question.QuestionStatus.Closed.name(),_accountInfo.UserID));
+    }
+
+    /**
+     * 接受问题
+     * @param QuestionID
+     * @param SatisfiedAnswerID
+     * @throws RecordException No valid account has logged in.
+     */
+    public void AcceptQuestion(int QuestionID, Integer[] SatisfiedAnswerID) throws RecordException {
+        checkStatus();
+        sqlite.ExecuteSql(String.format("UPDATE QuestionInfo SET Status='%s',StatisfiedAnswerIDs='%s' WHERE PostID=%d",
+                Question.QuestionStatus.Accepted.name(),Tools.ChangeIntArrayToString(SatisfiedAnswerID),_accountInfo.UserID));
+    }
+
+    /**
+     * 获取问题对应的答案.
+     * @param QuestionID
+     * @return
+     * @throws RecordException Can't find xxx.
+     */
+    public static List<Post> GetAnswers(int QuestionID) throws RecordException {
+        List<Object> list = sqlite.rawQuery("SELECT AnswerID FROM QuestionInfo WHERE QuestionID="+QuestionID);
+        List<Object> PostIDs = new LinkedList<Object>();
+        for(int i=0;i<list.size();++i){
+            PostIDs.add(new Integer((int)list.get(i)));
+        }
+        return fromPostIDtoPostList(PostIDs);
+    }
+
+
+    //回答问题
+
+    //赞同内容
+
+    //反对内容
+
+    //我发表的内容
 }

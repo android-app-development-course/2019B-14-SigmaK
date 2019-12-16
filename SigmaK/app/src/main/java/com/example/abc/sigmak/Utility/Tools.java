@@ -13,11 +13,55 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tools {
     public static final String EmailPattern = "/^\\w+((\\.\\w+){0,3})@\\w+(\\.\\w{2,3}){1,3}$/";
+
+    public static String ChangeStringArrayToString(String[] sequence){
+        String combined = "";
+        for(int i=0;i<sequence.length;++i){
+            combined += sequence[i]+";;;";//TODO:找到一个解决方法，这个方法可能造成隐藏的bugs
+        }
+        return combined;
+    }
+
+    public static String[] ChangeCombinedStringToStringArray(String CombinedSequence){
+        List<String> list = new LinkedList<String>();
+        int p = CombinedSequence.indexOf(";;;");
+        int b = p;
+        list.add(CombinedSequence.substring(0,p-1));
+        for(int i=p;i<CombinedSequence.length();++i){
+            b = p;
+            p = CombinedSequence.indexOf(";;;",p+2);
+            list.add(CombinedSequence.substring(b+3,p-1));
+        }
+        return list.toArray(new String[0]);
+    }
+
+    public static String ChangeIntArrayToString(Integer[] array){
+        String combined = "";
+        for(int i=0;i<array.length;++i){
+            combined += array[i]+";;;";//TODO:找到一个解决方法，这个方法可能造成隐藏的bugs
+        }
+        return combined;
+    }
+
+    public static Integer[] ChangeCombinedStringToIntegerArray(String CombinedSequence){
+        List<Integer> list = new LinkedList<Integer>();
+        int p = CombinedSequence.indexOf(";;;");
+        int b = p;
+        list.add(Integer.parseInt(CombinedSequence.substring(0,p-1)));
+        for(int i=p;i<CombinedSequence.length();++i){
+            b = p;
+            p = CombinedSequence.indexOf(";;;",p+2);
+            list.add(Integer.parseInt(CombinedSequence.substring(b+3,p-1)));
+        }
+        return list.toArray(new Integer[0]);
+    }
 
     /**
      * 将对象转换为Byte数组再转换为String

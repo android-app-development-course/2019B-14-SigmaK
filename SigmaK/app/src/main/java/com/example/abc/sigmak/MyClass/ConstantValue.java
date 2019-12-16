@@ -22,7 +22,7 @@ public final class ConstantValue {
     }
 
     public enum TablePostInfo{
-        PostID,Title,PostDate,AuthorID,Likes,Reads,Comments
+        PostID,Title,Type,PostDate,LastEditedDate,Category,KeyWords,AuthorID,Likes,Reads,Comments
     }
 
     //Follow:UserID,FollowerID,FollowDate
@@ -32,5 +32,17 @@ public final class ConstantValue {
 
     public enum TablePostContent{
         ContentID,PostID,TextContent
+    }
+
+    public enum TableComment{
+        CommentID,PostID,UserID,PostDate,Likes,Content
+    }
+
+    public enum TableQuestionInfo{
+        ID,PostID,Answers,Status,StatisfiedAnswerIDs
+    }
+
+    public enum TableAnswerInfo{
+        ID,QuestionID,AnswerID
     }
 }
