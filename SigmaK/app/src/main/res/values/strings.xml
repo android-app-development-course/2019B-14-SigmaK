@@ -8,4 +8,8 @@ Greatnesses, and myriads of small creatures--the creatures of this chronicle amo
         Greatnesses, and myriads of small creatures--the creatures of this chronicle among the rest--along the roads that lay before them.
         Greatnesses, and myriads of small creatures--the creatures of this chronicle among the rest--along the roads that lay before them.
     </string>
+    <string name="welcome">Welcome to SIGMA-K</string>
+    <string name="Sign">Already have an account? Sign in here.</string>
+    <string name="Register">REGISTER</string>
+    <string name="Login">LOGIN</string>
 </resources>
