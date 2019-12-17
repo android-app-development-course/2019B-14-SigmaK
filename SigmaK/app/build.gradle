@@ -53,6 +53,7 @@ dependencies {
     compile 'com.android.support:design:25.0.0'
     compile 'com.ms-square:expandableTextView:0.1.4'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.github.rubensousa:raiflatbutton:0.1'
     testCompile 'junit:junit:4.12'
 }
 configurations.all {
