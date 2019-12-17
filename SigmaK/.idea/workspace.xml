@@ -8,20 +8,19 @@
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java" line="682" mnemonic="5" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="a2f0424d-fe07-47f1-b7c3-6ad157c5d8fd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.vs/2019B-14-SigmaK/v15/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../.vs/2019B-14-SigmaK/v15/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.vs/slnx.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/../.vs/slnx.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Answer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Answer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Article.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Comment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/ConstantValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/ConstantValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/UserInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Tools.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Tools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/SQLiteTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/SQLiteTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TODO.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../TODO.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,92 +47,89 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="632" column="55" lean-forward="true" selection-start-line="632" selection-start-column="55" selection-end-line="632" selection-end-column="55" />
+            <state relative-caret-position="1059">
+              <caret line="548" selection-start-line="548" selection-end-line="548" />
               <folding>
-                <element signature="e#1408#1545#0" />
-                <element signature="e#1551#1576#0" />
-                <element signature="e#2037#2043#0" expanded="true" />
-                <element signature="e#1745#1825#0" />
-                <element signature="e#1745#2401#0" />
-                <element signature="e#1907#2275#0" />
-                <element signature="e#2298#2330#0" />
-                <element signature="e#2351#2395#0" />
-                <element signature="e#2407#2509#0" />
-                <element signature="e#2407#2645#0" />
-                <element signature="e#2651#2763#0" />
-                <element signature="e#2651#2960#0" />
-                <element signature="e#2966#3105#0" />
-                <element signature="e#2966#3395#0" />
-                <element signature="e#3401#3463#0" />
-                <element signature="e#3401#3720#0" />
-                <element signature="e#3726#3793#0" />
-                <element signature="e#3726#4062#0" />
-                <element signature="e#4068#4094#0" />
-                <element signature="e#4137#4267#0" />
-                <element signature="e#4137#5209#0" />
-                <element signature="e#5215#5219#0" />
-                <element signature="e#5457#5574#0" />
-                <element signature="e#5457#8231#0" />
-                <element signature="e#5910#6274#1" />
-                <element signature="e#6081#6264#1" />
-                <element signature="e#6278#6642#1" />
-                <element signature="e#6452#6632#1" />
-                <element signature="e#6863#6936#1" />
-                <element signature="e#8237#8243#0" />
-                <element signature="e#8302#8382#0" />
-                <element signature="e#8302#8971#0" />
-                <element signature="e#8977#9072#0" />
-                <element signature="e#8977#9508#0" />
-                <element signature="e#9514#9645#0" />
-                <element signature="e#9514#10730#0" />
-                <element signature="e#10087#10699#1" />
-                <element signature="e#10736#10867#0" />
-                <element signature="e#10736#11958#0" />
-                <element signature="e#11313#11927#1" />
-                <element signature="e#11964#12112#0" />
-                <element signature="e#11964#13635#0" />
-                <element signature="e#13641#13717#0" />
-                <element signature="e#13641#14185#0" />
-                <element signature="e#14191#14284#0" />
-                <element signature="e#14191#14560#0" />
-                <element signature="e#14566#14615#0" />
-                <element signature="e#14566#14813#0" />
-                <element signature="e#14819#14840#0" />
-                <element signature="e#14819#14994#0" />
-                <element signature="e#15000#15025#0" />
-                <element signature="e#15000#15152#0" />
-                <element signature="e#15158#15182#0" />
-                <element signature="e#15158#15306#0" />
-                <element signature="e#15312#15329#0" />
-                <element signature="e#15312#15489#0" />
-                <element signature="e#15495#15522#0" />
-                <element signature="e#15495#15731#0" />
-                <element signature="e#15796#15960#0" />
-                <element signature="e#15737#16217#0" />
-                <element signature="e#16415#16514#0" />
-                <element signature="e#16283#17393#0" />
-                <element signature="e#16748#17362#1" />
-                <element signature="e#17634#17747#0" />
-                <element signature="e#17501#17711#0" />
-                <element signature="e#18219#18266#0" />
-                <element signature="e#18169#18352#0" />
-                <element signature="e#21001#21218#0" />
-                <element signature="e#21001#22921#0" />
-                <element signature="e#26552#26560#0" expanded="true" />
+                <element signature="e#1880#7511#0" />
+                <element signature="e#7517#7597#0" />
+                <element signature="e#7517#8173#0" />
+                <element signature="e#8179#8281#0" />
+                <element signature="e#8179#8417#0" />
+                <element signature="e#8423#8535#0" />
+                <element signature="e#8423#8732#0" />
+                <element signature="e#8738#8877#0" />
+                <element signature="e#8738#9167#0" />
+                <element signature="e#9173#9235#0" />
+                <element signature="e#9173#9492#0" />
+                <element signature="e#9498#9565#0" />
+                <element signature="e#9498#9834#0" />
+                <element signature="e#9840#9866#0" />
+                <element signature="e#9909#10039#0" />
+                <element signature="e#9909#10981#0" />
+                <element signature="e#10988#11021#0" />
+                <element signature="e#11229#11346#0" />
+                <element signature="e#11229#14003#0" />
+                <element signature="e#14074#14154#0" />
+                <element signature="e#14074#14743#0" />
+                <element signature="e#14749#14844#0" />
+                <element signature="e#14749#15280#0" />
+                <element signature="e#15286#15417#0" />
+                <element signature="e#15286#16502#0" />
+                <element signature="e#16508#16639#0" />
+                <element signature="e#16508#17730#0" />
+                <element signature="e#17736#17884#0" />
+                <element signature="e#17736#18491#0" />
+                <element signature="e#18497#18573#0" />
+                <element signature="e#18497#19041#0" />
+                <element signature="e#19047#19140#0" />
+                <element signature="e#19047#19416#0" />
+                <element signature="e#19422#19471#0" />
+                <element signature="e#19422#19669#0" />
+                <element signature="e#20593#20773#0" />
+                <element signature="e#20593#21200#0" />
+                <element signature="e#21206#21321#0" />
+                <element signature="e#22351#22498#0" />
+                <element signature="e#22351#23020#0" />
+                <element signature="e#23026#23073#0" />
+                <element signature="e#23286#23376#0" />
+                <element signature="e#23290#23378#0" />
+                <element signature="e#23276#23534#0" />
+                <element signature="e#23276#25278#0" />
+                <element signature="e#25284#25403#0" />
+                <element signature="e#25284#25675#0" />
+                <element signature="e#25681#25824#0" />
+                <element signature="e#25681#26201#0" />
+                <element signature="e#26207#26323#0" />
+                <element signature="e#26207#26730#0" />
+                <element signature="e#26800#26928#0" />
+                <element signature="e#26737#27519#0" />
+                <element signature="e#26868#26876#0" expanded="true" />
+                <element signature="e#27931#28006#0" />
+                <element signature="e#27919#28010#0" />
+                <element signature="e#28365#28440#0" />
+                <element signature="e#28357#28698#0" />
+                <element signature="e#28385#28481#0" />
+                <element signature="e#27996#28085#0" />
+                <element signature="e#28829#28923#0" />
+                <element signature="e#28829#29268#0" />
+                <element signature="e#29732#29830#0" />
+                <element signature="e#29732#30125#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Answer.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/UserInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+            <state relative-caret-position="221">
+              <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -150,12 +146,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Tools.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
+            <state relative-caret-position="476">
               <caret line="44" column="55" selection-start-line="44" selection-start-column="55" selection-end-line="44" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1089#1097#0" expanded="true" />
-                <element signature="e#1834#1843#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -164,8 +158,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/SQLiteTools.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="46" column="34" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
+            <state relative-caret-position="862">
+              <caret line="58" column="48" lean-forward="true" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -176,8 +170,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/ConstantValue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="44" column="31" selection-start-line="44" selection-start-column="16" selection-end-line="44" selection-end-column="31" />
+            <state relative-caret-position="97">
+              <caret line="24" column="76" selection-start-line="24" selection-start-column="68" selection-end-line="24" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -186,7 +180,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Comment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="340">
-              <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+              <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -197,8 +191,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Post.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="25" column="49" selection-start-line="25" selection-start-column="49" selection-end-line="25" selection-end-column="49" />
+            <state relative-caret-position="221">
+              <caret line="25" column="57" selection-start-line="25" selection-start-column="57" selection-end-line="25" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -209,8 +203,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/TextContent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+            <state relative-caret-position="153">
+              <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -221,7 +215,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Question.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="29">
+            <state relative-caret-position="80">
               <caret line="11" column="84" selection-start-line="11" selection-start-column="84" selection-end-line="11" selection-end-column="84" />
             </state>
           </provider>
@@ -279,21 +273,21 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Exceptions/RecordException.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Exceptions/AccountException.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/AccountInfo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/UserInfo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/SQLiteTools.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Comment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Article.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Question.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Tools.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Post.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Answer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/ConstantValue.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Post.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/SQLiteTools.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/UserInfo.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="106" />
+    <option name="x" value="105" />
     <option name="y" value="25" />
     <option name="width" value="1070" />
     <option name="height" value="1030" />
@@ -307,7 +301,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -420,6 +413,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -634,6 +628,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="-7" width="1476" height="878" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.498" visible="true" weight="0.22387005" />
@@ -673,12 +668,12 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/test18/Enter.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/test18/MainActivity.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_question.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
           <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-25/android.jar!/android/R.class">
       <provider selected="true" editor-type-id="text-editor">
@@ -752,24 +747,24 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/recommend.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-960">
           <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/editor.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor" />
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/answer.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="32" selection-start-column="32" selection-end-column="32" />
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/daily.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -796,28 +791,28 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_enter.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
         </state>
       </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_daily.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="7" column="41" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="41" />
         </state>
       </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/ManagerTest.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Exceptions/RecordException.java">
@@ -842,79 +837,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/UserInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="19" column="18" selection-start-line="19" selection-end-line="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/AccountInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/SQLiteTools.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="46" column="34" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Comment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Tools.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="44" column="55" selection-start-line="44" selection-start-column="55" selection-end-line="44" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1089#1097#0" expanded="true" />
-            <element signature="e#1834#1843#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/TextContent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Post.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="25" column="49" selection-start-line="25" selection-start-column="49" selection-end-line="25" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Article.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -925,95 +851,156 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Tools.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="44" column="55" selection-start-line="44" selection-start-column="55" selection-end-line="44" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/TextContent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Question.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
+        <state relative-caret-position="80">
           <caret line="11" column="84" selection-start-line="11" selection-start-column="84" selection-end-line="11" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Article.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Post.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="25" column="57" selection-start-line="25" selection-start-column="57" selection-end-line="25" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/Comment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/SQLiteTools.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="862">
+          <caret line="58" column="48" lean-forward="true" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/ConstantValue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="44" column="31" selection-start-line="44" selection-start-column="16" selection-end-line="44" selection-end-column="31" />
+        <state relative-caret-position="97">
+          <caret line="24" column="76" selection-start-line="24" selection-start-column="68" selection-end-line="24" selection-end-column="76" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="632" column="55" lean-forward="true" selection-start-line="632" selection-start-column="55" selection-end-line="632" selection-end-column="55" />
+        <state relative-caret-position="1059">
+          <caret line="548" selection-start-line="548" selection-end-line="548" />
           <folding>
-            <element signature="e#1408#1545#0" />
-            <element signature="e#1551#1576#0" />
-            <element signature="e#2037#2043#0" expanded="true" />
-            <element signature="e#1745#1825#0" />
-            <element signature="e#1745#2401#0" />
-            <element signature="e#1907#2275#0" />
-            <element signature="e#2298#2330#0" />
-            <element signature="e#2351#2395#0" />
-            <element signature="e#2407#2509#0" />
-            <element signature="e#2407#2645#0" />
-            <element signature="e#2651#2763#0" />
-            <element signature="e#2651#2960#0" />
-            <element signature="e#2966#3105#0" />
-            <element signature="e#2966#3395#0" />
-            <element signature="e#3401#3463#0" />
-            <element signature="e#3401#3720#0" />
-            <element signature="e#3726#3793#0" />
-            <element signature="e#3726#4062#0" />
-            <element signature="e#4068#4094#0" />
-            <element signature="e#4137#4267#0" />
-            <element signature="e#4137#5209#0" />
-            <element signature="e#5215#5219#0" />
-            <element signature="e#5457#5574#0" />
-            <element signature="e#5457#8231#0" />
-            <element signature="e#5910#6274#1" />
-            <element signature="e#6081#6264#1" />
-            <element signature="e#6278#6642#1" />
-            <element signature="e#6452#6632#1" />
-            <element signature="e#6863#6936#1" />
-            <element signature="e#8237#8243#0" />
-            <element signature="e#8302#8382#0" />
-            <element signature="e#8302#8971#0" />
-            <element signature="e#8977#9072#0" />
-            <element signature="e#8977#9508#0" />
-            <element signature="e#9514#9645#0" />
-            <element signature="e#9514#10730#0" />
-            <element signature="e#10087#10699#1" />
-            <element signature="e#10736#10867#0" />
-            <element signature="e#10736#11958#0" />
-            <element signature="e#11313#11927#1" />
-            <element signature="e#11964#12112#0" />
-            <element signature="e#11964#13635#0" />
-            <element signature="e#13641#13717#0" />
-            <element signature="e#13641#14185#0" />
-            <element signature="e#14191#14284#0" />
-            <element signature="e#14191#14560#0" />
-            <element signature="e#14566#14615#0" />
-            <element signature="e#14566#14813#0" />
-            <element signature="e#14819#14840#0" />
-            <element signature="e#14819#14994#0" />
-            <element signature="e#15000#15025#0" />
-            <element signature="e#15000#15152#0" />
-            <element signature="e#15158#15182#0" />
-            <element signature="e#15158#15306#0" />
-            <element signature="e#15312#15329#0" />
-            <element signature="e#15312#15489#0" />
-            <element signature="e#15495#15522#0" />
-            <element signature="e#15495#15731#0" />
-            <element signature="e#15796#15960#0" />
-            <element signature="e#15737#16217#0" />
-            <element signature="e#16415#16514#0" />
-            <element signature="e#16283#17393#0" />
-            <element signature="e#16748#17362#1" />
-            <element signature="e#17634#17747#0" />
-            <element signature="e#17501#17711#0" />
-            <element signature="e#18219#18266#0" />
-            <element signature="e#18169#18352#0" />
-            <element signature="e#21001#21218#0" />
-            <element signature="e#21001#22921#0" />
-            <element signature="e#26552#26560#0" expanded="true" />
+            <element signature="e#1880#7511#0" />
+            <element signature="e#7517#7597#0" />
+            <element signature="e#7517#8173#0" />
+            <element signature="e#8179#8281#0" />
+            <element signature="e#8179#8417#0" />
+            <element signature="e#8423#8535#0" />
+            <element signature="e#8423#8732#0" />
+            <element signature="e#8738#8877#0" />
+            <element signature="e#8738#9167#0" />
+            <element signature="e#9173#9235#0" />
+            <element signature="e#9173#9492#0" />
+            <element signature="e#9498#9565#0" />
+            <element signature="e#9498#9834#0" />
+            <element signature="e#9840#9866#0" />
+            <element signature="e#9909#10039#0" />
+            <element signature="e#9909#10981#0" />
+            <element signature="e#10988#11021#0" />
+            <element signature="e#11229#11346#0" />
+            <element signature="e#11229#14003#0" />
+            <element signature="e#14074#14154#0" />
+            <element signature="e#14074#14743#0" />
+            <element signature="e#14749#14844#0" />
+            <element signature="e#14749#15280#0" />
+            <element signature="e#15286#15417#0" />
+            <element signature="e#15286#16502#0" />
+            <element signature="e#16508#16639#0" />
+            <element signature="e#16508#17730#0" />
+            <element signature="e#17736#17884#0" />
+            <element signature="e#17736#18491#0" />
+            <element signature="e#18497#18573#0" />
+            <element signature="e#18497#19041#0" />
+            <element signature="e#19047#19140#0" />
+            <element signature="e#19047#19416#0" />
+            <element signature="e#19422#19471#0" />
+            <element signature="e#19422#19669#0" />
+            <element signature="e#20593#20773#0" />
+            <element signature="e#20593#21200#0" />
+            <element signature="e#21206#21321#0" />
+            <element signature="e#22351#22498#0" />
+            <element signature="e#22351#23020#0" />
+            <element signature="e#23026#23073#0" />
+            <element signature="e#23286#23376#0" />
+            <element signature="e#23290#23378#0" />
+            <element signature="e#23276#23534#0" />
+            <element signature="e#23276#25278#0" />
+            <element signature="e#25284#25403#0" />
+            <element signature="e#25284#25675#0" />
+            <element signature="e#25681#25824#0" />
+            <element signature="e#25681#26201#0" />
+            <element signature="e#26207#26323#0" />
+            <element signature="e#26207#26730#0" />
+            <element signature="e#26800#26928#0" />
+            <element signature="e#26737#27519#0" />
+            <element signature="e#26868#26876#0" expanded="true" />
+            <element signature="e#27931#28006#0" />
+            <element signature="e#27919#28010#0" />
+            <element signature="e#28365#28440#0" />
+            <element signature="e#28357#28698#0" />
+            <element signature="e#28385#28481#0" />
+            <element signature="e#27996#28085#0" />
+            <element signature="e#28829#28923#0" />
+            <element signature="e#28829#29268#0" />
+            <element signature="e#29732#29830#0" />
+            <element signature="e#29732#30125#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MyClass/UserInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

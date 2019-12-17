@@ -23,7 +23,7 @@ public class Post implements Serializable {
         KeyWords = keyWords;
     }
 
-    public enum PostType{Mix,Question,Blog,Answer}
+    public enum PostType{Mix,Question,Blog,Answer,Comment}
     public enum PostCategory{计算机科学,数学科学,文学批评,英语}
 
 //PostID,Title,Type,PostDate,LastEditedDate,Category,KeyWords,AuthorID,Likes,Reads,Comments

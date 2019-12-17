@@ -248,17 +248,15 @@ public class Manager {
         sqlite.ExecuteSql(command);
     }
 
-    //登陆
+
     //ConnectException:No connection.
-    //AccountException:No such UserID/Email.
-    //AccountException:Password is wrong.
     //TODO:AccountException:Try logging in with wrong password more than 7 times, please try after 2 hours.
     /**
      * 登陆
      * @param context
      * @param NameorEmail
      * @param password
-     * @throws Exception
+     * @throws Exception AccountException:No such UserID/Email./AccountException:Password is wrong.
      */
     public void LogIn(Context context, String NameorEmail, char[] password) throws Exception {
         boolean accountValid = false;
@@ -312,12 +310,10 @@ public class Manager {
         _accountInfo = accountInfo;
     }
 
-    //退出登陆
-    //RecordException:No valid account has logged in.
     /**
      * 退出登陆，消除本地的登陆状态
      * @param context
-     * @throws Exception
+     * @throws Exception RecordException:No valid account has logged in.
      */
     public void LogOut(Context context) throws Exception {
         checkStatus();
@@ -544,9 +540,21 @@ public class Manager {
      * 删除评论
      * @param CommentID
      */
-    public void DeleteComment(int CommentID){
+    public void DeleteComment(int CommentID) throws RecordException {
+        checkStatus();
         sqlite.ExecuteSql(String.format("DELETE FROM Comment WHERE CommentID=%d AND UserID=%d",
                 CommentID,_accountInfo.UserID));
+    }
+
+    /**
+     * 删除内容//CHECK:是否能级联删除
+     * @param PostID
+     * @throws RecordException
+     */
+    public void DeletePost(int PostID) throws RecordException {
+        checkStatus();
+        sqlite.ExecuteSql(String.format("DELETE FROM PostInfo WHERE PostID=%d AND AuthorID=%d"
+                ,PostID,_accountInfo.UserID));
     }
 
     /**
@@ -556,10 +564,11 @@ public class Manager {
      * @param _Category 分类
      * @param KeyWords 关键词
      * @param _PostType 博文还是提问
+     * @return 返回刚刚插入的Post的编号
      * @throws RecordException No valid login.
      * @throws FormatException Invalid PostType.
      */
-    public void PostArticle(String Title, TextContent _Content,
+    public int PostArticle(String Title, TextContent _Content,
                             Post.PostCategory _Category, String[] KeyWords, Post.PostType _PostType) throws RecordException, FormatException {
         if(!_loginStatus)
             throw new RecordException("No valid login.");
@@ -594,7 +603,7 @@ public class Manager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return postID;
     }
 
     /**
@@ -635,12 +644,104 @@ public class Manager {
         return fromPostIDtoPostList(PostIDs);
     }
 
+    /**
+     * 回答问题
+     * @param AnswerTitle 回答也要起一个标题
+     * @param QuestionID 回答的问题的ID
+     * @param _Content 回答的内容
+     * @throws RecordException
+     */
+    public void Answer(String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
+        checkStatus();
+        List<Object> tmpL = new LinkedList<Object>();
+        tmpL.add(QuestionID);
+        Question tmpq = (Question)fromPostIDtoPostList(tmpL).get(0);
+        int postID = -1;
+        try {
+            postID = PostArticle(AnswerTitle,_Content, tmpq.Category,tmpq.KeyWords, Post.PostType.Answer);
+        } catch (FormatException e) {
+            e.printStackTrace();
+        }
+        //ID,QuestionID,AnswerID
+        sqlite.ExecuteSql(String.format("INSERT INTO AnswerInfo(QuestionID,AnswerID) " +
+                "VALUES(%d,%d)", tmpq.ID,postID));
+        sqlite.ExecuteSql(String.format("UPDATE QuestionInfo SET Answers=%d WHERE PostID=%d",
+                tmpq.Answers+1,tmpq.ID));
 
-    //回答问题
+        //PostArticle(String Title, TextContent _Content,
+         //       Post.PostCategory _Category, String[] KeyWords, Post.PostType _PostType)
+    }
 
-    //赞同内容
+    /**
+     * 赞同内容
+     * @param PostID
+     * @throws RecordException
+     */
+    public void Like(int PostID) throws RecordException {
+        if(DoILikeThis(PostID))
+            return;
+        sqlite.ExecuteSql(String.format("INSERT INTO Likes(PostID,UserID) VALUES(%d,d)",
+                PostID,_accountInfo.UserID));
+        sqlite.ExecuteSql(String.format("UPDATE PostInfo SET Likes=Likes+1 WHERE PostID=%d",PostID));
+    }
 
-    //反对内容
+    /**
+     * 反对内容
+     * @param PostID
+     * @throws RecordException
+     */
+    public void Disapprove(int PostID) throws RecordException {
+        if(DoIDisapproveThis(PostID))
+            return;
+        sqlite.ExecuteSql(String.format("INSERT INTO Disapproves(PostID,UserID) VALUES(%d,d)",
+                PostID,_accountInfo.UserID));
+        sqlite.ExecuteSql(String.format("UPDATE PostInfo SET Likes=Likes-1 WHERE PostID=%d",PostID));
+    }
 
-    //我发表的内容
+
+    /**
+     * 查看我赞成这个内容吗
+     * @param PostID
+     * @return
+     * @throws RecordException
+     */
+    public boolean DoILikeThis(int PostID) throws RecordException {
+        checkStatus();
+        List<Object> list = sqlite.rawQuery(String.format("SELECT * FROM Likes WHERE PostID=%d AND UserID=%d",
+                PostID,_accountInfo.UserID));
+        if(list==null)
+            return false;
+        else
+            return true;
+    }
+
+    /**
+     * 我反对这个内容吗
+     * @param PostID
+     * @return
+     * @throws RecordException
+     */
+    public boolean DoIDisapproveThis(int PostID) throws RecordException {
+        checkStatus();
+        List<Object> list = sqlite.rawQuery(String.format("SELECT * FROM Disapproves WHERE PostID=%d AND UserID=%d",
+                PostID,_accountInfo.UserID));
+        if(list==null)
+            return false;
+        else
+            return true;
+    }
+
+    /**
+     * 获取我发表的内容
+     * @return
+     * @throws RecordException No login./Post is empty.
+     */
+    public List<Post> MyPost() throws RecordException {
+        checkStatus();
+        List<Object> postIDs = sqlite.rawQuery(String.format("SELECT PostID FROM PostInfo WHERE AuthorID=%d",
+                _accountInfo.UserID));
+        if(postIDs == null)
+            throw new RecordException("Post is empty.");
+        return fromPostIDtoPostList(postIDs);
+    }
 }

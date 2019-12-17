@@ -12,6 +12,8 @@ public class UserInfo  implements Serializable {
     public int Followers;
     public int Coins;
     public int Likes;
+    public int Weight;
+    public String[] Keywords;
 
     public UserInfo() {
         Follows = 0;

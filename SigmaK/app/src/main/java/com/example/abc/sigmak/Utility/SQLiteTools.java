@@ -70,7 +70,12 @@ public class SQLiteTools extends SQLiteOpenHelper {
 
     public void ExecuteSql(String Command){
         try(SQLiteDatabase db = instance.getReadableDatabase()) {
+            toEnableCascadeDelete(db);
             db.execSQL(Command);
         }
+    }
+
+    private void toEnableCascadeDelete(SQLiteDatabase db){
+        db.execSQL("PRAGMA foreign_keys = ON");
     }
 }

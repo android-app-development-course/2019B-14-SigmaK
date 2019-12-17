@@ -45,4 +45,12 @@ public final class ConstantValue {
     public enum TableAnswerInfo{
         ID,QuestionID,AnswerID
     }
+
+    public enum TableLikes{
+        ID,PostID,UserID
+    }
+
+    public enum TableDisapproves{
+        ID,PostID,UserID
+    }
 }
