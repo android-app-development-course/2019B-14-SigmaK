@@ -37,25 +37,5 @@ public class Question extends AppCompatActivity {
                 hidebtn.setVisibility(hidebtn.GONE);
             }
         });
-        View item1=findViewById(R.id.item1);
-        ExpandableTextView item1text=(ExpandableTextView)item1.findViewById(R.id.expand_text_view);
-        item1text.setText(text);
-
-        View item2=findViewById(R.id.item2);
-        ExpandableTextView item2text=(ExpandableTextView)item2.findViewById(R.id.expand_text_view);
-        item2text.setText(text);
-
-        TextView Title=(TextView)findViewById(R.id.title);
-        Title.setText("Question");
-        ExpandableTextView Text=(ExpandableTextView)findViewById(R.id.expand_text_view);
-        Text.setText(text);
-
-        View item3=findViewById(R.id.item3);
-        ExpandableTextView item3text=(ExpandableTextView)item3.findViewById(R.id.expand_text_view);
-        item3text.setText(text);
-
-        View item4=findViewById(R.id.item4);
-        ExpandableTextView item4text=(ExpandableTextView)item4.findViewById(R.id.expand_text_view);
-        item4text.setText(text);
     }
 }

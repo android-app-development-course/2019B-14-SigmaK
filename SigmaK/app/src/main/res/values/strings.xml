@@ -12,4 +12,16 @@ Greatnesses, and myriads of small creatures--the creatures of this chronicle amo
     <string name="Sign">Already have an account? Sign in here.</string>
     <string name="Register">REGISTER</string>
     <string name="Login">LOGIN</string>
+    <string name="Favorites">Favorites</string>
+    <string name="Follows">Follows</string>
+    <string name="Followers">Followers</string>
+    <string name="Coins">Coins</string>
+    <string name="Shop">Shop</string>
+    <string name="LogOut">LogOut</string>
+    <string name="Following">FOLLOWING</string>
+    <string name="Follow">FOLLOW</string>
+    <string name="Like">LIKE</string>
+    <string name="agree"> AGREE </string>
+    <string name="against"> AGAINST </string>
+    <string name="submit">SUBMIT</string>
 </resources>

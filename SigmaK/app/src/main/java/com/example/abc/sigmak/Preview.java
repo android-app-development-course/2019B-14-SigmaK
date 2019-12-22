@@ -5,6 +5,7 @@ package com.example.abc.sigmak;
  */
 
 public class Preview {
+    int id=0;
     String title;
     String text;
     String writer;
@@ -18,6 +19,14 @@ public class Preview {
         like = Like;
         is_Liked=false;
     }
+    public Preview(String Title,String Text,String Writer,String Like,int id) {
+        title = Title;
+        text = Text;
+        writer = Writer;
+        like = Like;
+        is_Liked=false;
+        this.id=id;
+    }
     public Preview(String Title,String Text,String Writer,String Like,boolean Flag) {
         title = Title;
         text = Text;
@@ -25,6 +34,15 @@ public class Preview {
         like = Like;
         is_Liked=Flag;
     }
+    public Preview(String Title,String Text,String Writer,String Like,int id,boolean Flag) {
+        title = Title;
+        text = Text;
+        writer = Writer;
+        like = Like;
+        is_Liked=Flag;
+        this.id=id;
+    }
+
 
     public boolean is_Liked() {
         return is_Liked;

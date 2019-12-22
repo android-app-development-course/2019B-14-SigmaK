@@ -4,20 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.abc.sigmak.Question">
+    tools:context=".userList">
     <LinearLayout
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="551dp"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="Followers(20)"
+            android:textColor="#212121"
+            />
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recyclerView"
+            android:id="@+id/member"
             >
 
         </ListView>

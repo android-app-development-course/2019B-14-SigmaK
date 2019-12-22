@@ -60,7 +60,7 @@ public class My_Adapter extends RecyclerView.Adapter<My_Adapter.ViewHolder> impl
         holder.Like_Button.setTag(position);
         holder.itemView.setTag(position);
         final Preview p=this.m_list.get(position);
-        if(p.is_Liked==true)
+        if(p.is_Liked)
         {
             holder.Like_Button.setLiked(true);
         }
@@ -82,7 +82,7 @@ public class My_Adapter extends RecyclerView.Adapter<My_Adapter.ViewHolder> impl
     }
     public void refresh(List<Preview>list)
     {
-        m_list.removeAll(m_list);
+        m_list.clear();
         m_list.addAll(list);
         notifyDataSetChanged();
     }
@@ -98,8 +98,13 @@ public class My_Adapter extends RecyclerView.Adapter<My_Adapter.ViewHolder> impl
         {
             flag=true;
         }
-        m_list.set(position,new Preview(tmp.getTitle(),tmp.getText(),tmp.getWriter(),tmp.like,flag));
+        m_list.set(position,new Preview(tmp.getTitle(),tmp.getText(),tmp.getWriter(),tmp.like,tmp.id,flag));
         notifyDataSetChanged();
+    }
+    public int getId(int position)
+    {
+        Preview tmp=m_list.get(position);
+        return tmp.id;
     }
 
     public enum ViewName
