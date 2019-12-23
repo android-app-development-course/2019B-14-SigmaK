@@ -1,10 +1,12 @@
 package com.example.abc.sigmak.Utility;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.nfc.FormatException;
 import android.util.Base64;
 
 import java.io.ByteArrayInputStream;
@@ -13,15 +15,20 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tools {
     public static final String EmailPattern = "/^\\w+((\\.\\w+){0,3})@\\w+(\\.\\w{2,3}){1,3}$/";
 
-    public static String ChangeStringArrayToString(String[] sequence){
+    public static String StringArrayToString(String[] sequence){
         String combined = "";
         for(int i=0;i<sequence.length;++i){
             combined += sequence[i]+";;;";//TODO:找到一个解决方法，这个方法可能造成隐藏的bugs
@@ -29,7 +36,7 @@ public class Tools {
         return combined;
     }
 
-    public static String[] ChangeCombinedStringToStringArray(String CombinedSequence){
+    public static String[] CombinedStringToStringArray(String CombinedSequence){
         List<String> list = new LinkedList<String>();
         int p = CombinedSequence.indexOf(";;;");
         int b = p;
@@ -42,7 +49,7 @@ public class Tools {
         return list.toArray(new String[0]);
     }
 
-    public static String ChangeIntArrayToString(Integer[] array){
+    public static String IntArrayToString(Integer[] array){
         String combined = "";
         for(int i=0;i<array.length;++i){
             combined += array[i]+";;;";//TODO:找到一个解决方法，这个方法可能造成隐藏的bugs
@@ -50,7 +57,7 @@ public class Tools {
         return combined;
     }
 
-    public static Integer[] ChangeCombinedStringToIntegerArray(String CombinedSequence){
+    public static Integer[] CombinedStringToIntegerArray(String CombinedSequence){
         List<Integer> list = new LinkedList<Integer>();
         int p = CombinedSequence.indexOf(";;;");
         int b = p;
@@ -69,7 +76,7 @@ public class Tools {
      * @return
      * @throws Exception
      */
-    public static String ChangeObjectToString(Object object) throws Exception {
+    public static String ObjectToString(Object object) throws Exception {
         String temp = null;
         if(object instanceof Serializable) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -98,7 +105,7 @@ public class Tools {
         SharedPreferences sharedPreferences = context.getSharedPreferences(preferenceName, context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         try {
-            editor.putString(key, ChangeObjectToString(toSave));
+            editor.putString(key, ObjectToString(toSave));
             editor.commit();
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,7 +119,7 @@ public class Tools {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static Object ChangeStringToObject(String Bytes) throws IOException, ClassNotFoundException {
+    public static Object StringToObject(String Bytes) throws IOException, ClassNotFoundException {
         ByteArrayInputStream bais =  new ByteArrayInputStream(Base64.decode(Bytes.getBytes(), Base64.DEFAULT));
         Object read = null;
 
@@ -133,7 +140,7 @@ public class Tools {
     public static Object ReadObjectFromPreference(Context context, String preferenceName,String key) throws IOException, ClassNotFoundException {
         SharedPreferences sharedPreferences=context.getSharedPreferences(preferenceName,context.MODE_PRIVATE);
         String temp = sharedPreferences.getString(key, "");
-        return ChangeStringToObject(temp);
+        return StringToObject(temp);
     }
 
     /**
@@ -189,6 +196,19 @@ public class Tools {
     }
 
     /**
+     * 从Preference读取基本类型的数据
+     * @param context
+     * @param preferenceName preference的名字
+     * @param key preference的键值
+     * @return
+     */
+    public static String ReadFromPreference(Context context, String preferenceName,String key){
+        SharedPreferences sharedPreferences=context.getSharedPreferences(preferenceName,context.MODE_PRIVATE);
+            return sharedPreferences.getString(key,"");
+
+    }
+
+    /**
      * 将图片存入SharedPreference
      * @param context
      * @param preferenceName preference的名字
@@ -204,7 +224,7 @@ public class Tools {
         //bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
         //String imageBase64 = new String(Base64.encodeToString(baos.toByteArray(),Base64.DEFAULT));
         //editor.putString(key,imageBase64);
-        editor.putString(key, ChangBitmapToString(bitmap));
+        editor.putString(key, BitmapToString(bitmap));
         editor.commit();
     }
 
@@ -222,7 +242,7 @@ public class Tools {
         ////ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decode(temp.getBytes(), Base64.DEFAULT));
         ////return Drawable.createFromStream(bais, "");
         //return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        return ChangeStringToBitmap(temp);
+        return StringToBitmap(temp);
     }
 
     public static boolean CheckEmailValid(String seq){
@@ -236,15 +256,63 @@ public class Tools {
         }
     }
 
-    public static String ChangBitmapToString(Bitmap image){
+    public static String BitmapToString(Bitmap image){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 50, baos);
         String imageBase64 = new String(Base64.encodeToString(baos.toByteArray(),Base64.DEFAULT));
         return imageBase64;
     }
 
-    public static Bitmap ChangeStringToBitmap(String Bytes){
+    public static Bitmap StringToBitmap(String Bytes){
         byte[] bytes = Base64.decode(Bytes.getBytes(), Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+
+    /**
+     *
+     * @param dateSeq 2019-12-19 20:59
+     * @return
+     */
+    public static Date StringToDate(String dateSeq) throws ParseException {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        Date date = format.parse(dateSeq);
+        return date;
+    }
+
+    public static String DateToString(Date date){
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        DateFormat df = new SimpleDateFormat(pattern);
+        return df.format(date);
+    }
+
+    public static ContentValues formContentValuesString(String... args) throws FormatException {
+        if (args.length % 2 != 0) {
+            throw new FormatException("args isn't form pairs.");
+        }
+        int value = args.length/2;
+        int key = 0;
+        ContentValues cv = new ContentValues();
+        while(value < args.length){
+            cv.put(args[key],args[value]);
+            ++key;
+            ++value;
+        }
+        return cv;
+    }
+
+    public static ContentValues formContentValuesInt(String... args) throws FormatException {
+        if (args.length % 2 != 0) {
+            throw new FormatException("args isn't form pairs.");
+        }
+        int value = args.length/2;
+        int key = 0;
+        ContentValues cv = new ContentValues();
+        while(value < args.length){
+            cv.put(args[key],Integer.parseInt(args[value]));
+            ++key;
+            ++value;
+        }
+        return cv;
     }
 }

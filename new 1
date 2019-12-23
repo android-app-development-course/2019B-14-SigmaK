@@ -1,0 +1,21 @@
+package com.example.abc.sigmak.MyClass;
+
+import java.util.Date;
+
+public class Article extends Post {
+
+
+    public Article(int ID, String title, Date postDate,
+                   int authorID, int likes, int reads, int comments,
+                   Date lastEditedDate, BlogCategory category, String[] keyWords) {
+        super(ID, title, postDate, authorID, likes, reads, comments);
+        LastEditedDate = lastEditedDate;
+        Category = category;
+        KeyWords = keyWords;
+    }
+
+
+    public Date LastEditedDate;
+    public BlogCategory Category;
+    public String[] KeyWords;
+}
