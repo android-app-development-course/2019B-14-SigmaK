@@ -3,3 +3,59 @@ Favourites:UserID,PostID,Type
 
 CHECK TODO
 那个tools里面的函数改成json的
+cursor修改✔
+插入修改
+数组用json
+
+    public String toJsonString(){
+        try {
+            JSONStringer jsonText = new JSONStringer();
+            // 首先是{，对象开始。object和endObject必须配对使用
+            jsonText.object();
+            jsonText.key("ID");
+            jsonText.value(ID);
+            jsonText.key("CreateDate")
+            // 键phone的值是数组。array和endArray必须配对使用
+            jsonText.array();
+            jsonText.value("12345678").value("87654321");
+            jsonText.endArray();
+            jsonText.key("name");
+            jsonText.value("yuanzhifei89");
+            jsonText.key("age");
+            jsonText.value(100);
+            jsonText.key("address");
+            // 键address的值是对象
+            jsonText.object();
+            jsonText.key("country");
+            jsonText.value("china");
+            jsonText.key("province");
+            jsonText.value("jiangsu");
+            jsonText.endObject();
+            jsonText.key("married");
+            jsonText.value(false);
+            // }，对象结束
+            jsonText.endObject();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+CREATE TABLE klb_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  log_comment varchar(512)
+)
+
+CREATE TABLE klb_log_food_maps (
+  uid integer,
+  did integer,
+  PRIMARY KEY (uid,did),
+  FOREIGN KEY (uid) references klb_log(id) ON DELETE CASCADE,
+  FOREIGN KEY (did) references klb_food(id) ON DELETE CASCADE
+)
+
+CREATE TABLE klb_food (
+  id integer,
+  description varchar(255),
+  PRIMARY KEY (id)
+)

@@ -53,4 +53,8 @@ public final class ConstantValue {
     public enum TableDisapproves{
         ID,PostID,UserID
     }
+
+    public enum TableUserInterest{
+        ID,UserID,Category,KeyWords
+    }
 }
