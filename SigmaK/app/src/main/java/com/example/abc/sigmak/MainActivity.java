@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 import com.example.abc.sigmak.Exceptions.RecordException;
 import com.example.abc.sigmak.MyClass.AccountInfo;
+import com.example.abc.sigmak.MyClass.Post;
 import com.example.abc.sigmak.MyClass.UserInfo;
 import com.example.abc.sigmak.Utility.Manager;
 import com.github.czy1121.view.SegmentedView;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     enum status{Question,Article};
     status Type=status.Question;
     private SegmentedView mScv1;
+    int times;
     Manager manager;
     String name;
     String email;
@@ -263,19 +265,20 @@ public class MainActivity extends AppCompatActivity
     private void initData()
     {
         list=new ArrayList<Preview>();
-        List<com.example.abc.sigmak.MyClass.Question> tmp;
-        tmp=manager.GetRecommandQuestions(10);
-        com.example.abc.sigmak.MyClass.Question q1;
+        List<Post> tmp;
+        tmp=manager.GetRecommandQuestions();
+        Post q1;
         for(int i=0;i<10;i++)
         {
             q1=tmp.get(i);
             list.add(new Preview(
-                    q1.Title,
+                    q1.Title+"times:"+times,
                     q1.KeyWords.toString(),
                     "Questioner:"+q1.AuthorID,
                     q1.Likes+"",
                     q1.ID
             ));
+            times++;
             myAdapter=new My_Adapter(list);
             recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);//纵向线性布局
@@ -308,49 +311,49 @@ public class MainActivity extends AppCompatActivity
     private void Refresh()
     {
         ArrayList<Preview> newList = new ArrayList<Preview>();
+        List<Post> tmp;
+        Post q1;
         if(Type==status.Question)
         {
-            List<com.example.abc.sigmak.MyClass.Question> tmp;
-            tmp=manager.GetRecommandQuestions(10);
-            com.example.abc.sigmak.MyClass.Question q1;
-            for(int i=0;i<10;i++) {
-                q1 = tmp.get(i);
-                newList.add(new Preview(
-                        q1.Title,
-                        q1.KeyWords.toString(),
-                        "Questioner:" + q1.AuthorID,
-                        q1.Likes + "",
-                        q1.ID
-                ));
+            tmp=manager.GetRecommandQuestions();
+            for(int i=0;i<tmp.size();i++) {
+            q1 = tmp.get(i);
+            newList.add(new Preview(
+                    q1.Title+"times:"+times,
+                    q1.KeyWords.toString(),
+                    "Questioner:" + q1.AuthorID,
+                    q1.Likes + "",
+                    q1.ID
+            ));
             }
         }
         else if(Type==status.Article)
         {
-            List<com.example.abc.sigmak.MyClass.Article>tmp;
-            tmp=manager.GetRecommandArticles(10);
-            com.example.abc.sigmak.MyClass.Article q1;
-            for(int i=0;i<10;i++) {
+            tmp=manager.GetRecommandArticles();
+            for(int i=0;i<tmp.size();i++) {
                 q1 = tmp.get(i);
                 newList.add(new Preview(
-                        q1.Title,
+                        q1.Title+"times:"+times,
                         q1.KeyWords.toString(),
-                        "Questioner:" + q1.AuthorID,
+                        "Author:" + q1.AuthorID,
                         q1.Likes + "",
                         q1.ID
                 ));
             }
         }
+        times++;
         myAdapter.refresh(newList);
     }
     private void Add()
     {
         ArrayList<Preview>addList=new ArrayList<Preview>();
+        List<Post> tmp;
+        Post q1;
         if(Type==status.Question)
         {
-            List<com.example.abc.sigmak.MyClass.Question> tmp;
-            tmp=manager.GetRecommandQuestions(10);
-            com.example.abc.sigmak.MyClass.Question q1;
-            for(int i=0;i<10;i++) {
+            tmp=manager.GetRecommandQuestions();
+
+            for(int i=0;i<tmp.size();i++) {
                 q1 = tmp.get(i);
                 addList.add(new Preview(
                         q1.Title,
@@ -363,9 +366,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (Type==status.Article)
         {
-            List<com.example.abc.sigmak.MyClass.Article>tmp;
-            tmp=manager.GetRecommandArticles(10);
-            com.example.abc.sigmak.MyClass.Article q1;
+            tmp=manager.GetRecommandArticles();
             for(int i=0;i<10;i++) {
                 q1 = tmp.get(i);
                 if(q1!=null)
