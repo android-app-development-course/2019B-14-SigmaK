@@ -85,6 +85,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
                     viewHolder1.Against=(RoundButton) convertView.findViewById(R.id.Against);
                     viewHolder1.Agree=(RoundButton) convertView.findViewById(R.id.Agree);
                     viewHolder1.expandableTextView=(ExpandableTextView) convertView.findViewById(R.id.expand_text_view);
+                    viewHolder1.make_comment=(ImageButton)convertView.findViewById(R.id.comments);
                     convertView.setTag(viewHolder1);
                     break;
                 case TYPE_THREE:
@@ -142,6 +143,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
                 viewHolder1.Agree.setTag(position);
                 viewHolder1.Against.setTag(position);
                 viewHolder1.commentsNum.setTag(position);
+                viewHolder1.make_comment.setTag(position);
                 if(content1.Like)
                 {
                     viewHolder1.Agree.setPressed(true);
@@ -178,6 +180,16 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
             tmp.add(type);
         }
         Type.addAll(position+1,tmp);
+        notifyDataSetChanged();
+    }
+    public void remove(int position,int num)
+    {
+        for(int i=0;i<num;i++)
+        {
+            mlist.remove(position+1);
+            Type.remove(position+1);
+        }
+        notifyDataSetChanged();
     }
     interface InnerItemOnclickListener {
         void itemClick(View v, int position);
@@ -194,6 +206,37 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
             mListener.itemClick(v,position);
         }
     }
+    void Fresh_like(int position)
+    {
+        mix_content tmp=(mix_content) mlist.get(position);
+        boolean flag;
+        if(tmp.Like)
+        {
+            flag=false;
+        }
+        else
+        {
+            flag=true;
+        }
+        mlist.set(position,new mix_content(flag,tmp.Dislike,tmp.m_content,tmp.m_post));
+        notifyDataSetChanged();
+    }
+    void Dislike(int position)
+    {
+        mix_content tmp=(mix_content) mlist.get(position);
+        boolean flag;
+        if(tmp.Dislike)
+        {
+            flag=false;
+        }
+        else
+        {
+            flag=true;
+        }
+        mlist.set(position,new mix_content(tmp.Like,flag,tmp.m_content,tmp.m_post));
+        notifyDataSetChanged();
+    }
+
 
     private static class ViewHolder{
         RoundButton Type;
@@ -211,6 +254,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
         TextView title;
         TextView commentsNum;
         ExpandableTextView expandableTextView;
+        ImageButton make_comment;
     }
     private static class ViewHolder2{
         TextView userid;

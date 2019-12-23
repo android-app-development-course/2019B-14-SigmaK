@@ -14,6 +14,7 @@ public class mix_content {
     boolean Dislike;
     TextContent m_content;
     Post m_post;
+    boolean is_spread=false;
     mix_content(boolean like,boolean dislike,TextContent content,Post post)
     {
         Like=like;

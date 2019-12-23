@@ -513,7 +513,8 @@ public class Manager {
      * @param PostID 收藏的内容编号
      * @param Type 内容的类型(Post.PostType)
      */
-    public void Favourite(int PostID, Post.PostType Type){
+    public void Favourite(int PostID, Post.PostType Type)
+    {
 //        sqlite.ExecuteSql(String.format("INSERT INTO Favourites(UserID,PostID,Type) VALUES(%d,%d,'%s')",
 //                _accountInfo.UserID,PostID,Type.name()));
         ContentValues cv = new ContentValues();
