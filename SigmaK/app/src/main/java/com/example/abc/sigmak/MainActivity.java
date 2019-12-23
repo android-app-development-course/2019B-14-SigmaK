@@ -400,7 +400,8 @@ public class MainActivity extends AppCompatActivity
                     if(Type==status.Question)
                     {
                         Intent intent = new Intent();
-                        intent.setClass(MainActivity.this, daily.class);
+                        intent.setClass(MainActivity.this, Question.class);
+                        intent.putExtra("QuestionID",ID);
                         startActivity(intent);
                     }
                     else if(Type==status.Article)

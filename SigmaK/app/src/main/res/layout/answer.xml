@@ -26,8 +26,9 @@
                     android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="UserName"
-                    android:id="@+id/UserName"
+                    android:textSize="20dp"
+                    android:text="title"
+                    android:id="@+id/Title"
                     />
 
             </LinearLayout>
@@ -105,46 +106,6 @@
                     android:textSize="15dp"
                     android:text="100"
                     />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical"
-                >
-                <EditText
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:id="@+id/edittext1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColorHint="#BDBDBD"
-                    android:hint="comment"
-                    android:minLines="1"
-                    android:gravity="top"
-                    />
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="right"
-                    >
-                    <ezy.ui.view.RoundButton
-                        android:id="@+id/Submit"
-                        android:layout_gravity="center_vertical"
-                        app:btnCornerRadius="3dp"
-                        app:btnSolidColor="#2196F3"
-                        android:textColor="#FFFFFF"
-                        android:text="@string/submit"
-                        android:layout_width="40dp"
-                        android:layout_height="20dp"
-                        android:layout_marginRight="10dp"
-                        android:textSize="10dp"
-                        android:layout_marginBottom="5dp"
-                        />
-                </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

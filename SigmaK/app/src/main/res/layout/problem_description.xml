@@ -12,6 +12,55 @@
         android:layout_marginTop="20dp"
         card_view:cardCornerRadius="10dp"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <ezy.ui.view.RoundButton
+                android:id="@+id/Type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:text="ART"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp"
+                app:btnCornerRadius="3dp"
+                app:btnSolidColor="#2196F3" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/likes"
+                    android:text="like:100"
+                    android:textSize="15dp"
+                    android:layout_marginRight="5dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/read"
+                    android:text="read:1000"
+                    android:textSize="15dp"
+                    android:layout_marginRight="5dp"
+                    />
+                <com.like.LikeButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    app:icon_type="Star"
+                    app:icon_size="15dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/like"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,11 +68,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/title"
+                android:layout_marginTop="10dp"
+                android:id="@+id/title111"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_marginLeft="10dp"
                 android:gravity="bottom"
+                android:text="title"
                 android:singleLine="true"
                 android:textColor="#333333"
                 android:textSize="18sp" />
@@ -53,49 +104,26 @@
                     android:background="@android:color/transparent"
                     android:padding="16dp" />
             </com.ms.square.android.expandabletextview.ExpandableTextView>
-
-            <ImageButton
-                android:id="@+id/btn1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="12dp"
-                android:background="#00000000"
-                android:src="@drawable/answer" />
-
-            <ImageButton
-                android:id="@+id/hidebtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="13dp"
-                android:background="#00000000"
-                android:src="@drawable/hide" />
-
-            <EditText
-                android:id="@+id/edittext1"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:gravity="top"
-                android:hint="Answer"
-                android:minLines="5"
-                android:text=""
-                android:textColorHint="#BDBDBD" />
-
-            <ezy.ui.view.RoundButton
-                android:id="@+id/Submit"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
-                android:layout_gravity="right"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="10dp"
-                android:text="@string/submit"
-                android:textColor="#FFFFFF"
-                android:textSize="10dp"
-                app:btnCornerRadius="3dp"
-                app:btnSolidColor="#2196F3" />
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/answer_que"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:background="#00000000"
+                    android:src="@drawable/answer" />
+                <TextView
+                    android:id="@+id/answersNum"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:text="100"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
