@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tools {
-    public static final String EmailPattern = "/^\\w+((\\.\\w+){0,3})@\\w+(\\.\\w{2,3}){1,3}$/";
+    public static final String EmailPattern = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 
     public static String StringArrayToString(String[] sequence){
         String combined = "";
@@ -246,14 +246,11 @@ public class Tools {
     }
 
     public static boolean CheckEmailValid(String seq){
-        Pattern r = Pattern.compile(EmailPattern);
+        Pattern regex = Pattern.compile(EmailPattern);
 
-        Matcher m = r.matcher(seq);
-        if (m.find( )) {
-            return true;
-        } else {
-            return false;
-        }
+        Matcher matcher = regex.matcher(seq);
+
+        return matcher.matches();
     }
 
     public static String BitmapToString(Bitmap image){

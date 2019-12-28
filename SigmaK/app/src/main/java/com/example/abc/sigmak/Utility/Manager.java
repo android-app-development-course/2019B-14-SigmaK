@@ -182,10 +182,10 @@ public class Manager {
     public void CreateTestData(Context context){
         char []pass={'1','2','3','4'};
         try {
-            SignUp("Admin","Colin_Downey@126.com",pass,
+            SignUp("Admin","Colin@qq.com",pass,
                     BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 
-            SignUp("Colin","Colin@qq.com",pass,
+            SignUp("Colin","Colin_Downey@126.com",pass,
                     BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 
             SignUp("Paul","Paul@163.com",pass,

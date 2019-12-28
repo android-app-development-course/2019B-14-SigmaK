@@ -4,7 +4,7 @@ Favourites:UserID,PostID,Type
 CHECK TODO
 那个tools里面的函数改成json的
 cursor修改✔
-插入修改
+插入修改✔
 数组用json
 
     public String toJsonString(){
@@ -40,6 +40,15 @@ cursor修改✔
             ex.printStackTrace();
         }
     }
+	
+//从字符串解析JSON对象
+JSONObject obj = JSON.parseObject("{\"runoob\":\"菜鸟教程\"}");
+//从字符串解析JSON数组
+JSONArray arr = JSON.parseArray("[\"菜鸟教程\",\"RUNOOB\"]\n");
+//将JSON对象转化为字符串
+String objStr = JSON.toJSONString(obj);
+//将JSON数组转化为字符串
+String arrStr = JSON.toJSONString(arr);
 
 CREATE TABLE klb_log (
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
