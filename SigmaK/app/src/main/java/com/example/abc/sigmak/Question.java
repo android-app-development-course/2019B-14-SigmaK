@@ -58,7 +58,7 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
         });
 
         LayoutInflater inflater = getLayoutInflater();
-        View layout=inflater.inflate(R.layout.write_answer,(ViewGroup)findViewById(R.id.dialog));
+        View layout=inflater.inflate(R.layout.write_answer,null);
         final EditText Title,Answer111;
         builder1= new AlertDialog.Builder(Question.this);
         Title=(EditText)layout.findViewById(R.id.title123);

@@ -30,7 +30,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         final Manager manager;
         manager=Manager.getInstance(this.getApplicationContext());
-
+        manager.CreateTestData(this.getApplicationContext());
        Flag=getIntent().getIntExtra("flag",0);//0登陆 1创建
 
         button1=(RaiflatButton)findViewById(R.id.Login);
@@ -38,8 +38,6 @@ public class Login extends AppCompatActivity {
         Username=(MaterialEditText)findViewById(R.id.UserName);
         Password=(MaterialEditText)findViewById(R.id.Password);
         change=(TextView)findViewById(R.id.change);
-
-
 
         if(Flag==1)
         {
@@ -49,6 +47,7 @@ public class Login extends AppCompatActivity {
         {
             Login();
         }
+
         final Bitmap bitmap=((BitmapDrawable)getResources().getDrawable(R.drawable.user)).getBitmap();
 
         final AlertDialog.Builder builder= new AlertDialog.Builder(Login.this);
@@ -87,20 +86,22 @@ public class Login extends AppCompatActivity {
                         builder.show();
                         return;
                     } catch (RecordException e) {
-                        builder.setMessage(e.getMessage());
+                        builder.setMessage(e.getMessage()+"SignUp Fail");
                         builder.show();
                         return;
                     }
                 }//注册
                 else
                 {
+
                     try {
                         manager.LogIn(view.getContext(),Username.getText().toString(),Password.getText().toString().toCharArray());
                     } catch (Exception e) {
-                        builder.setMessage(e.getMessage());
+                        builder.setMessage("Account doesn't exist");
                         builder.show();
                         return;
                     }
+
                 }//是否注册或登陆成功
                 finish();
             }
@@ -112,6 +113,8 @@ public class Login extends AppCompatActivity {
         Username.setHint("Username/Email");
         change.setText(R.string.Register);
         email.setVisibility(email.GONE);
+        Username.setText("");
+        Password.setText("");
     }
     void Register()
     {
@@ -119,5 +122,7 @@ public class Login extends AppCompatActivity {
         button1.setText(R.string.Register);
         email.setVisibility(email.VISIBLE);
         change.setText(R.string.Login);
+        Username.setText("");
+        Password.setText("");
     }
 }

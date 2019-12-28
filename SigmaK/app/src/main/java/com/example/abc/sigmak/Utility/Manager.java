@@ -945,4 +945,6 @@ public class Manager {
                 info.get(2),
                 Tools.StringToBitmap(info.get(3)));
     }
+
+
 }

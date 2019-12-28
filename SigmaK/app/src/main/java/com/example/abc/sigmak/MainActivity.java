@@ -45,6 +45,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.IOException;
 import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,33 +80,57 @@ public class MainActivity extends AppCompatActivity
     AccountHeader headerResult;
     UserInfo userinfo;
     Drawer drawer;
+    boolean loginStatus=true;
+    AlertDialog.Builder builder;
     @Override
     protected void onResume() {
         super.onResume();
-        headerResult.updateProfile(new ProfileDrawerItem()
-                .withName(User.Name)
-                .withEmail(User.Email)
-                .withIcon(User.ProfilePhoto)
-                .withIdentifier(User.UserID));
-        save.withDescription(userinfo.Likes);
-        follow.withDescription(userinfo.Follows);
-        follower.withDescription(userinfo.Followers);
-        coins.withDescription(userinfo.Coins);
-        drawer.updateItem(save);
-        drawer.updateItem(follow);
-        drawer.updateItem(follower);
-        drawer.updateItem(coins);
+        try {
+            loginStatus=manager.LoginStatus(this.getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(loginStatus)
+        {
+            try {
+                userinfo=manager.GetUserInfo();
+            } catch (ConnectException e) {
+                builder.setMessage(e.getMessage());
+                builder.show();
+            } catch (RecordException e) {
+                builder.setMessage(e.getMessage());
+                builder.show();
+            }
+            try {
+                User=manager.GetAccountInfo();
+            } catch (RecordException e) {
+                builder.setMessage(e.getMessage());
+                builder.show();
+            }
+            headerResult.updateProfile(new ProfileDrawerItem()
+                    .withName(User.Name)
+                    .withEmail(User.Email)
+                    .withIcon(User.ProfilePhoto)
+                    .withIdentifier(User.UserID));
+            save.withDescription(userinfo.Likes);
+            follow.withDescription(userinfo.Follows);
+            follower.withDescription(userinfo.Followers);
+            coins.withDescription(userinfo.Coins);
+            drawer.updateItem(save);
+            drawer.updateItem(follow);
+            drawer.updateItem(follower);
+            drawer.updateItem(coins);
+            initData();
+        }
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent();
-        intent.setClass(MainActivity.this,Enter.class);
-        startActivity(intent);
 
-        final AlertDialog.Builder builder= new AlertDialog.Builder(MainActivity.this);
+        builder= new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Warning");
         builder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
             @Override
@@ -113,25 +138,18 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        User=new AccountInfo();
         manager=Manager.getInstance(this.getApplicationContext());
         try {
-            User=manager.GetAccountInfo();
-        } catch (RecordException e) {
-            builder.setMessage(e.getMessage());
-            builder.show();
+            loginStatus=manager.LoginStatus(this.getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        userinfo=new UserInfo();
-        try {
-            userinfo=manager.GetUserInfo();
-        } catch (ConnectException e) {
-            builder.setMessage(e.getMessage());
-            builder.show();
-        } catch (RecordException e) {
-            builder.setMessage(e.getMessage());
-            builder.show();
+        if(!loginStatus)
+        {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,Enter.class);
+            startActivity(intent);
         }
-
         IProfile profile = new ProfileDrawerItem();
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -207,9 +225,8 @@ public class MainActivity extends AppCompatActivity
                 .build();
         //侧边栏
         refreshLayout = (RefreshLayout)findViewById(R.id.My_refreshLayout);
-        initData();
-        SetPullRefresher();
         InitItem();
+        SetPullRefresher();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -264,27 +281,33 @@ public class MainActivity extends AppCompatActivity
 
     private void initData()
     {
-        list=new ArrayList<Preview>();
-        List<Post> tmp;
-        tmp=manager.GetRecommandQuestions();
-        Post q1;
-        for(int i=0;i<10;i++)
+        if(loginStatus=true)
         {
-            q1=tmp.get(i);
-            list.add(new Preview(
-                    q1.Title+"times:"+times,
-                    q1.KeyWords.toString(),
-                    "Questioner:"+q1.AuthorID,
-                    q1.Likes+"",
-                    q1.ID
-            ));
-            times++;
-            myAdapter=new My_Adapter(list);
-            recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);//纵向线性布局
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(myAdapter);
-            myAdapter.setOnItemClickListener(MyItemClickListener);
+            list=new ArrayList<Preview>();
+            List<Post> tmp;
+            tmp=manager.GetRecommandQuestions();
+            if(tmp!=null)
+            {
+                Post q1;
+                for(int i=0;i<10;i++)
+                {
+                    q1=tmp.get(i);
+                    list.add(new Preview(
+                            q1.Title+"times:"+times,
+                            q1.KeyWords.toString(),
+                            "Questioner:"+q1.AuthorID,
+                            q1.Likes+"",
+                            q1.ID
+                    ));
+                    times++;
+                    myAdapter=new My_Adapter(list);
+                    recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(this);//纵向线性布局
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(myAdapter);
+                    myAdapter.setOnItemClickListener(MyItemClickListener);
+                }
+            }
         }
     }
 
@@ -310,80 +333,111 @@ public class MainActivity extends AppCompatActivity
     }
     private void Refresh()
     {
-        ArrayList<Preview> newList = new ArrayList<Preview>();
-        List<Post> tmp;
-        Post q1;
-        if(Type==status.Question)
-        {
-            tmp=manager.GetRecommandQuestions();
-            for(int i=0;i<tmp.size();i++) {
-            q1 = tmp.get(i);
-            newList.add(new Preview(
-                    q1.Title+"times:"+times,
-                    q1.KeyWords.toString(),
-                    "Questioner:" + q1.AuthorID,
-                    q1.Likes + "",
-                    q1.ID
-            ));
-            }
+        try {
+            loginStatus=manager.LoginStatus(this.getApplication());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else if(Type==status.Article)
+        if(loginStatus)
         {
-            tmp=manager.GetRecommandArticles();
-            for(int i=0;i<tmp.size();i++) {
-                q1 = tmp.get(i);
-                newList.add(new Preview(
-                        q1.Title+"times:"+times,
-                        q1.KeyWords.toString(),
-                        "Author:" + q1.AuthorID,
-                        q1.Likes + "",
-                        q1.ID
-                ));
+            ArrayList<Preview> newList = new ArrayList<Preview>();
+            List<Post> tmp;
+            Post q1;
+            if(Type==status.Question)
+            {
+                tmp=manager.GetRecommandQuestions();
+                if(tmp!=null)
+                {
+                    for(int i=0;i<tmp.size();i++) {
+                        q1 = tmp.get(i);
+                        newList.add(new Preview(
+                                q1.Title+"times:"+times,
+                                q1.KeyWords.toString(),
+                                "Questioner:" + q1.AuthorID,
+                                q1.Likes + "",
+                                q1.ID
+                        ));
+                    }
+                }
+
             }
+            else if(Type==status.Article)
+            {
+                tmp=manager.GetRecommandArticles();
+                if(tmp!=null)
+                {
+                    for(int i=0;i<tmp.size();i++) {
+                        q1 = tmp.get(i);
+                        newList.add(new Preview(
+                                q1.Title+"times:"+times,
+                                q1.KeyWords.toString(),
+                                "Author:" + q1.AuthorID,
+                                q1.Likes + "",
+                                q1.ID
+                        ));
+                    }
+                }
+
+            }
+            times++;
+            myAdapter.refresh(newList);
         }
-        times++;
-        myAdapter.refresh(newList);
+
     }
     private void Add()
     {
-        ArrayList<Preview>addList=new ArrayList<Preview>();
-        List<Post> tmp;
-        Post q1;
-        if(Type==status.Question)
-        {
-            tmp=manager.GetRecommandQuestions();
-
-            for(int i=0;i<tmp.size();i++) {
-                q1 = tmp.get(i);
-                addList.add(new Preview(
-                        q1.Title,
-                        q1.KeyWords.toString(),
-                        "Questioner:" + q1.AuthorID,
-                        q1.Likes + "",
-                        q1.ID
-                ));
-            }
+        try {
+            loginStatus=manager.LoginStatus(this.getApplication());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else if (Type==status.Article)
+        if(loginStatus)
         {
-            tmp=manager.GetRecommandArticles();
-            for(int i=0;i<10;i++) {
-                q1 = tmp.get(i);
-                if(q1!=null)
+            ArrayList<Preview>addList=new ArrayList<Preview>();
+            List<Post> tmp;
+            Post q1;
+            if(Type==status.Question)
+            {
+                tmp=manager.GetRecommandQuestions();
+                if(tmp!=null)
                 {
-                    addList.add(new Preview(
+                    for(int i=0;i<tmp.size();i++) {
+                        q1 = tmp.get(i);
+                        addList.add(new Preview(
+                                q1.Title,
+                                q1.KeyWords.toString(),
+                                "Questioner:" + q1.AuthorID,
+                                q1.Likes + "",
+                                q1.ID
+                        ));
+                    }
+                }
+
+            }
+            else if (Type==status.Article)
+            {
+                tmp=manager.GetRecommandArticles();
+                if(tmp!=null)
+                {
+                    for(int i=0;i<10;i++) {
+                        q1 = tmp.get(i);
+                        if(q1!=null)
+                        {
+                            addList.add(new Preview(
                                     q1.Title,
                                     q1.KeyWords.toString(),
                                     "Questioner:" + q1.AuthorID,
                                     q1.Likes + "",
                                     q1.ID));
+                        }
+                    }
                 }
 
-
             }
+            myAdapter.add(addList);
         }
-        myAdapter.add(addList);
     }
+
 
     private My_Adapter.OnItemClickListener MyItemClickListener=new My_Adapter.OnItemClickListener()
     {
@@ -406,7 +460,10 @@ public class MainActivity extends AppCompatActivity
                     }
                     else if(Type==status.Article)
                     {
-
+                        Intent intent=new Intent();
+                        intent.setClass(MainActivity.this,daily.class);
+                        intent.putExtra("ArticleID",ID);
+                        startActivity(intent);
                     }//启动不同的activity并传id
                     break;
 
