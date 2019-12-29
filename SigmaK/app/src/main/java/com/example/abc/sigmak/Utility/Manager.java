@@ -43,6 +43,8 @@ public class Manager {
     private String loginStatusKey = "LoginStatus";
     private String userInfoKey = "UserInfo";
 
+    private static Context _context;
+
 
     private static SQLiteTools sqlite = null;
 
@@ -52,7 +54,9 @@ public class Manager {
         if (null == instance) {
             synchronized (Manager.class) {
                 if (null == instance) {
+                    sqlite = SQLiteTools.getInstance(context);
                     instance = new Manager();
+                    _context = context;
                 }
             }
         }
@@ -62,11 +66,17 @@ public class Manager {
     private Manager() {
     }
 
+    private void getSqlite(Context c){
+        if(sqlite==null)
+            sqlite=SQLiteTools.getInstance(c);
+    }
+
     /**
      * 检查是否登陆了
      * @throws RecordException
      */
     private void checkStatus() throws RecordException {
+
         if(!_loginStatus)
             throw new RecordException("No valid account has logged in.");
     }
@@ -166,13 +176,16 @@ public class Manager {
      * @throws IOException
      */
     private void loadLoginInfo(Context context) throws IOException {
-        try {
-            _loginStatus = (boolean)Tools.ReadFromPreference(context,accountPreferenceName,loginStatusKey,new Boolean(false));
-            _accountInfo = new AccountInfo(Tools.ReadFromPreference(context,accountPreferenceName, accountInfoKey));
-            _userInfo = new UserInfo(Tools.ReadFromPreference(context,accountPreferenceName,userInfoKey));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(_accountInfo == null){
+            try {
+                _loginStatus = (boolean)Tools.ReadFromPreference(context,accountPreferenceName,loginStatusKey,new Boolean(false));
+                _accountInfo = new AccountInfo(Tools.ReadFromPreference(context,accountPreferenceName, accountInfoKey));
+                _userInfo = new UserInfo(Tools.ReadFromPreference(context,accountPreferenceName,userInfoKey));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     /**
@@ -182,38 +195,43 @@ public class Manager {
     public void CreateTestData(Context context){
         char []pass={'1','2','3','4'};
         try {
-            SignUp("Admin","Colin@qq.com",pass,
+            SignUp(context, "Admin","Colin@qq.com",pass,
                     BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 
-            SignUp("Colin","Colin_Downey@126.com",pass,
+             SignUp(context, "Colin","ColinDowney@126.com",pass,
                     BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 
-            SignUp("Paul","Paul@163.com",pass,
+            SignUp(context, "Paul","Paul@163.com",pass,
                     BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 
-            SignUp("Duo","Duo@foxmail.com",pass,
+            SignUp(context, "Duo","Duo@foxmail.com",pass,
                     BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 //            public enum PostType{Mix,Question,Blog,Answer,Comment}
 //            public enum PostCategory{计算机科学,数学科学,文学批评,英语}
             ContentValues cv = new ContentValues();
-            List<Integer> id = sqlite.QueryInt("SELECT ID FROM Account WHERE Name='Admin'");
+            List<Integer> id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Admin'");
             cv.put("UserID",id.get(0));
             cv.put("Category","计算机科学");
-
+            sqlite.insert("UserInterest",cv);
+            //sqlite
+//info
             cv.clear();
-            id = sqlite.QueryInt("SELECT ID FROM Account WHERE Name='Colin'");
+            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Colin'");
             cv.put("UserID",id.get(0));
             cv.put("Category","数学科学");
+            sqlite.insert("UserInterest",cv);
 
             cv.clear();
-            id = sqlite.QueryInt("SELECT ID FROM Account WHERE Name='Paul'");
+            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Paul'");
             cv.put("UserID",id.get(0));
             cv.put("Category","文学批评");
+            sqlite.insert("UserInterest",cv);
 
             cv.clear();
-            id = sqlite.QueryInt("SELECT ID FROM Account WHERE Name='Duo'");
+            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Duo'");
             cv.put("UserID",id.get(0));
             cv.put("Category","英语");
+            sqlite.insert("UserInterest",cv);
 
 
 
@@ -299,25 +317,36 @@ public class Manager {
      * @param password
      * @throws FormatException,RecordException
      */
-    public void SignUp(String Name, String Email, char[] password, Bitmap DefaultPhoto) throws FormatException, RecordException {
+    public void SignUp(Context context, String Name, String Email, char[] password, Bitmap DefaultPhoto) throws FormatException, RecordException {
         if(!Tools.CheckEmailValid(Email))
             throw new FormatException("Email is invalid.");
+        getSqlite(context);
         //TODO:应该来自服务器
 //        String command = String.format("INSERT INTO Account(UserName,Email,Password) VALUES('%s','%s','%s','%s')",
 //                Name,Email,new String(password), Tools.BitmapToString(DefaultPhoto));
 //        sqlite.ExecuteSql(command);
+
         sqlite.insert("Account",Tools.formContentValuesString("UserName","Email","Password","ProfilePhoto"
         ,Name,Email,new String(password), Tools.BitmapToString(DefaultPhoto)));
 
-        List<Integer> temp = sqlite.QueryInt("SELECT ID FROM Account Where User='"+Name+"'");
+//        sqlite.insert("Account",Tools.formContentValuesString("UserName","Email","Password"
+//        ,Name,Email,new String(password)));
+
+        List<Integer> temp = sqlite.QueryInt("SELECT ID FROM Account Where UserName='"+Name+"'");
         if(temp==null)
             throw new RecordException("Unsuccessful register.");
-        int id = temp.get(ConstantValue.TableAccount.ID.ordinal());
+        int id = temp.get(0);
 //        command = String.format("INSERT INTO UserInfo(AccountID,Follows,Followers,Coins,Likes) VALUES(%d,%d,%d,%d,%d)",
 //                id,0,0,0,0);
 //        sqlite.ExecuteSql(command);
-        sqlite.insert("UserInfo",Tools.formContentValuesInt("AccountInfo","Follow","Followers","Coins","Likes",
+        sqlite.insert("UserInfo",Tools.formContentValuesInt("AccountID","Follows","Followers","Coins","Likes",
                 Integer.toString(id),"0","0","0","0"));
+        //TODO:添加增加兴趣的
+        ContentValues cv = new ContentValues();
+        cv.put("UserID", id);
+        cv.put("Category","计算机科学");
+        sqlite.insert("UserInterest",cv);
+        //
     }
 
 
@@ -361,7 +390,7 @@ public class Manager {
         if(!pw.equals((String)temp.get(ConstantValue.TableAccount.Password.ordinal()))){
             throw new AccountException("Password is wrong.");
         }
-        accountInfo = new AccountInfo(Integer.parseInt(temp.get(ConstantValue.TableAccount.Password.ordinal())),
+        accountInfo = new AccountInfo(Integer.parseInt(temp.get(ConstantValue.TableAccount.ID.ordinal())),
                 (String)temp.get(ConstantValue.TableAccount.UserName.ordinal()),
                 (String)temp.get(ConstantValue.TableAccount.Email.ordinal()),
                 Tools.StringToBitmap((String)temp.get(ConstantValue.TableAccount.ProfilePhoto.ordinal())));
@@ -559,11 +588,15 @@ public class Manager {
      * @return
      */
     public List<Post> GetRecommandQuestions(){
-        List<Integer> postids = sqlite.QueryInt("SELECT PostInfo.PostID FROM PostInfo INNER JOIN UserInterest" +
+        getSqlite(_context);
+        List<Integer> postids = sqlite.QueryInt("SELECT PostID FROM PostInfo INNER JOIN UserInterest" +
                 " ON PostInfo.Category = UserInterest.Category WHERE UserID="+_accountInfo.UserID +
                 " AND PostInfo.Type='"+ Post.PostType.Question.name() +
                 "' ORDER BY PostInfo.Likes,PostInfo.PostID DESC");
+
         try {
+            if(postids == null)
+                throw new RecordException("No post valid.");
             return fromPostIDtoPostList(postids);
         } catch (RecordException e) {
             //不应该发生
@@ -937,7 +970,7 @@ public class Manager {
      * @throws RecordException "No such user empty."
      */
     public static AccountInfo getAccountInfo(int ID) throws RecordException {
-        List<String> info = sqlite.QueryString("SELECT ID,Email,Name,ProfilePhoto FROM Account WHERE ID="+ID);
+        List<String> info = sqlite.QueryString("SELECT ID,Email,UserName,ProfilePhoto FROM Account WHERE ID="+ID);
         if(info == null)
             throw new RecordException("No such user empty.");
         return new AccountInfo(Integer.getInteger(info.get(0)),

@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity
             list=new ArrayList<Preview>();
             List<Post> tmp;
             tmp=manager.GetRecommandQuestions();
-            if(tmp!=null)
+            if(tmp!=null && tmp.size()!=0)
             {
                 Post q1;
                 for(int i=0;i<10;i++)

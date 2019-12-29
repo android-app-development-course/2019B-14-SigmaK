@@ -30,7 +30,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         final Manager manager;
         manager=Manager.getInstance(this.getApplicationContext());
-        manager.CreateTestData(this.getApplicationContext());
+//        manager.CreateTestData(this.getApplicationContext());
+        new DataOperateTask().execute(this.getApplicationContext());
        Flag=getIntent().getIntExtra("flag",0);//0登陆 1创建
 
         button1=(RaiflatButton)findViewById(R.id.Login);
@@ -80,7 +81,7 @@ public class Login extends AppCompatActivity {
                 if(Flag==1)
                 {
                     try {
-                        manager.SignUp(Username.getText().toString(),email.getText().toString(),Password.getText().toString().toCharArray(),bitmap);
+                        manager.SignUp(getApplicationContext(), Username.getText().toString(),email.getText().toString(),Password.getText().toString().toCharArray(),bitmap);
                     } catch (FormatException e) {
                         builder.setMessage(e.getMessage());
                         builder.show();

@@ -6,19 +6,26 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class SQLiteTools extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAMEwithoutDB = "SigmaK";
-    private static final String DATABASE_NAME = "SigmaK.db";
+    private static final String DATABASE_NAMEwithoutDB = "SigmaK_v1_3";
+    private static final String DATABASE_NAME = "SigmaK_v1_3.db";
     private static final int DATABASE_VERSION = 1;
     private static SQLiteTools instance;
+    public static final String TAG="SQLiteTools";
 
     private SQLiteTools(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+    }
+
+    @Override
+    public synchronized void close() {
+        super.close();
     }
 
     public static SQLiteTools getInstance(Context context) {
@@ -36,101 +43,89 @@ public class SQLiteTools extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 //        db.execSQL("CREATE TABLE Account(ID INTEGER PRIMARY KEY AUTOINCREMENT, Email VARCHAR(30) NOT NULL UNIQUE" +
 //                ", UserName VARCHAR(20) NOT NULL UNIQUE, Password VARCHAR(40) NOT NULL, ProfilePhoto TEXT NOT NULL)");
-        db.execSQL("CREATE TABLE Account(\n" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "Email VARCHAR(30) NOT NULL UNIQUE,\n" +
-                "UserName VARCHAR(20) NOT NULL UNIQUE,\n" +
-                "Password VARCHAR(40) NOT NULL,\n" +
-                "ProfilePhoto TEXT NOT NULL)\n" +
-                "\n" +
-                "CREATE TABLE UserInfo(\n" +
-                "UserInfoID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "AccountID INTEGER NOT NULL,\n" +
-                "Follows INTEGER DEFAULT 0 NOT NULL,\n" +
-                "Followers INTEGER DEFAULT 0 NOT NULL,\n" +
-                "Coins INTEGER DEFAULT 0 NOT NULL,\n" +
-                "Likes INTEGER DEFAULT 0 NOT NULL,\n" +
-                "FOREIGN KEY (AccountID) references Account(ID) ON DELETE CASCADE)\n" +
-                "\n" +
-                "CREATE TABLE PostInfo(\n" +
-                "PostID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "Title TEXT NOT NULL,\n" +
-                "Type VARCHAR(10) NOT NULL,\n" +
-                "PostDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL,\n" +
-                "LastEditedDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL,\n" +
-                "Category VARCHAR(40) NOT NULL,\n" +
-                "KeyWords TEXT NOT NULL,\n" +
-                "AuthorID INTEGER NOT NULL,\n" +
-                "Likes INTEGER DEFAULT 0 NOT NULL,\n" +
-                "Reads INTEGER DEFAULT 0 NOT NULL,\n" +
-                "Comments INTEGER DEFAULT 0 NOT NULL,\n" +
-                "FOREIGN KEY (AuthorID) references Account(ID),)\n" +
-                "\n" +
-                "CREATE TABLE Favourites(\n" +
-                "FavouritesRecordID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "UserID INTEGER NOT NULL,\n" +
-                "PostID INTEGER NOT NULL,\n" +
-                "TYPE VARCHAR(10) NOT NULL,\n" +
-                "FOREIGN KEY (UserID) references Account(ID) ON DELETE CASCADE,\n" +
-                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE)\n" +
-                "\n" +
-                "CREATE TABLE Follow(\n" +
-                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "UserID INTEGER NOT NULL,\n" +
-                "FollowerID INTEGER NOT NULL,\n" +
-                "FollowDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL,\n" +
-                "LastEditedDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL,\n" +
-                "FOREIGN KEY (UserID) references Account(ID) ON DELETE CASCADE,\n" +
-                "FOREIGN KEY (FollowerID) references Account(ID) ON DELETE CASCADE)\n" +
-                "\n" +
-                "CREATE TABLE PostContent(\n" +
-                "ContentID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "PostID INTEGER NOT NULL,\n" +
-                "TextContent TEXT NOT NULL,\n" +
-                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE)\n" +
-                "\n" +
-                "CREATE TABLE Comment(\n" +
-                "CommentID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "PostID INTEGER NOT NULL,\n" +
-                "PostDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL,\n" +
-                "Likes INTEGER DEFAULT 0 NOT NULL,\n" +
-                "Content TEXT NOT NULL,\n" +
-                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE)\n" +
-                "\n" +
-                "CREATE TABLE AnswerInfo(\n" +
-                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "QuestionID INTEGER NOT NULL,\n" +
-                "AnswerID INTEGER NOT NULL,\n" +
-                "FOREIGN KEY (QuestionID) references PostInfo(PostID) ON DELETE CASCADE)\n" +
-                "\n" +
-                "\n" +
-                "CREATE TABLE QuestionInfo(\n" +
-                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "PostID INTEGER NOT NULL,\n" +
-                "Answers INTEGER DEFAULT 0 NOT NULL,\n" +
-                "Status VARCHAR(20) DEFAULT 'NoFinished' NOT NULL,\n" +
-                "StatisfiedAnswerIDs TEXT DEFAULT '-1' NOT NULL,\n" +
-                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE)\n" +
-                "\n" +
-                "CREATE TABLE Likes(\n" +
-                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "PostID INTEGER NOT NULL,\n" +
-                "UserID INTEGER NOT NULL,\n" +
-                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE,\n" +
-                "FOREIGN KEY (UserID) references Account(ID) ON DELETE CASCADE)\n" +
-                "\n" +
-                "CREATE TABLE Disapproves(\n" +
-                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "PostID INTEGER NOT NULL,\n" +
-                "UserID INTEGER NOT NULL,\n" +
-                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE,\n" +
-                "FOREIGN KEY (UserID) references Account(ID) ON DELETE CASCADE)\n" +
-                "\n" +
-                "CREATE TABLE UserInterest(\n" +
-                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "UserID INTEGER NOT NULL,\n" +
-                "Category VARCHAR(20) NOT NULL,\n" +
-                "KeyWords TEXT DEFAULT 'empty' NOT NULL,\n" +
+        db.execSQL("CREATE TABLE Account(" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Email VARCHAR(30) NOT NULL UNIQUE," +
+                "UserName VARCHAR(20) NOT NULL UNIQUE," +
+                "Password VARCHAR(40) NOT NULL," +
+                "ProfilePhoto TEXT NOT NULL) ");
+        db.execSQL("CREATE TABLE UserInfo(" +
+                "UserInfoID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "AccountID INTEGER NOT NULL UNIQUE," +
+                "Follows INTEGER DEFAULT 0 NOT NULL," +
+                "Followers INTEGER DEFAULT 0 NOT NULL," +
+                "Coins INTEGER DEFAULT 0 NOT NULL," +
+                "Likes INTEGER DEFAULT 0 NOT NULL," +
+                "FOREIGN KEY (AccountID) references Account(ID) ON DELETE CASCADE) ");
+        db.execSQL("CREATE TABLE PostInfo(" +
+                "PostID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Title TEXT NOT NULL," +
+                "Type VARCHAR(10) NOT NULL," +
+                "PostDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL," +
+                "LastEditedDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL," +
+                "Category VARCHAR(40) NOT NULL," +
+                "KeyWords TEXT NOT NULL," +
+                "AuthorID INTEGER NOT NULL," +
+                "Likes INTEGER DEFAULT 0 NOT NULL," +
+                "Reads INTEGER DEFAULT 0 NOT NULL," +
+                "Comments INTEGER DEFAULT 0 NOT NULL," +
+                "FOREIGN KEY (AuthorID) references Account(ID)) ");
+        db.execSQL("CREATE TABLE Favourites(" +
+                "FavouritesRecordID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "UserID INTEGER NOT NULL," +
+                "PostID INTEGER NOT NULL," +
+                "TYPE VARCHAR(10) NOT NULL," +
+                "FOREIGN KEY (UserID) references Account(ID) ON DELETE CASCADE," +
+                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE) ");
+        db.execSQL("CREATE TABLE Follow(" +
+                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "UserID INTEGER NOT NULL," +
+                "FollowerID INTEGER NOT NULL," +
+                "FollowDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL," +
+                "LastEditedDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL," +
+                "FOREIGN KEY (UserID) references Account(ID) ON DELETE CASCADE," +
+                "FOREIGN KEY (FollowerID) references Account(ID) ON DELETE CASCADE) ");
+        db.execSQL("CREATE TABLE PostContent(" +
+                "ContentID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "PostID INTEGER NOT NULL," +
+                "TextContent TEXT NOT NULL," +
+                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE) ");
+        db.execSQL("CREATE TABLE Comment(" +
+                "CommentID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "PostID INTEGER NOT NULL," +
+                "PostDate TIMESTAMP DEFAULT (datetime('now', 'localtime')) NOT NULL," +
+                "Likes INTEGER DEFAULT 0 NOT NULL," +
+                "Content TEXT NOT NULL," +
+                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE) ");
+        db.execSQL("CREATE TABLE AnswerInfo(" +
+                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "QuestionID INTEGER NOT NULL," +
+                "AnswerID INTEGER NOT NULL," +
+                "FOREIGN KEY (QuestionID) references PostInfo(PostID) ON DELETE CASCADE) ");
+        db.execSQL("CREATE TABLE QuestionInfo(" +
+                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "PostID INTEGER NOT NULL," +
+                "Answers INTEGER DEFAULT 0 NOT NULL," +
+                "Status VARCHAR(20) DEFAULT 'NoFinished' NOT NULL," +
+                "StatisfiedAnswerIDs TEXT DEFAULT '-1' NOT NULL," +
+                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE) ");
+        db.execSQL("CREATE TABLE Likes(" +
+                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "PostID INTEGER NOT NULL," +
+                "UserID INTEGER NOT NULL," +
+                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE," +
+                "FOREIGN KEY (UserID) references Account(ID) ON DELETE CASCADE)");
+        db.execSQL("CREATE TABLE Disapproves(" +
+                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "PostID INTEGER NOT NULL," +
+                "UserID INTEGER NOT NULL," +
+                "FOREIGN KEY (PostID) references PostInfo(PostID) ON DELETE CASCADE," +
+                "FOREIGN KEY (UserID) references Account(ID) ON DELETE CASCADE) ");
+        db.execSQL("CREATE TABLE UserInterest(" +
+                "PK_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "UserID INTEGER NOT NULL UNIQUE," +
+                "Category VARCHAR(20) NOT NULL," +
+                "KeyWords TEXT DEFAULT 'empty' NOT NULL," +
                 "FOREIGN KEY (UserID) references Account(ID) ON DELETE CASCADE)");
         //CHECK:这里不用close吗
     }
@@ -219,7 +214,7 @@ public class SQLiteTools extends SQLiteOpenHelper {
     }
 
     public void ExecuteSql(String Command){
-        try(SQLiteDatabase db = instance.getReadableDatabase()) {
+        try(SQLiteDatabase db = instance.getWritableDatabase()) {
             toEnableCascadeDelete(db);
             db.execSQL(Command);
         }
@@ -239,13 +234,18 @@ public class SQLiteTools extends SQLiteOpenHelper {
      * @return
      */
     public long insert(String TableName, ContentValues Values){
+        //if(instance==null)
+           // getInstance();
         SQLiteDatabase db = null;
         long retvalue = 0;
         try{
-            db = instance.getReadableDatabase();
+            db = instance.getWritableDatabase();
             //retvalue = db.insertWithOnConflict(TableName, null, Values, CONFLICT_REPLACE);
             retvalue = db.insert(TableName, null, Values);
-        }finally {
+        }catch(Exception ex){
+            Log.i(TAG, ex.getMessage());
+        }
+        finally {
             db.close();
         }
         return retvalue;
