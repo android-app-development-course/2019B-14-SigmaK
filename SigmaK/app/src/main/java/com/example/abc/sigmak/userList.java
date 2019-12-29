@@ -19,16 +19,25 @@ import java.util.List;
 public class userList extends AppCompatActivity implements User_Adapter.InnerItemOnclickListener,OnItemClickListener {
     private ListView mListview;
     User_Adapter adapter;
-
+    int status;
+    boolean flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
         mListview=(ListView)findViewById(R.id.member);
-
+        status=getIntent().getIntExtra("status",0);//0 未关注 1 已关注
+        if(status==0)
+        {
+            flag=false;
+        }
+        else
+        {
+            flag=true;
+        }
         List<User> mlist=new ArrayList<User>();
         final Bitmap bitmap=((BitmapDrawable)getResources().getDrawable(R.drawable.lena)).getBitmap();
-        User user=new User(111,bitmap,"test");
+        User user=new User(111,bitmap,"test",flag);
         for(int i=0;i<20;i++)
         {
             mlist.add(user);

@@ -15,10 +15,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
@@ -72,16 +74,18 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private List<Preview> list;
     private My_Adapter myAdapter;
-    PrimaryDrawerItem save=new PrimaryDrawerItem();
-    PrimaryDrawerItem follow=new PrimaryDrawerItem();
-    PrimaryDrawerItem follower=new PrimaryDrawerItem();
-    PrimaryDrawerItem coins=new PrimaryDrawerItem();
+    PrimaryDrawerItem save=new PrimaryDrawerItem().withName(R.string.Like).withIcon(R.drawable.save);
+    PrimaryDrawerItem follow=new PrimaryDrawerItem().withName(R.string.Follows).withIcon(R.drawable.follow);
+    PrimaryDrawerItem follower=new PrimaryDrawerItem().withName(R.string.Followers).withIcon(R.drawable.fans);
+    PrimaryDrawerItem coins=new PrimaryDrawerItem().withName(R.string.Coins).withIcon(R.drawable.coin);
     AccountInfo User;
     AccountHeader headerResult;
     UserInfo userinfo;
     Drawer drawer;
-    boolean loginStatus=true;
+    boolean loginStatus=false;
     AlertDialog.Builder builder;
+    Bundle state;
+    AlertDialog warning;
     @Override
     protected void onResume() {
         super.onResume();
@@ -107,27 +111,48 @@ public class MainActivity extends AppCompatActivity
                 builder.setMessage(e.getMessage());
                 builder.show();
             }
-            headerResult.updateProfile(new ProfileDrawerItem()
-                    .withName(User.Name)
-                    .withEmail(User.Email)
+            IProfile profile = new ProfileDrawerItem().withName(User.Name.toString())
+                    .withEmail(User.Email.toString())
                     .withIcon(User.ProfilePhoto)
-                    .withIdentifier(User.UserID));
-            save.withDescription(userinfo.Likes);
-            follow.withDescription(userinfo.Follows);
-            follower.withDescription(userinfo.Followers);
-            coins.withDescription(userinfo.Coins);
+                    .withIdentifier(User.UserID);
+            headerResult = new AccountHeaderBuilder()
+                    .withActivity(this)
+                    .withTranslucentStatusBar(false)
+                    .withHeaderBackground(R.color.my_background)
+                    .addProfiles(profile)
+                    .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
+                        @Override
+                        public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+                            Intent intent=new Intent();
+                            intent.setClass(MainActivity.this,Homepage.class);
+                            startActivity(intent);
+                            return true;
+                        }
+                        @Override
+                        public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
+                            return true;
+                        }
+                    })//换头像
+                    .withSavedInstance(state)
+                    .build();
+            save.withDescription(userinfo.Likes+"");
+            follow.withDescription(userinfo.Follows+"");
+            follower.withDescription(userinfo.Followers+"");
+            coins.withDescription(userinfo.Coins+"");
             drawer.updateItem(save);
             drawer.updateItem(follow);
             drawer.updateItem(follower);
             drawer.updateItem(coins);
-            initData();
+            drawer.removeHeader();
+            drawer.setHeader(headerResult.getView());
+
         }
-
+        initData();
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        state=savedInstanceState;
         setContentView(R.layout.activity_main);
 
         builder= new AlertDialog.Builder(MainActivity.this);
@@ -137,6 +162,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialogInterface, int i) {
             }
         });
+        warning=builder.create();
 
         manager=Manager.getInstance(this.getApplicationContext());
         try {
@@ -150,32 +176,14 @@ public class MainActivity extends AppCompatActivity
             intent.setClass(MainActivity.this,Enter.class);
             startActivity(intent);
         }
-        IProfile profile = new ProfileDrawerItem();
-        headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withTranslucentStatusBar(false)
-                .withHeaderBackground(R.color.my_background)
-                .addProfiles(profile)
-                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
-                    @Override
-                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        return true;
-                    }
-                    @Override
-                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
-                        return true;
-                    }
-                })//换头像
-                .withSavedInstance(savedInstanceState)
-                .build();
         drawer=new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
-                        save,
-                        follower,
-                        follow,
-                        coins,
+                        save.withIdentifier(1),
+                        follower.withIdentifier(2),
+                        follow.withIdentifier(3),
+                        coins.withIdentifier(4),
                         new PrimaryDrawerItem()
                         .withName(R.string.Shop)
                         .withIcon(R.drawable.shop)
@@ -194,10 +202,16 @@ public class MainActivity extends AppCompatActivity
 
                                     break;
                                 case 2:
-
+                                    Intent intent2 = new Intent();
+                                    intent2.setClass(MainActivity.this,userList.class);
+                                    intent2.putExtra("status",0);
+                                    startActivity(intent2);
                                     break;
                                 case 3:
-
+                                    Intent intent3 = new Intent();
+                                    intent3.setClass(MainActivity.this,userList.class);
+                                    intent3.putExtra("status",1);
+                                    startActivity(intent3);
                                     break;
                                 case 4:
 
@@ -210,6 +224,15 @@ public class MainActivity extends AppCompatActivity
                                         manager.LogOut(view.getContext());
                                     } catch (Exception e) {
                                         e.printStackTrace();
+                                    }
+                                    try {
+                                        manager.LogOut(MainActivity.this.getApplicationContext());
+                                    } catch (Exception e) {
+                                        warning.setMessage(e.getMessage());
+                                        warning.show();
+                                        warning.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.primary_dark));
+                                        e.printStackTrace();
+                                        break;
                                     }
                                     Intent intent = new Intent();
                                     intent.setClass(MainActivity.this,Enter.class);
@@ -255,9 +278,23 @@ public class MainActivity extends AppCompatActivity
         mfloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, Question.class);
-                startActivity(intent);
+                AlertDialog.Builder builder1;
+                LayoutInflater inflater = getLayoutInflater();
+                View layout=inflater.inflate(R.layout.write_answer,null);
+                final EditText Title,Answer111;
+                builder1= new AlertDialog.Builder(MainActivity.this);
+                Title=(EditText)layout.findViewById(R.id.title123);
+                Answer111=(EditText)layout.findViewById(R.id.answer123);
+                builder1.setTitle("ANSWER");
+                builder1.setView(layout);
+                builder1.setNeutralButton("SUBMIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                AlertDialog dialog=builder1.create();
+                dialog.show();
+                dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.primary_dark));
             }
         });//编辑器实现的地方
 
@@ -281,12 +318,12 @@ public class MainActivity extends AppCompatActivity
 
     private void initData()
     {
-        if(loginStatus=true)
+        if(loginStatus)
         {
             list=new ArrayList<Preview>();
             List<Post> tmp;
             tmp=manager.GetRecommandQuestions();
-            if(tmp!=null && tmp.size()!=0)
+            if(tmp!=null&&tmp.size()!=0)
             {
                 Post q1;
                 for(int i=0;i<10;i++)
@@ -346,7 +383,7 @@ public class MainActivity extends AppCompatActivity
             if(Type==status.Question)
             {
                 tmp=manager.GetRecommandQuestions();
-                if(tmp!=null)
+                if(tmp!=null&&tmp.size()!=0)
                 {
                     for(int i=0;i<tmp.size();i++) {
                         q1 = tmp.get(i);
@@ -364,7 +401,7 @@ public class MainActivity extends AppCompatActivity
             else if(Type==status.Article)
             {
                 tmp=manager.GetRecommandArticles();
-                if(tmp!=null)
+                if(tmp!=null&&tmp.size()!=0)
                 {
                     for(int i=0;i<tmp.size();i++) {
                         q1 = tmp.get(i);
@@ -379,8 +416,12 @@ public class MainActivity extends AppCompatActivity
                 }
 
             }
-            times++;
-            myAdapter.refresh(newList);
+
+            if(newList.size()!=0)
+            {
+                times++;
+                myAdapter.refresh(newList);
+            }
         }
 
     }
@@ -434,7 +475,11 @@ public class MainActivity extends AppCompatActivity
                 }
 
             }
-            myAdapter.add(addList);
+            if(addList.size()!=0)
+            {
+                myAdapter.add(addList);
+            }
+
         }
     }
 
