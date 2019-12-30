@@ -22,11 +22,10 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
 
     private final Context mContext;
     private final SparseBooleanArray mCollapsedStatus;
-    List mlist;
-    private Answer_Adapter.InnerItemOnclickListener mListener;
+    List<mix_content> mlist;
     private final int TYPE_ONE=0,TYPE_TWO=1,TYPE_THREE=2,TYPE_COUNT=3;
     List<Integer> Type;
-    public Answer_Adapter(Context context,List list,List<Integer> type) {
+    public Answer_Adapter(Context context,List<mix_content> list,List<Integer> type) {
         mContext  = context;
         mCollapsedStatus = new SparseBooleanArray();
         mlist=list;
@@ -52,7 +51,14 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
     @Override
     public int getItemViewType(int position)
     {
-        return Type.get(position);
+        if(position==0)
+        {
+            return TYPE_ONE;
+        }
+        else
+        {
+            return TYPE_TWO;
+        }
     }
 
     @Override
@@ -75,6 +81,14 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
                     viewHolder.Like_Button=(LikeButton) convertView.findViewById(R.id.like);
                     viewHolder.Title=(TextView)convertView.findViewById(R.id.title111);
                     viewHolder.Type=(RoundButton) convertView.findViewById(R.id.Type);
+                    viewHolder.expandableTextView.setFocusable(false);
+                    viewHolder.expandableTextView.setFocusableInTouchMode(false);
+                    viewHolder.answer_que.setFocusable(false);
+                    viewHolder.answer_que.setFocusableInTouchMode(false);
+                    viewHolder.Like_Button.setFocusable(false);
+                    viewHolder.Like_Button.setFocusableInTouchMode(false);
+                    viewHolder.Type.setFocusableInTouchMode(false);
+                    viewHolder.Type.setFocusable(false);
                     convertView.setTag(viewHolder);
                     break;
                 case TYPE_TWO:
@@ -86,6 +100,14 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
                     viewHolder1.Agree=(RoundButton) convertView.findViewById(R.id.Agree);
                     viewHolder1.expandableTextView=(ExpandableTextView) convertView.findViewById(R.id.expand_text_view);
                     viewHolder1.make_comment=(ImageButton)convertView.findViewById(R.id.comments);
+                    viewHolder1.expandableTextView.setFocusable(false);
+                    viewHolder.expandableTextView.setFocusableInTouchMode(false);
+                    viewHolder1.make_comment.setFocusable(false);
+                    viewHolder1.make_comment.setFocusableInTouchMode(false);
+                    viewHolder1.Agree.setFocusableInTouchMode(false);
+                    viewHolder1.Agree.setFocusable(false);
+                    viewHolder1.Against.setFocusable(false);
+                    viewHolder1.Against.setFocusableInTouchMode(false);
                     convertView.setTag(viewHolder1);
                     break;
                 case TYPE_THREE:
@@ -114,7 +136,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
         switch (type)
         {
             case TYPE_ONE:
-                mix_content content=(mix_content)mlist.get(position);
+                mix_content content=mlist.get(position);
                 viewHolder.Title.setText(content.m_post.Title);
                 viewHolder.Type.setText(content.m_post.Type.toString());
                 if(content.Like)
@@ -126,7 +148,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
                     viewHolder.Like_Button.setLiked(false);
                 }
                 viewHolder.expandableTextView.setText(content.m_content.Text.toString(),mCollapsedStatus,position);
-                viewHolder.answer_num.setText(content.m_post.Comments);
+                viewHolder.answer_num.setText(content.m_post.Comments+"");
                 viewHolder.likes.setText(R.string.likes+content.m_post.Likes);
                 viewHolder.read.setText(R.string.read+content.m_post.Reads);
                 //点击事件
@@ -134,8 +156,8 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
                 viewHolder.answer_que.setTag(position);
                 break;
             case TYPE_TWO:
-                mix_content content1=(mix_content)mlist.get(position);
-                viewHolder1.commentsNum.setText(content1.m_post.Comments);
+                mix_content content1=mlist.get(position);
+                viewHolder1.commentsNum.setText(content1.m_post.Comments+"");
                 viewHolder1.title.setText(content1.m_post.Title);
                 viewHolder1.expandableTextView.setText(content1.m_content.Text.toString(),mCollapsedStatus,position);
                 viewHolder1.Agree.setText(content1.m_post.Likes+R.string.agree);
@@ -162,7 +184,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
                 }
                 break;
             case TYPE_THREE:
-                Comment comment=(Comment)mlist.get(position);
+                Comment comment=mlist.get(position).comment;
                 viewHolder2.postdate.setText(comment.PostDate.toString());
                 viewHolder2.comment.setText(comment.Content);
                 viewHolder2.userid.setText(comment.UserID);
@@ -171,9 +193,10 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
 
         return convertView;
     }
-    public void add(int position,List list,int type)
+    public void add(int position,List<mix_content> list,int type)
     {
-        mlist.add(position+1,list);
+
+        mlist.addAll(position+1,list);
         List<Integer> tmp=new ArrayList<Integer>();
         for(int i=0;i<list.size();i++)
         {
@@ -194,6 +217,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
     interface InnerItemOnclickListener {
         void itemClick(View v, int position);
     }
+    private InnerItemOnclickListener mListener;
     public void setOnInnerItemOnClickListener(Answer_Adapter.InnerItemOnclickListener listener){
         this.mListener=listener;
     }
@@ -208,7 +232,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
     }
     void Fresh_like(int position)
     {
-        mix_content tmp=(mix_content) mlist.get(position);
+        mix_content tmp=mlist.get(position);
         boolean flag;
         if(tmp.Like)
         {
@@ -223,7 +247,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
     }
     void Dislike(int position)
     {
-        mix_content tmp=(mix_content) mlist.get(position);
+        mix_content tmp=mlist.get(position);
         boolean flag;
         if(tmp.Dislike)
         {

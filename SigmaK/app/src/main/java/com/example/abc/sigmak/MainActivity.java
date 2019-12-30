@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //manager.CreateTestData(this.getApplicationContext());
         if(!loginStatus)
         {
             Intent intent = new Intent();
@@ -218,7 +219,9 @@ public class MainActivity extends AppCompatActivity
                                     startActivity(intent3);
                                     break;
                                 case 4:
-
+                                    Intent intent4 = new Intent();
+                                    intent4.setClass(MainActivity.this, Question.class);
+                                    startActivity(intent4);
                                     break;
                                 case 5:
 

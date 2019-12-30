@@ -177,7 +177,7 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
                 try {
                     TextContent content=new TextContent(answer,null,null);
                     //content.Text=answer.toCharArray();
-                    manager.Answer(this.getApplicationContext(),answer_title,id,content);
+                    manager.Answer(answer_title,id,content);
                 } catch (RecordException e) {
                     e.printStackTrace();
                 }
