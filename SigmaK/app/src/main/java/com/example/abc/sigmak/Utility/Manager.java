@@ -253,24 +253,32 @@ public class Manager {
 //        Follow(context,4,3);
 //        Follow(context,3,4);
         int postid = -1;
+        int aid = -1;
         try {
-            try {
+
                 postid = PostArticle(context,3,"唔 你们是怎样学好数学基础的",
                         new TextContent("感觉自己数学（微积分、线代、概率论）学得很糟糕，准备趁还比较闲的时候补一下。\n想问问各位大佬是怎么学习相关科目的？"),
                                 Post.PostCategory.计算机科学,new String[]{"线性代数","微积分","概率论","学习"},Post.PostType.Question);
-            } catch (FormatException e) {
-                e.printStackTrace();
-            }
-            Answer(context,4,"",postid,new TextContent(
+
+            Answer(context,4,"要用起来",postid,new TextContent(
                     "要用起来，不用很快就会忘了。\n" +
                             "\t用的方式有：做题(课后习题之类)或者多读好书。多深入读一些好书(论文也可以)就会用到数学知识了，不仅可以学习新知识，还能巩固数学知识，一举两得。",
                     null,null));
-            Answer(context,2,"",postid,new TextContent(
+            aid = Answer(context,2,"目标驱动",postid,new TextContent(
                     "学数学是一个长期循环反馈过程。讲到基础，就更加没人敢说自己基础好了。往往是走到更高一个层面，就发现自己各种不足。所以呢，怎么学怎么补还是需要目标驱动。就好比说，整本算法导论用到的概率无非就是条件概率、随机变量、期望等很少的概率论知识，如果够用，就没必要说自己概率不好，大量去补习概率论。说真的，花一整块时间去补一门数学课真是很奢侈，而且往往效率还不高。\n" +
                             "简单来说，目标驱动很重要。如果要考研，就专门复习微积分吧。如果因此希望微积分能在以后工作帮多大忙也不大现实。不要在概念上拖后腿就好了。",
                     null,null));
-        } catch (RecordException e) {
-            e.printStackTrace();}
+
+                PostComment(3,aid,new String("BinTou说的很有道理！"));
+            PostComment(4,aid,new String("是这样！"));
+            PostComment(3,aid,new String("谢谢老师~！"));
+            }
+
+         catch (RecordException e) {
+            e.printStackTrace();
+    }catch (Exception e) {
+        e.printStackTrace();
+    }
 
 
     }
@@ -927,7 +935,7 @@ public class Manager {
         cv.put("AuthorID",UserID);
         sqlite.insert("PostInfo",cv);
 
-        List<Integer> ltmp = sqlite.QueryInt(String.format("SELECT PostID FROM PostInfo" +
+        List<Integer> ltmp = sqlite.QueryInt(String.format("SELECT MAX(PostID) FROM PostInfo" +
                 " WHERE Title='%s' ORDER BY PostDate DESC",Title));
         //CHECK:ID是否正确
         int postID = ltmp.get(0);
@@ -998,7 +1006,7 @@ public class Manager {
      * @throws RecordException Can't find xxx.
      */
     public static List<Post> GetAnswers(int QuestionID) throws RecordException {
-        List<Integer> PostIDs = sqlite.QueryInt("SELECT AnswerID FROM QuestionInfo WHERE QuestionID="+QuestionID);
+        List<Integer> PostIDs = sqlite.QueryInt("SELECT DISTINCT AnswerID FROM AnswerInfo WHERE QuestionID="+QuestionID);
         return fromPostIDtoPostList(PostIDs);
     }
 
@@ -1007,11 +1015,12 @@ public class Manager {
      * @param AnswerTitle 回答也要起一个标题
      * @param QuestionID 回答的问题的ID
      * @param _Content 回答的内容
+     * @return postid
      * @throws RecordException
      */
-    public void Answer(Context context,String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
+    public int Answer(Context context,String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
         checkStatus();
-        Answer(context,_accountInfo.UserID,AnswerTitle,QuestionID,_Content);
+        return Answer(context,_accountInfo.UserID,AnswerTitle,QuestionID,_Content);
     }
 
     /**
@@ -1020,9 +1029,10 @@ public class Manager {
      * @param AnswerTitle 回答也要起一个标题
      * @param QuestionID 回答的问题的ID
      * @param _Content 回答的内容
+     * @return postid
      * @throws RecordException
      */
-    private static void Answer(Context context,int UserID, String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
+    private static int Answer(Context context,int UserID, String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
         sqlite = SQLiteTools.getInstance(context);
         List<Integer> tmpL = new LinkedList<Integer>();
         tmpL.add(QuestionID);
@@ -1044,7 +1054,7 @@ public class Manager {
         } catch (FormatException e) {
             e.printStackTrace();
         }
-
+        return postID;
     }
 
     /**
