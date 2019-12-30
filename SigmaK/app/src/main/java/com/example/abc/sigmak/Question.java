@@ -237,6 +237,6 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        //Toast()
     }
 }

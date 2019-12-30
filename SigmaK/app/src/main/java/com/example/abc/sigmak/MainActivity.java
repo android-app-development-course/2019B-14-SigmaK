@@ -29,6 +29,7 @@ import com.example.abc.sigmak.MyClass.AccountInfo;
 import com.example.abc.sigmak.MyClass.Post;
 import com.example.abc.sigmak.MyClass.UserInfo;
 import com.example.abc.sigmak.Utility.Manager;
+import com.example.abc.sigmak.Utility.Tools;
 import com.github.czy1121.view.SegmentedView;
 import com.like.LikeButton;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -345,8 +346,8 @@ public class MainActivity extends AppCompatActivity
                 {
                     q1=tmp.get(i);
                     list.add(new Preview(
-                            q1.Title+"times:"+times,
-                            q1.KeyWords.toString(),
+                            q1.Title+"times:",
+                            "good good study,day day up",
                             "Questioner:"+q1.AuthorID,
                             q1.Likes+"",
                             q1.ID
@@ -407,8 +408,8 @@ public class MainActivity extends AppCompatActivity
                     for(int i=0;i<tmp.size();i++) {
                         q1 = tmp.get(i);
                         newList.add(new Preview(
-                                q1.Title+"times:"+times,
-                                q1.KeyWords.toString(),
+                                q1.Title,
+                                Tools.StringArrayToString(q1.KeyWords),
                                 "Questioner:" + q1.AuthorID,
                                 q1.Likes + "",
                                 q1.ID
@@ -429,7 +430,7 @@ public class MainActivity extends AppCompatActivity
                     for(int i=0;i<tmp.size();i++) {
                         q1 = tmp.get(i);
                         newList.add(new Preview(
-                                q1.Title+"times:"+times,
+                                q1.Title,
                                 q1.KeyWords.toString(),
                                 "Author:" + q1.AuthorID,
                                 q1.Likes + "",
@@ -498,7 +499,7 @@ public class MainActivity extends AppCompatActivity
                             addList.add(new Preview(
                                     q1.Title,
                                     q1.KeyWords.toString(),
-                                    "Questioner:" + q1.AuthorID,
+                                    "Article:" + q1.AuthorID,
                                     q1.Likes + "",
                                     q1.ID));
                         }
