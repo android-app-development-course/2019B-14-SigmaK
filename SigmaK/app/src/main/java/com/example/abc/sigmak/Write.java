@@ -82,7 +82,7 @@ public class Write extends AppCompatActivity {
                     TextContent content=new TextContent(mycontent.getText().toString());
                     String[] keyword={mycontent.getText().toString()};
                     try {
-                        manager.PostArticle(mytitle.getText().toString(),content,category,keyword,type);
+                        manager.PostArticle(getApplicationContext(),mytitle.getText().toString(),content,category,keyword,type);
                     } catch (RecordException e) {
                         e.printStackTrace();
                     } catch (FormatException e) {

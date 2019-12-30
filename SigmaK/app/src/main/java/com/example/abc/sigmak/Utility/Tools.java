@@ -40,11 +40,13 @@ public class Tools {
         List<String> list = new LinkedList<String>();
         int p = CombinedSequence.indexOf(";;;");
         int b = p;
-        list.add(CombinedSequence.substring(0,p-1));
-        for(int i=p;i<CombinedSequence.length();++i){
+        list.add(CombinedSequence.substring(0,p));
+        for(;p<CombinedSequence.length();){
             b = p;
             p = CombinedSequence.indexOf(";;;",p+2);
-            list.add(CombinedSequence.substring(b+3,p-1));
+            list.add(CombinedSequence.substring(b+3,p));
+            if(p==CombinedSequence.length()-3)
+                break;
         }
         return list.toArray(new String[0]);
     }
@@ -60,12 +62,17 @@ public class Tools {
     public static Integer[] CombinedStringToIntegerArray(String CombinedSequence){
         List<Integer> list = new LinkedList<Integer>();
         int p = CombinedSequence.indexOf(";;;");
-        int b = p;
-        list.add(Integer.parseInt(CombinedSequence.substring(0,p-1)));
-        for(int i=p;i<CombinedSequence.length();++i){
-            b = p;
-            p = CombinedSequence.indexOf(";;;",p+2);
-            list.add(Integer.parseInt(CombinedSequence.substring(b+3,p-1)));
+        if(p == -1){
+            list.add(Integer.parseInt(CombinedSequence));
+
+        }else{
+            int b = p;
+            list.add(Integer.parseInt(CombinedSequence.substring(0,p-1)));
+            for(int i=p;i<CombinedSequence.length();++i){
+                b = p;
+                p = CombinedSequence.indexOf(";;;",p+2);
+                list.add(Integer.parseInt(CombinedSequence.substring(b+3,p-1)));
+            }
         }
         return list.toArray(new Integer[0]);
     }

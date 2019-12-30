@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.nfc.FormatException;
+import android.util.Log;
 
 import com.example.abc.sigmak.Exceptions.AccountException;
 import com.example.abc.sigmak.Exceptions.RecordException;
@@ -45,10 +46,10 @@ public class Manager {
 
     private static Context _context;
 
-
+    private static String TAG = "Manager";
     private static SQLiteTools sqlite = null;
 
-    private static Manager instance = new Manager();
+    private static Manager instance = null;
 
     public static Manager getInstance(Context context) {
         if (null == instance) {
@@ -88,7 +89,7 @@ public class Manager {
      * @throws RecordException
      */
     private static List<Post> fromPostIDtoPostList(List<Integer> PostIDs) throws RecordException {
-        if(PostIDs == null)
+        if(PostIDs == null||PostIDs.size() == 0)
             return null;
         List<Post> list = new LinkedList<Post>();
         List<String> temp,tmpq;
@@ -97,7 +98,7 @@ public class Manager {
         try {
             for (int i = 0; i < PostIDs.size(); ++i) {
                 temp = sqlite.QueryString("SELECT * FROM PostInfo WHERE PostID=" + PostIDs.get(i));
-                if (temp == null)
+                if (temp == null||temp.size() == 0)
                     throw new RecordException("Can't find postInfo of PostID=" + PostIDs.get(i));
                 if (Post.PostType.valueOf(((String) temp.get(ConstantValue.TablePostInfo.Type.ordinal())).trim()) == Post.PostType.Blog) {
 
@@ -133,7 +134,7 @@ public class Manager {
                     //QuestionInfo:ID,PostID,Answers,Status.
                     tmpq = sqlite.QueryString(String.format("SELECT * FROM QuestionInfo WHERE PostID=%d",
                             Integer.parseInt((String) temp.get(ConstantValue.TablePostInfo.PostID.ordinal()))));
-                    if (tmpq == null)
+                    if (tmpq == null||tmpq.size() == 0)
                         throw new RecordException("No QuestionInfo which PostID=" +
                                 Integer.parseInt((String)temp.get(ConstantValue.TablePostInfo.PostID.ordinal())));
                     tmpQuestion.Answers = Integer.parseInt((String)tmpq.get(ConstantValue.TableQuestionInfo.Answers.ordinal()));
@@ -159,7 +160,7 @@ public class Manager {
                     //AnswerInfo:ID,QuestionID,AnswerID
                     tmpq = sqlite.QueryString(String.format("SELECT QuestionID FROM AnswerInfo WHERE AnswerID=%d",
                             Integer.parseInt(temp.get(ConstantValue.TablePostInfo.PostID.ordinal()))));
-                    if (tmpq == null)
+                    if (tmpq == null || tmpq.size() == 0)
                         throw new RecordException("No QuestionInfo which PostID=" +
                                 Integer.parseInt(temp.get(ConstantValue.TablePostInfo.PostID.ordinal())));
                     tmpAnswer.QuestionID = Integer.parseInt(tmpq.get(0));
@@ -196,77 +197,80 @@ public class Manager {
      * @param context
      */
     public static void CreateTestData(Context context){
-        //Duo和Paul关注Colin,Duo 和Paul互相关注
-        Follow(context,2,3);
-        Follow(context,2,4);
-        Follow(context,4,3);
-        Follow(context,3,4);
-        int postid = -1;
-        try {
-            postid = PostArticle(3,"唔 你们是怎样学好数学基础的",
-                    new TextContent("感觉自己数学（微积分、线代、概率论）学得很糟糕，准备趁还比较闲的时候补一下。\n想问问各位大佬是怎么学习相关科目的？"),
-                            Post.PostCategory.计算机科学,new String[]{"线性代数","微积分","概率论","学习"},Post.PostType.Question);
-            Answer(4,"",postid,new TextContent(
-                    "要用起来，不用很快就会忘了。\n" +
-                            "\t用的方式有：做题(课后习题之类)或者多读好书。多深入读一些好书(论文也可以)就会用到数学知识了，不仅可以学习新知识，还能巩固数学知识，一举两得。",
-                    null,null));
-            Answer(2,"",postid,new TextContent(
-                    "学数学是一个长期循环反馈过程。讲到基础，就更加没人敢说自己基础好了。往往是走到更高一个层面，就发现自己各种不足。所以呢，怎么学怎么补还是需要目标驱动。就好比说，整本算法导论用到的概率无非就是条件概率、随机变量、期望等很少的概率论知识，如果够用，就没必要说自己概率不好，大量去补习概率论。说真的，花一整块时间去补一门数学课真是很奢侈，而且往往效率还不高。\n" +
-                            "简单来说，目标驱动很重要。如果要考研，就专门复习微积分吧。如果因此希望微积分能在以后工作帮多大忙也不大现实。不要在概念上拖后腿就好了。",
-                    null,null));
-        } catch (RecordException e) {
-            e.printStackTrace();
-        } catch (FormatException e) {
-            e.printStackTrace();
-        }
-        /*char []pass={'1','2','3','4'};
-        try {
-            SignUp(context, "Admin","Colin@qq.com",pass,
-                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+//        char []pass={'1','2','3','4'};
+//        try {
+//            SignUp(context, "Admin","Colin@qq.com",pass,
+//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+//
+//            SignUp(context, "Colin","ColinDowney@126.com",pass,
+//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+//
+//            SignUp(context, "Paul","Paul@163.com",pass,
+//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+//
+//            SignUp(context, "Duo","Duo@foxmail.com",pass,
+//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+////            public enum PostType{Mix,Question,Blog,Answer,Comment}
+////            public enum PostCategory{计算机科学,数学科学,文学批评,英语}
+//            ContentValues cv = new ContentValues();
+//            List<Integer> id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Admin'");
+//            cv.put("UserID",id.get(0));
+//            cv.put("Category","计算机科学");
+//            sqlite.insert("UserInterest",cv);
+//            //sqlite
+////info
+//            cv.clear();
+//            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Colin'");
+//            cv.put("UserID",id.get(0));
+//            cv.put("Category","数学科学");
+//            sqlite.insert("UserInterest",cv);
+//
+//            cv.clear();
+//            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Paul'");
+//            cv.put("UserID",id.get(0));
+//            cv.put("Category","文学批评");
+//            sqlite.insert("UserInterest",cv);
+//
+//            cv.clear();
+//            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Duo'");
+//            cv.put("UserID",id.get(0));
+//            cv.put("Category","英语");
+//            sqlite.insert("UserInterest",cv);
+//
+//
+//
+//
+//        } catch (FormatException e) {
+//            e.printStackTrace();
+//        } catch (RecordException e) {
+//            e.printStackTrace();
+//        }
 
-             SignUp(context, "Colin","ColinDowney@126.com",pass,
-                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+//
+//        //Duo和Paul关注Colin,Duo 和Paul互相关注
+//        Follow(context,2,3);
+//        Follow(context,2,4);
+//        Follow(context,4,3);
+//        Follow(context,3,4);
+//        int postid = -1;
+//        try {
+////            postid = PostArticle(context,3,"唔 你们是怎样学好数学基础的",
+////                    new TextContent("感觉自己数学（微积分、线代、概率论）学得很糟糕，准备趁还比较闲的时候补一下。\n想问问各位大佬是怎么学习相关科目的？"),
+////                            Post.PostCategory.计算机科学,new String[]{"线性代数","微积分","概率论","学习"},Post.PostType.Question);
+//            Answer(context,4,"",postid,new TextContent(
+//                    "要用起来，不用很快就会忘了。\n" +
+//                            "\t用的方式有：做题(课后习题之类)或者多读好书。多深入读一些好书(论文也可以)就会用到数学知识了，不仅可以学习新知识，还能巩固数学知识，一举两得。",
+//                    null,null));
+//            Answer(context,2,"",postid,new TextContent(
+//                    "学数学是一个长期循环反馈过程。讲到基础，就更加没人敢说自己基础好了。往往是走到更高一个层面，就发现自己各种不足。所以呢，怎么学怎么补还是需要目标驱动。就好比说，整本算法导论用到的概率无非就是条件概率、随机变量、期望等很少的概率论知识，如果够用，就没必要说自己概率不好，大量去补习概率论。说真的，花一整块时间去补一门数学课真是很奢侈，而且往往效率还不高。\n" +
+//                            "简单来说，目标驱动很重要。如果要考研，就专门复习微积分吧。如果因此希望微积分能在以后工作帮多大忙也不大现实。不要在概念上拖后腿就好了。",
+//                    null,null));
+//        } catch (RecordException e) {
+//            e.printStackTrace();}
+//        } catch (FormatException e) {
+//            e.printStackTrace();
+//        }
 
-            SignUp(context, "Paul","Paul@163.com",pass,
-                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
-
-            SignUp(context, "Duo","Duo@foxmail.com",pass,
-                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
-//            public enum PostType{Mix,Question,Blog,Answer,Comment}
-//            public enum PostCategory{计算机科学,数学科学,文学批评,英语}
-            ContentValues cv = new ContentValues();
-            List<Integer> id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Admin'");
-            cv.put("UserID",id.get(0));
-            cv.put("Category","计算机科学");
-            sqlite.insert("UserInterest",cv);
-            //sqlite
-//info
-            cv.clear();
-            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Colin'");
-            cv.put("UserID",id.get(0));
-            cv.put("Category","数学科学");
-            sqlite.insert("UserInterest",cv);
-
-            cv.clear();
-            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Paul'");
-            cv.put("UserID",id.get(0));
-            cv.put("Category","文学批评");
-            sqlite.insert("UserInterest",cv);
-
-            cv.clear();
-            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Duo'");
-            cv.put("UserID",id.get(0));
-            cv.put("Category","英语");
-            sqlite.insert("UserInterest",cv);
-
-
-
-
-        } catch (FormatException e) {
-            e.printStackTrace();
-        } catch (RecordException e) {
-            e.printStackTrace();
-        }*/
     }
 
     /**
@@ -343,10 +347,10 @@ public class Manager {
      * @param password
      * @throws FormatException,RecordException
      */
-    public void SignUp(Context context, String Name, String Email, char[] password, Bitmap DefaultPhoto) throws FormatException, RecordException {
+    public static void SignUp(Context context, String Name, String Email, char[] password, Bitmap DefaultPhoto) throws FormatException, RecordException {
         if(!Tools.CheckEmailValid(Email))
             throw new FormatException("Email is invalid.");
-        getSqlite(context);
+        sqlite = SQLiteTools.getInstance(context);
         //TODO:应该来自服务器
 //        String command = String.format("INSERT INTO Account(UserName,Email,Password) VALUES('%s','%s','%s','%s')",
 //                Name,Email,new String(password), Tools.BitmapToString(DefaultPhoto));
@@ -367,12 +371,13 @@ public class Manager {
 //        sqlite.ExecuteSql(command);
         sqlite.insert("UserInfo",Tools.formContentValuesInt("AccountID","Follows","Followers","Coins","Likes",
                 Integer.toString(id),"0","0","0","0"));
-        //TODO:添加增加兴趣的
+
+//        //TODO:添加增加兴趣的
         ContentValues cv = new ContentValues();
         cv.put("UserID", id);
         cv.put("Category","计算机科学");
         sqlite.insert("UserInterest",cv);
-        //
+
     }
 
 
@@ -582,6 +587,7 @@ public class Manager {
      * @param FollowerID 要关注的用户的ID
      */
     private static void Follow(Context context, int toFollowID, int FollowerID){
+        sqlite = SQLiteTools.getInstance(context);
         sqlite.ExecuteSql("UPDATE UserInfo SET Follows=Follows+1 WHERE AccountID="+FollowerID);
         sqlite.ExecuteSql("UPDATE UserInfo SET Followers=Followers+1 WHERE AccountID="+toFollowID);
         //CHECK:Date由SQLite插入默认值
@@ -645,17 +651,19 @@ public class Manager {
      * 获取推荐内容
      * @return
      */
-    public List<Post> GetRecommandPosts(){
+    public List<Post> GetRecommandPosts() throws RecordException {
+        checkStatus();
+        List<Post> posts = null;
         List<Integer> postids = sqlite.QueryInt("SELECT PostInfo.PostID FROM PostInfo INNER JOIN UserInterest" +
                 " ON PostInfo.Category = UserInterest.Category WHERE UserID="+_accountInfo.UserID+" " +
                 "ORDER BY PostInfo.Likes,PostInfo.PostID DESC");
         try {
-            return fromPostIDtoPostList(postids);
+            posts = fromPostIDtoPostList(postids);
         } catch (RecordException e) {
             //不应该发生
             e.printStackTrace();
-            return null;
         }
+        return posts;
     }
 
     //获取新的NumOfQuestions篇推荐问题
@@ -665,21 +673,24 @@ public class Manager {
      * 获取推荐问题
      * @return
      */
-    public List<Post> GetRecommandQuestions(){
+    public List<Post> GetRecommandQuestions() throws RecordException {
+        checkStatus();
         getSqlite(_context);
+        List<Post> posts = null;
         List<Integer> postids = sqlite.QueryInt("SELECT PostID FROM PostInfo INNER JOIN UserInterest" +
                 " ON PostInfo.Category = UserInterest.Category WHERE UserID="+_accountInfo.UserID +
                 " AND PostInfo.Type='"+ Post.PostType.Question.name() +
                 "' ORDER BY PostInfo.Likes,PostInfo.PostID DESC");
-
         try {
-            if(postids == null)
+            if(postids == null || postids.size() == 0)
                 throw new RecordException("No post valid.");
-            return fromPostIDtoPostList(postids);
+            posts = fromPostIDtoPostList(postids);
         } catch (RecordException e) {
             //不应该发生
+            Log.i(TAG, "GetRecommandQuestions: "+"ERROR??????????????");
             e.printStackTrace();
-            return null;
+        }finally {
+            return posts;
         }
     }
 
@@ -687,18 +698,20 @@ public class Manager {
      * 获取推荐博文
      * @return
      */
-    public List<Post> GetRecommandArticles(){
+    public List<Post> GetRecommandArticles() throws RecordException {
+        checkStatus();
+        List<Post> posts = null;
         List<Integer> postids = sqlite.QueryInt("SELECT PostInfo.PostID FROM PostInfo INNER JOIN UserInterest" +
                 " ON PostInfo.Category = UserInterest.Category WHERE UserID="+_accountInfo.UserID +
                 " AND PostInfo.Type='"+ Post.PostType.Blog.name() +
                 "' ORDER BY PostInfo.Likes,PostInfo.PostID DESC");
         try {
-            return fromPostIDtoPostList(postids);
+            posts = fromPostIDtoPostList(postids);
         } catch (RecordException e) {
             //不应该发生
             e.printStackTrace();
-            return null;
         }
+        return posts;
     }
 
     /**
@@ -744,7 +757,7 @@ public class Manager {
         if(temp==null)
             throw new RecordException("No such PostID.");
 
-        TextContent context = (TextContent)Tools.StringToObject(temp.get(0));
+        TextContent context = new TextContent(temp.get(0));
         return context;
     }
 
@@ -756,26 +769,27 @@ public class Manager {
      */
     public static Post GetPostInfo(int PostID) throws RecordException {
         List<String> temp = sqlite.QueryString("SELECT * FROM PostInfo WHERE PostID="+PostID);
+        Post posts = null;
         if(temp==null)
             throw new RecordException("No such PostID.");
         try {
-            return new Post(
-                    Integer.getInteger(temp.get(ConstantValue.TablePostInfo.PostID.ordinal())),
+            posts = new Post(
+                    Integer.parseInt(temp.get(ConstantValue.TablePostInfo.PostID.ordinal())),
                     temp.get(ConstantValue.TablePostInfo.Title.ordinal()),
                     Post.PostType.valueOf(temp.get(ConstantValue.TablePostInfo.Type.ordinal())),
                     Tools.StringToDate(temp.get(ConstantValue.TablePostInfo.PostDate.ordinal())),
                     Tools.StringToDate(temp.get(ConstantValue.TablePostInfo.LastEditedDate.ordinal())),
                     Post.PostCategory.valueOf(temp.get(ConstantValue.TablePostInfo.Category.ordinal())),
-                    Integer.getInteger(temp.get(ConstantValue.TablePostInfo.AuthorID.ordinal())),
-                    Integer.getInteger(temp.get(ConstantValue.TablePostInfo.Likes.ordinal())),
-                    Integer.getInteger(temp.get(ConstantValue.TablePostInfo.Reads.ordinal())),
-                    Integer.getInteger(temp.get(ConstantValue.TablePostInfo.Comments.ordinal())),
+                    Integer.parseInt(temp.get(ConstantValue.TablePostInfo.AuthorID.ordinal())),
+                    Integer.parseInt(temp.get(ConstantValue.TablePostInfo.Likes.ordinal())),
+                    Integer.parseInt(temp.get(ConstantValue.TablePostInfo.Reads.ordinal())),
+                    Integer.parseInt(temp.get(ConstantValue.TablePostInfo.Comments.ordinal())),
                     Tools.CombinedStringToStringArray(temp.get(ConstantValue.TablePostInfo.KeyWords.ordinal()))
             );
         } catch (ParseException e) {
             e.printStackTrace();
-            return null;
         }
+        return posts;
     }
 
     /**
@@ -871,10 +885,10 @@ public class Manager {
      * @throws RecordException No valid login.
      * @throws FormatException Invalid PostType.
      */
-    public int PostArticle(String Title, TextContent _Content,
+    public int PostArticle(Context context, String Title, TextContent _Content,
                             Post.PostCategory _Category, String[] KeyWords, Post.PostType _PostType) throws RecordException, FormatException {
         checkStatus();
-        return PostArticle(_accountInfo.UserID,Title,_Content,_Category,KeyWords,_PostType);
+        return PostArticle(context,_accountInfo.UserID,Title,_Content,_Category,KeyWords,_PostType);
     }
 
     /**
@@ -889,12 +903,12 @@ public class Manager {
      * @throws RecordException No valid login.
      * @throws FormatException Invalid PostType.
      */
-    private static int PostArticle(int UserID,String Title, TextContent _Content,
+    private static int PostArticle(Context context, int UserID,String Title, TextContent _Content,
                             Post.PostCategory _Category, String[] KeyWords, Post.PostType _PostType) throws RecordException, FormatException {
 
         if(_PostType == Post.PostType.Mix)
             throw new FormatException("Invalid PostType.");
-
+        sqlite = SQLiteTools.getInstance(context);
 
         //创建新的PostInfo
         //PostID,Title,Type,PostDate,LastEditedDate,Category,KeyWords,AuthorID,Likes,Reads,Comments
@@ -993,9 +1007,9 @@ public class Manager {
      * @param _Content 回答的内容
      * @throws RecordException
      */
-    public void Answer(String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
+    public void Answer(Context context,String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
         checkStatus();
-        Answer(_accountInfo.UserID,AnswerTitle,QuestionID,_Content);
+        Answer(context,_accountInfo.UserID,AnswerTitle,QuestionID,_Content);
     }
 
     /**
@@ -1006,18 +1020,19 @@ public class Manager {
      * @param _Content 回答的内容
      * @throws RecordException
      */
-    private static void Answer(int UserID, String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
+    private static void Answer(Context context,int UserID, String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
+        sqlite = SQLiteTools.getInstance(context);
         List<Integer> tmpL = new LinkedList<Integer>();
         tmpL.add(QuestionID);
         Question tmpq = (Question)fromPostIDtoPostList(tmpL).get(0);
         int postID = -1;
         try {
-            postID = PostArticle(UserID, AnswerTitle,_Content, tmpq.Category,tmpq.KeyWords, Post.PostType.Answer);
+            postID = PostArticle(context,UserID, AnswerTitle,_Content, tmpq.Category,tmpq.KeyWords, Post.PostType.Answer);
 
             //ID,QuestionID,AnswerID
 //        sqlite.ExecuteSql(String.format("INSERT INTO AnswerInfo(QuestionID,AnswerID) " +
 //                "VALUES(%d,%d)", tmpq.ID,postID));
-            sqlite.insert("AnswerInfo",Tools.formContentValuesInt("QuestionInfo","AnswerID",
+            sqlite.insert("AnswerInfo",Tools.formContentValuesInt("QuestionID","AnswerID",
                     Integer.toString(tmpq.ID),Integer.toString(postID)));
             sqlite.ExecuteSql(String.format("UPDATE QuestionInfo SET Answers=%d WHERE PostID=%d",
                     tmpq.Answers+1,tmpq.ID));
@@ -1156,7 +1171,7 @@ public class Manager {
         checkStatus();
         List<Integer> postIDs = sqlite.QueryInt(String.format("SELECT PostID FROM PostInfo WHERE AuthorID=%d",
                 _accountInfo.UserID));
-        if(postIDs == null)
+        if(postIDs == null||postIDs.size() == 0)
             throw new RecordException("Post is empty.");
         return fromPostIDtoPostList(postIDs);
     }
@@ -1169,9 +1184,9 @@ public class Manager {
      */
     public static AccountInfo getAccountInfo(int ID) throws RecordException {
         List<String> info = sqlite.QueryString("SELECT ID,Email,UserName,ProfilePhoto FROM Account WHERE ID="+ID);
-        if(info == null)
+        if(info == null||info.size() == 0)
             throw new RecordException("No such user empty.");
-        return new AccountInfo(Integer.getInteger(info.get(0)),
+        return new AccountInfo(Integer.parseInt(info.get(0)),
                 info.get(1),
                 info.get(2),
                 Tools.StringToBitmap(info.get(3)));

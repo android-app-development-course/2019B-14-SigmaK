@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     status Type=status.Question;
     private SegmentedView mScv1;
     int times;
-    Manager manager;
+    private static Manager manager;
     String name;
     String email;
     Toolbar toolbar;
@@ -156,6 +156,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         state=savedInstanceState;
         setContentView(R.layout.activity_main);
+
+        Manager.CreateTestData(MainActivity.this);
 
         builder= new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Warning");
@@ -327,12 +329,16 @@ public class MainActivity extends AppCompatActivity
         list=new ArrayList<Preview>();
         if(loginStatus)
         {
-            List<Post> tmp;
-            tmp=manager.GetRecommandQuestions();
-            if(tmp!=null&&tmp.size()!=0)
+            List<Post> tmp = null;
+            try {
+                tmp=manager.GetRecommandQuestions();
+            } catch (RecordException e) {
+                e.printStackTrace();
+            }
+            if(tmp!=null && tmp.size()!=0)
             {
                 Post q1;
-                for(int i=0;i<10;i++)
+                for(int i=0;i<tmp.size();i++)
                 {
                     q1=tmp.get(i);
                     list.add(new Preview(
@@ -384,11 +390,15 @@ public class MainActivity extends AppCompatActivity
         if(loginStatus)
         {
             ArrayList<Preview> newList = new ArrayList<Preview>();
-            List<Post> tmp;
+            List<Post> tmp = null;
             Post q1;
             if(Type==status.Question)
             {
-                tmp=manager.GetRecommandQuestions();
+                try {
+                    tmp=manager.GetRecommandQuestions();
+                } catch (RecordException e) {
+                    e.printStackTrace();
+                }
                 if(tmp!=null&&tmp.size()!=0)
                 {
                     for(int i=0;i<tmp.size();i++) {
@@ -406,7 +416,11 @@ public class MainActivity extends AppCompatActivity
             }
             else if(Type==status.Article)
             {
-                tmp=manager.GetRecommandArticles();
+                try {
+                    tmp=manager.GetRecommandArticles();
+                } catch (RecordException e) {
+                    e.printStackTrace();
+                }
                 if(tmp!=null&&tmp.size()!=0)
                 {
                     for(int i=0;i<tmp.size();i++) {
@@ -441,11 +455,15 @@ public class MainActivity extends AppCompatActivity
         if(loginStatus)
         {
             ArrayList<Preview>addList=new ArrayList<Preview>();
-            List<Post> tmp;
+            List<Post> tmp = null;
             Post q1;
             if(Type==status.Question)
             {
-                tmp=manager.GetRecommandQuestions();
+                try {
+                    tmp=manager.GetRecommandQuestions();
+                } catch (RecordException e) {
+                    e.printStackTrace();
+                }
                 if(tmp!=null)
                 {
                     for(int i=0;i<tmp.size();i++) {
@@ -463,7 +481,11 @@ public class MainActivity extends AppCompatActivity
             }
             else if (Type==status.Article)
             {
-                tmp=manager.GetRecommandArticles();
+                try {
+                    tmp=manager.GetRecommandArticles();
+                } catch (RecordException e) {
+                    e.printStackTrace();
+                }
                 if(tmp!=null)
                 {
                     for(int i=0;i<10;i++) {
