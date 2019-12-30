@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.abc.sigmak.Exceptions.RecordException;
+import com.example.abc.sigmak.MyClass.Comment;
 import com.example.abc.sigmak.MyClass.Post;
 import com.example.abc.sigmak.MyClass.TextContent;
 import com.example.abc.sigmak.Utility.Manager;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.abc.sigmak.R.id.comments;
 import static com.example.abc.sigmak.R.id.post;
 
 public class Question extends AppCompatActivity implements Answer_Adapter.InnerItemOnclickListener,AdapterView.OnItemClickListener {
@@ -177,7 +179,7 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
                 try {
                     TextContent content=new TextContent(answer,null,null);
                     //content.Text=answer.toCharArray();
-                    manager.Answer(answer_title,id,content);
+                    manager.Answer(this,answer_title,id,content);
                 } catch (RecordException e) {
                     e.printStackTrace();
                 }
@@ -204,13 +206,22 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
                     adapter.remove(position,tmp.m_post.Comments);
                 }
                 else{
+                    List<Comment>comments=null;
                     try {
-                        adapter.add(position,manager.GetPostComment(tmp.m_post.ID),TYPE_THREE);
+                        comments=manager.GetPostComment(tmp.m_post.ID);
                     } catch (RecordException e) {
                         e.printStackTrace();
                     }
+                    if(comments!=null)
+                    {
+                        List<mix_content> tmp111=new ArrayList<mix_content>();
+                        for(int i=0;i<comments.size();i++)
+                        {
+                            tmp111.add(new mix_content(comments.get(position)));
+                        }
+                        adapter.add(position,tmp111,TYPE_THREE);
+                    }
                 }
-
                 break;
             case R.id.comments:
                 builder.show();

@@ -101,7 +101,7 @@ public class Answer_Adapter extends BaseAdapter implements View.OnClickListener{
                     viewHolder1.expandableTextView=(ExpandableTextView) convertView.findViewById(R.id.expand_text_view);
                     viewHolder1.make_comment=(ImageButton)convertView.findViewById(R.id.comments);
                     viewHolder1.expandableTextView.setFocusable(false);
-                    viewHolder.expandableTextView.setFocusableInTouchMode(false);
+                    viewHolder1.expandableTextView.setFocusableInTouchMode(false);
                     viewHolder1.make_comment.setFocusable(false);
                     viewHolder1.make_comment.setFocusableInTouchMode(false);
                     viewHolder1.Agree.setFocusableInTouchMode(false);

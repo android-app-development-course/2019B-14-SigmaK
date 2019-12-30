@@ -197,19 +197,19 @@ public class Manager {
      * @param context
      */
     public static void CreateTestData(Context context){
-//        char []pass={'1','2','3','4'};
-//        try {
-//            SignUp(context, "Admin","Colin@qq.com",pass,
-//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
-//
-//            SignUp(context, "Colin","ColinDowney@126.com",pass,
-//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
-//
-//            SignUp(context, "Paul","Paul@163.com",pass,
-//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
-//
-//            SignUp(context, "Duo","Duo@foxmail.com",pass,
-//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+        char []pass={'1','2','3','4'};
+        try {
+            SignUp(context, "Admin","Colin@qq.com",pass,
+                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+
+            SignUp(context, "Colin","ColinDowney@126.com",pass,
+                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+
+            SignUp(context, "Paul","Paul@163.com",pass,
+                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+
+            SignUp(context, "Duo","Duo@foxmail.com",pass,
+                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 ////            public enum PostType{Mix,Question,Blog,Answer,Comment}
 ////            public enum PostCategory{计算机科学,数学科学,文学批评,英语}
 //            ContentValues cv = new ContentValues();
@@ -240,11 +240,11 @@ public class Manager {
 //
 //
 //
-//        } catch (FormatException e) {
-//            e.printStackTrace();
-//        } catch (RecordException e) {
-//            e.printStackTrace();
-//        }
+        } catch (FormatException e) {
+            e.printStackTrace();
+        } catch (RecordException e) {
+            e.printStackTrace();
+        }
 
 //
 //        //Duo和Paul关注Colin,Duo 和Paul互相关注
@@ -252,24 +252,26 @@ public class Manager {
 //        Follow(context,2,4);
 //        Follow(context,4,3);
 //        Follow(context,3,4);
-//        int postid = -1;
-//        try {
-////            postid = PostArticle(context,3,"唔 你们是怎样学好数学基础的",
-////                    new TextContent("感觉自己数学（微积分、线代、概率论）学得很糟糕，准备趁还比较闲的时候补一下。\n想问问各位大佬是怎么学习相关科目的？"),
-////                            Post.PostCategory.计算机科学,new String[]{"线性代数","微积分","概率论","学习"},Post.PostType.Question);
-//            Answer(context,4,"",postid,new TextContent(
-//                    "要用起来，不用很快就会忘了。\n" +
-//                            "\t用的方式有：做题(课后习题之类)或者多读好书。多深入读一些好书(论文也可以)就会用到数学知识了，不仅可以学习新知识，还能巩固数学知识，一举两得。",
-//                    null,null));
-//            Answer(context,2,"",postid,new TextContent(
-//                    "学数学是一个长期循环反馈过程。讲到基础，就更加没人敢说自己基础好了。往往是走到更高一个层面，就发现自己各种不足。所以呢，怎么学怎么补还是需要目标驱动。就好比说，整本算法导论用到的概率无非就是条件概率、随机变量、期望等很少的概率论知识，如果够用，就没必要说自己概率不好，大量去补习概率论。说真的，花一整块时间去补一门数学课真是很奢侈，而且往往效率还不高。\n" +
-//                            "简单来说，目标驱动很重要。如果要考研，就专门复习微积分吧。如果因此希望微积分能在以后工作帮多大忙也不大现实。不要在概念上拖后腿就好了。",
-//                    null,null));
-//        } catch (RecordException e) {
-//            e.printStackTrace();}
-//        } catch (FormatException e) {
-//            e.printStackTrace();
-//        }
+        int postid = -1;
+        try {
+            try {
+                postid = PostArticle(context,3,"唔 你们是怎样学好数学基础的",
+                        new TextContent("感觉自己数学（微积分、线代、概率论）学得很糟糕，准备趁还比较闲的时候补一下。\n想问问各位大佬是怎么学习相关科目的？"),
+                                Post.PostCategory.计算机科学,new String[]{"线性代数","微积分","概率论","学习"},Post.PostType.Question);
+            } catch (FormatException e) {
+                e.printStackTrace();
+            }
+            Answer(context,4,"",postid,new TextContent(
+                    "要用起来，不用很快就会忘了。\n" +
+                            "\t用的方式有：做题(课后习题之类)或者多读好书。多深入读一些好书(论文也可以)就会用到数学知识了，不仅可以学习新知识，还能巩固数学知识，一举两得。",
+                    null,null));
+            Answer(context,2,"",postid,new TextContent(
+                    "学数学是一个长期循环反馈过程。讲到基础，就更加没人敢说自己基础好了。往往是走到更高一个层面，就发现自己各种不足。所以呢，怎么学怎么补还是需要目标驱动。就好比说，整本算法导论用到的概率无非就是条件概率、随机变量、期望等很少的概率论知识，如果够用，就没必要说自己概率不好，大量去补习概率论。说真的，花一整块时间去补一门数学课真是很奢侈，而且往往效率还不高。\n" +
+                            "简单来说，目标驱动很重要。如果要考研，就专门复习微积分吧。如果因此希望微积分能在以后工作帮多大忙也不大现实。不要在概念上拖后腿就好了。",
+                    null,null));
+        } catch (RecordException e) {
+            e.printStackTrace();}
+
 
     }
 
