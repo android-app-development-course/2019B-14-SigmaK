@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.abc.sigmak.Write">
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/write_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:hint="title"
+        android:textSize="20dp"
+        android:maxLines="2"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp" />
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/write_post"
+        app:layout_constraintTop_toBottomOf="@id/write_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:hint="content"
+        android:minLines="10"
+        android:maxLines="10"
+         />
+    <RadioGroup
+        android:id="@+id/post_type"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/write_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+            <RadioButton
+                android:layout_marginLeft="20dp"
+                android:checked="true"
+                android:buttonTint="@color/colorPrimary"
+                android:id="@+id/my_question"
+                android:text="Question"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:buttonTint="@color/colorPrimary"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/my_article"
+                android:text="Article"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+    </RadioGroup>
+    <RadioGroup
+        android:id="@+id/post_category"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/post_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:checked="true"
+            android:buttonTint="@color/colorPrimary"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/computer"
+            android:text="Computer Science"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:buttonTint="@color/colorPrimary"
+            android:id="@+id/maths"
+            android:layout_marginLeft="20dp"
+            android:text="Maths"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:buttonTint="@color/colorPrimary"
+            android:id="@+id/literary"
+            android:layout_marginLeft="20dp"
+            android:text="Literary"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:buttonTint="@color/colorPrimary"
+            android:id="@+id/English"
+            android:layout_marginLeft="20dp"
+            android:text="English"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+    <ezy.ui.view.RoundButton
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/post_category"
+        android:id="@+id/Write_submit"
+        android:layout_gravity="center_vertical"
+        app:btnCornerRadius="10dp"
+        app:btnSolidColor="#8BC34A"
+        android:textColor="#FFFFFF"
+        android:text="@string/submit"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="20dp"
+        />
+</android.support.constraint.ConstraintLayout>

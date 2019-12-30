@@ -37,8 +37,10 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
     String comment;
     String answer;
     String answer_title;
+    boolean test=false;
     final int TYPE_ONE=0,TYPE_TWO=1,TYPE_THREE=2,TYPE_COUNT=3;
     int id;
+    AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,7 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
         Title=(EditText)layout.findViewById(R.id.title123);
         Answer111=(EditText)layout.findViewById(R.id.answer123);
         builder1.setTitle("ANSWER");
-        builder1.setView(R.layout.user);
+        builder1.setView(layout);
         builder1.setNeutralButton("SUBMIT", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -72,6 +74,7 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
                 answer_title=Title.getText().toString();
             }
         });
+        alertDialog=builder1.create();
 
         listView=(ListView)findViewById(R.id.mix_listview);
         Post post=null;
@@ -84,8 +87,9 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
             post=manager.GetPostInfo(id);
         } catch (RecordException e) {
             e.printStackTrace();
+            test=true;
         }
-        if(post!=null)
+        if(post!=null&&test!=true)
         {
             type.add(TYPE_ONE);
             tmp1=new Post(post.ID,post.Title,post.Type,post.PostDate,post.LastEditedDate,post.Category,post.AuthorID,post.Likes,post.Reads,post.Comments,post.KeyWords);
@@ -147,25 +151,29 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
         switch (v.getId()){
             case R.id.like:
                 adapter.Fresh_like(position);
-                if(tmp.Like)
+                if(test==false)
                 {
-                    try {
-                        manager.Disapprove(tmp.m_post.ID);
-                    } catch (RecordException e) {
-                        e.printStackTrace();
+                    if(tmp.Like)
+                    {
+                        try {
+                            manager.Disapprove(tmp.m_post.ID);
+                        } catch (RecordException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                else
-                {
-                    try {
-                        manager.Like(tmp.m_post.ID);
-                    } catch (RecordException e) {
-                        e.printStackTrace();
+                    else
+                    {
+                        try {
+                            manager.Like(tmp.m_post.ID);
+                        } catch (RecordException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 break;//问题的收藏
             case R.id.answer_que:
-                builder1.show();
+                alertDialog.show();
+                alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.primary_dark));
                 try {
                     TextContent content=new TextContent(answer,null,null);
                     //content.Text=answer.toCharArray();

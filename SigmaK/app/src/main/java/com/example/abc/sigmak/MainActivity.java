@@ -145,9 +145,8 @@ public class MainActivity extends AppCompatActivity
             drawer.updateItem(coins);
             drawer.removeHeader();
             drawer.setHeader(headerResult.getView());
-
         }
-        initData();
+        Refresh();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,6 +249,7 @@ public class MainActivity extends AppCompatActivity
         refreshLayout = (RefreshLayout)findViewById(R.id.My_refreshLayout);
         InitItem();
         SetPullRefresher();
+        initData();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -278,7 +278,10 @@ public class MainActivity extends AppCompatActivity
         mfloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder1;
+                Intent intent111=new Intent();
+                intent111.setClass(MainActivity.this,Write.class);
+                startActivity(intent111);
+                /*AlertDialog.Builder builder1;
                 LayoutInflater inflater = getLayoutInflater();
                 View layout=inflater.inflate(R.layout.write_answer,null);
                 final EditText Title,Answer111;
@@ -294,7 +297,7 @@ public class MainActivity extends AppCompatActivity
                 });
                 AlertDialog dialog=builder1.create();
                 dialog.show();
-                dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.primary_dark));
+                dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.primary_dark));*/
             }
         });//编辑器实现的地方
 
@@ -318,9 +321,9 @@ public class MainActivity extends AppCompatActivity
 
     private void initData()
     {
+        list=new ArrayList<Preview>();
         if(loginStatus)
         {
-            list=new ArrayList<Preview>();
             List<Post> tmp;
             tmp=manager.GetRecommandQuestions();
             if(tmp!=null&&tmp.size()!=0)
@@ -337,15 +340,15 @@ public class MainActivity extends AppCompatActivity
                             q1.ID
                     ));
                     times++;
-                    myAdapter=new My_Adapter(list);
-                    recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(this);//纵向线性布局
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(myAdapter);
-                    myAdapter.setOnItemClickListener(MyItemClickListener);
                 }
             }
         }
+        myAdapter=new My_Adapter(list);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);//纵向线性布局
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(myAdapter);
+        myAdapter.setOnItemClickListener(MyItemClickListener);
     }
 
     private void SetPullRefresher()
