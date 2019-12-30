@@ -99,17 +99,20 @@ public class MainActivity extends AppCompatActivity
             try {
                 userinfo=manager.GetUserInfo();
             } catch (ConnectException e) {
-                builder.setMessage(e.getMessage());
-                builder.show();
+                warning.setMessage(e.getMessage());
+                warning.show();
+                warning.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.primary_dark));
             } catch (RecordException e) {
-                builder.setMessage(e.getMessage());
-                builder.show();
+                warning.setMessage(e.getMessage());
+                warning.show();
+                warning.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.primary_dark));
             }
             try {
                 User=manager.GetAccountInfo();
             } catch (RecordException e) {
-                builder.setMessage(e.getMessage());
-                builder.show();
+                warning.setMessage(e.getMessage());
+                warning.show();
+                warning.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.primary_dark));
             }
             IProfile profile = new ProfileDrawerItem().withName(User.Name.toString())
                     .withEmail(User.Email.toString())

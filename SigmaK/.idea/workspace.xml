@@ -10,16 +10,9 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2f0424d-fe07-47f1-b7c3-6ad157c5d8fd" name="Default Changelist" comment="12/29 资源文件问题已解决">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Write.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_write.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+    <list default="true" id="a2f0424d-fe07-47f1-b7c3-6ad157c5d8fd" name="Default Changelist" comment="12/30 提问/写文章 界面已实现">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Question.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Question.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/daily.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/daily.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_daily.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_daily.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_write.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_write.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -56,7 +49,7 @@
       <file leaf-file-name="Manager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="94">
+            <state relative-caret-position="468">
               <caret line="876" column="0" selection-start-line="876" selection-start-column="0" selection-end-line="876" selection-end-column="0" />
               <folding>
                 <element signature="e#2743#2749#0" expanded="true" />
@@ -73,11 +66,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Write.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="175">
+              <caret line="173" column="9" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
+              <folding>
+                <element signature="e#16320#16329#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Write.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Write.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="79" column="22" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
+            <state relative-caret-position="441">
+              <caret line="90" column="17" selection-start-line="90" selection-start-column="17" selection-end-line="90" selection-end-column="17" />
               <folding>
                 <element signature="e#2097#2834#0" expanded="true" />
                 <element signature="e#2833#2834#0" expanded="true" />
@@ -134,17 +139,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_write.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="activity_write.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_write.xml">
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="67" column="33" selection-start-line="67" selection-start-column="33" selection-end-line="67" selection-end-column="33" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="404">
+              <caret line="33" column="27" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
               <folding>
-                <element signature="e#4582#4598#0" expanded="true" />
+                <element signature="e#4580#4596#0" expanded="true" />
               </folding>
             </state>
           </provider>
-          <provider selected="true" editor-type-id="android-designer2">
+          <provider editor-type-id="android-designer2">
             <state />
           </provider>
         </entry>
@@ -2329,17 +2334,17 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/write_answer.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/DataOperateTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/SQLiteTools.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Login.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/userList.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/daily.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Question.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_daily.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_write.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Write.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_write.xml" />
       </list>
     </option>
   </component>
@@ -3138,7 +3143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577602090628</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="12/30 提问/写文章 界面已实现">
+      <created>1577692622322</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1577692622322</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3152,17 +3164,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-10" y="0" width="1938" height="1020" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12755102" sideWeight="0.495671" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44444445" sideWeight="0.4978355" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.58290815" sideWeight="0.508658" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23852041" sideWeight="0.508658" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45918366" sideWeight="0.8939394" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.58290815" sideWeight="0.49134198" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23852041" sideWeight="0.49134198" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -3247,7 +3259,8 @@
     <MESSAGE value="Default Changelist" />
     <MESSAGE value="12/28 第一次更改" />
     <MESSAGE value="12/29 资源文件问题已解决" />
-    <option name="LAST_COMMIT_MESSAGE" value="12/29 资源文件问题已解决" />
+    <MESSAGE value="12/30 提问/写文章 界面已实现" />
+    <option name="LAST_COMMIT_MESSAGE" value="12/30 提问/写文章 界面已实现" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3679,19 +3692,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_write.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="67" column="33" selection-start-line="67" selection-start-column="33" selection-end-line="67" selection-end-column="33" />
-          <folding>
-            <element signature="e#4582#4598#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="407">
@@ -3730,21 +3730,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2863">
-          <caret line="513" column="46" selection-start-line="513" selection-start-column="46" selection-end-line="513" selection-end-column="46" />
-          <folding>
-            <element signature="e#11943#13208#0" expanded="true" />
-            <element signature="e#13207#13208#0" expanded="true" />
-            <element signature="e#15939#15948#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Utility/Manager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
+        <state relative-caret-position="468">
           <caret line="876" column="0" selection-start-line="876" selection-start-column="0" selection-end-line="876" selection-end-column="0" />
           <folding>
             <element signature="e#2743#2749#0" expanded="true" />
@@ -3762,8 +3750,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/Write.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="79" column="22" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
+        <state relative-caret-position="441">
+          <caret line="90" column="17" selection-start-line="90" selection-start-column="17" selection-end-line="90" selection-end-column="17" />
           <folding>
             <element signature="e#2097#2834#0" expanded="true" />
             <element signature="e#2833#2834#0" expanded="true" />
@@ -3771,6 +3759,29 @@
             <element signature="e#3574#3575#0" expanded="true" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/abc/sigmak/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="173" column="9" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
+          <folding>
+            <element signature="e#16320#16329#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_write.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="33" column="27" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
+          <folding>
+            <element signature="e#4580#4596#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
   </component>

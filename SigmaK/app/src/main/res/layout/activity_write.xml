@@ -31,8 +31,8 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="10dp"
         android:hint="content"
-        android:minLines="10"
-        android:maxLines="10"
+        android:minLines="7"
+        android:maxLines="7"
          />
     <RadioGroup
         android:id="@+id/post_type"
