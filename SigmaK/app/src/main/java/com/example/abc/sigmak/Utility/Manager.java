@@ -197,61 +197,61 @@ public class Manager {
      * @param context
      */
     public static void CreateTestData(Context context){
-        char []pass={'1','2','3','4'};
-        try {
-            SignUp(context, "Admin","Colin@qq.com",pass,
-                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
-
-            SignUp(context, "Colin","ColinDowney@126.com",pass,
-                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
-
-            SignUp(context, "Paul","Paul@163.com",pass,
-                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
-
-            SignUp(context, "Duo","Duo@foxmail.com",pass,
-                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
-////            public enum PostType{Mix,Question,Blog,Answer,Comment}
-////            public enum PostCategory{计算机科学,数学科学,文学批评,英语}
-//            ContentValues cv = new ContentValues();
-//            List<Integer> id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Admin'");
-//            cv.put("UserID",id.get(0));
-//            cv.put("Category","计算机科学");
-//            sqlite.insert("UserInterest",cv);
-//            //sqlite
-////info
-//            cv.clear();
-//            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Colin'");
-//            cv.put("UserID",id.get(0));
-//            cv.put("Category","数学科学");
-//            sqlite.insert("UserInterest",cv);
+//        char []pass={'1','2','3','4'};
+//        try {
+//            SignUp(context, "Admin","Colin@qq.com",pass,
+//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 //
-//            cv.clear();
-//            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Paul'");
-//            cv.put("UserID",id.get(0));
-//            cv.put("Category","文学批评");
-//            sqlite.insert("UserInterest",cv);
+//            SignUp(context, "Colin","ColinDowney@126.com",pass,
+//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 //
-//            cv.clear();
-//            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Duo'");
-//            cv.put("UserID",id.get(0));
-//            cv.put("Category","英语");
-//            sqlite.insert("UserInterest",cv);
+//            SignUp(context, "Paul","Paul@163.com",pass,
+//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
 //
+//            SignUp(context, "Duo","Duo@foxmail.com",pass,
+//                    BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
+//////            public enum PostType{Mix,Question,Blog,Answer,Comment}
+//////            public enum PostCategory{计算机科学,数学科学,文学批评,英语}
+////            ContentValues cv = new ContentValues();
+////            List<Integer> id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Admin'");
+////            cv.put("UserID",id.get(0));
+////            cv.put("Category","计算机科学");
+////            sqlite.insert("UserInterest",cv);
+////            //sqlite
+//////info
+////            cv.clear();
+////            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Colin'");
+////            cv.put("UserID",id.get(0));
+////            cv.put("Category","数学科学");
+////            sqlite.insert("UserInterest",cv);
+////
+////            cv.clear();
+////            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Paul'");
+////            cv.put("UserID",id.get(0));
+////            cv.put("Category","文学批评");
+////            sqlite.insert("UserInterest",cv);
+////
+////            cv.clear();
+////            id = sqlite.QueryInt("SELECT ID FROM Account WHERE UserName='Duo'");
+////            cv.put("UserID",id.get(0));
+////            cv.put("Category","英语");
+////            sqlite.insert("UserInterest",cv);
+////
+////
+////
+////
+//        } catch (FormatException e) {
+//            e.printStackTrace();
+//        } catch (RecordException e) {
+//            e.printStackTrace();
+//        }
 //
-//
-//
-        } catch (FormatException e) {
-            e.printStackTrace();
-        } catch (RecordException e) {
-            e.printStackTrace();
-        }
-
-//
-//        //Duo和Paul关注Colin,Duo 和Paul互相关注
-//        Follow(context,2,3);
-//        Follow(context,2,4);
-//        Follow(context,4,3);
-//        Follow(context,3,4);
+////
+////        //Duo和Paul关注Colin,Duo 和Paul互相关注
+////        Follow(context,2,3);
+////        Follow(context,2,4);
+////        Follow(context,4,3);
+////        Follow(context,3,4);
         int postid = -1;
         int aid = -1;
         try {
