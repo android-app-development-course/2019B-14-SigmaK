@@ -167,8 +167,8 @@ public class Question extends AppCompatActivity implements Answer_Adapter.InnerI
             case R.id.answer_que:
                 builder1.show();
                 try {
-                    TextContent content=new TextContent();
-                    content.Text=answer.toCharArray();
+                    TextContent content=new TextContent(answer,null,null);
+                    //content.Text=answer.toCharArray();
                     manager.Answer(answer_title,id,content);
                 } catch (RecordException e) {
                     e.printStackTrace();

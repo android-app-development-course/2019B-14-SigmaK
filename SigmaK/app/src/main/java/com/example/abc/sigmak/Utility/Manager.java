@@ -88,6 +88,8 @@ public class Manager {
      * @throws RecordException
      */
     private static List<Post> fromPostIDtoPostList(List<Integer> PostIDs) throws RecordException {
+        if(PostIDs == null)
+            return null;
         List<Post> list = new LinkedList<Post>();
         List<String> temp,tmpq;
         Question tmpQuestion;
@@ -188,12 +190,36 @@ public class Manager {
 
     }
 
+
     /**
-     * 加载几个账号
+     * 加载
      * @param context
      */
-    public void CreateTestData(Context context){
-        char []pass={'1','2','3','4'};
+    public static void CreateTestData(Context context){
+        //Duo和Paul关注Colin,Duo 和Paul互相关注
+        Follow(context,2,3);
+        Follow(context,2,4);
+        Follow(context,4,3);
+        Follow(context,3,4);
+        int postid = -1;
+        try {
+            postid = PostArticle(3,"唔 你们是怎样学好数学基础的",
+                    new TextContent("感觉自己数学（微积分、线代、概率论）学得很糟糕，准备趁还比较闲的时候补一下。\n想问问各位大佬是怎么学习相关科目的？"),
+                            Post.PostCategory.计算机科学,new String[]{"线性代数","微积分","概率论","学习"},Post.PostType.Question);
+            Answer(4,"",postid,new TextContent(
+                    "要用起来，不用很快就会忘了。\n" +
+                            "\t用的方式有：做题(课后习题之类)或者多读好书。多深入读一些好书(论文也可以)就会用到数学知识了，不仅可以学习新知识，还能巩固数学知识，一举两得。",
+                    null,null));
+            Answer(2,"",postid,new TextContent(
+                    "学数学是一个长期循环反馈过程。讲到基础，就更加没人敢说自己基础好了。往往是走到更高一个层面，就发现自己各种不足。所以呢，怎么学怎么补还是需要目标驱动。就好比说，整本算法导论用到的概率无非就是条件概率、随机变量、期望等很少的概率论知识，如果够用，就没必要说自己概率不好，大量去补习概率论。说真的，花一整块时间去补一门数学课真是很奢侈，而且往往效率还不高。\n" +
+                            "简单来说，目标驱动很重要。如果要考研，就专门复习微积分吧。如果因此希望微积分能在以后工作帮多大忙也不大现实。不要在概念上拖后腿就好了。",
+                    null,null));
+        } catch (RecordException e) {
+            e.printStackTrace();
+        } catch (FormatException e) {
+            e.printStackTrace();
+        }
+        /*char []pass={'1','2','3','4'};
         try {
             SignUp(context, "Admin","Colin@qq.com",pass,
                     BitmapFactory.decodeResource(context.getResources(),R.drawable.default_photo));
@@ -240,7 +266,7 @@ public class Manager {
             e.printStackTrace();
         } catch (RecordException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
@@ -452,7 +478,17 @@ public class Manager {
      */
     public List<AccountInfo> GetFollows() throws RecordException {
         checkStatus();
-        List<Integer> users = sqlite.QueryInt("SELECT UserID FROM Follow WHERE FollowerID="+_accountInfo.UserID);
+        return GetFollows(_accountInfo.UserID);
+    }
+
+    /**
+     * 获取用户关注的人
+     * @param UserID
+     * @return LinkedList<AccountInfo>用户关注的人的账户信息对象列表
+     * @throws RecordException "Follow is empty."
+     */
+    public static List<AccountInfo> GetFollows(int UserID) throws RecordException {
+        List<Integer> users = sqlite.QueryInt("SELECT UserID FROM Follow WHERE FollowerID="+UserID);
         if(users==null)
             throw new RecordException("Follow is empty.");
         List<String> temp;
@@ -478,7 +514,17 @@ public class Manager {
      */
     public List<AccountInfo> GetFollowers() throws RecordException {
         checkStatus();
-        List<Integer> users = sqlite.QueryInt("SELECT FollowerID FROM Follow WHERE UserID="+_accountInfo.UserID);
+        return GetFollowers(_accountInfo.UserID);
+    }
+
+    /**
+     * 获取用户的粉丝
+     * @param UserID
+     * @return LinkedList<AccountInfo>用户的粉丝的账户信息对象列表
+     * @throws RecordException "Follower is empty."
+     */
+    public static List<AccountInfo> GetFollowers(int UserID) throws RecordException {
+        List<Integer> users = sqlite.QueryInt("SELECT FollowerID FROM Follow WHERE UserID="+UserID);
         if(users==null)
             throw new RecordException("Follower is empty.");
         List<String> temp;
@@ -520,18 +566,29 @@ public class Manager {
     /**
      * 关注用户
      * @param context
-     * @param UserID 要关注的用户的ID
+     * @param toFollowID 要关注的用户的ID
      */
-    public void Follow(Context context, int UserID){
+    public void Follow(Context context, int toFollowID) throws RecordException {
+        checkStatus();
         _userInfo.Follows += 1;
         Tools.SaveToPreference(context,accountPreferenceName,userInfoKey,_userInfo);
-        sqlite.ExecuteSql("UPDATE UserInfo SET Follows="+_userInfo.Follows +
-                " WHERE AccountID="+_accountInfo.UserID);
+        Follow(context,_accountInfo.UserID,toFollowID);
+    }
+
+    /**
+     * 关注用户(不检查用户是否存在，如果不存在会直接有Sqlite的错误)
+     * @param toFollowID
+     * @param context
+     * @param FollowerID 要关注的用户的ID
+     */
+    private static void Follow(Context context, int toFollowID, int FollowerID){
+        sqlite.ExecuteSql("UPDATE UserInfo SET Follows=Follows+1 WHERE AccountID="+FollowerID);
+        sqlite.ExecuteSql("UPDATE UserInfo SET Followers=Followers+1 WHERE AccountID="+toFollowID);
         //CHECK:Date由SQLite插入默认值
 //        sqlite.ExecuteSql(String.format("INSERT INTO Follow(UserID,FollowerID) VALUES(%d,%d)",UserID,_accountInfo.UserID));
         try {
             sqlite.insert("Follow",Tools.formContentValuesInt(
-                    "UserID","FollowerID",Integer.toString(UserID),Integer.toString(_accountInfo.UserID)));
+                    "UserID","FollowerID",Integer.toString(FollowerID),Integer.toString(FollowerID)));
         } catch (FormatException e) {
             e.printStackTrace();
         }
@@ -542,12 +599,23 @@ public class Manager {
      * @param PostID 收藏的内容编号
      * @param Type 内容的类型(Post.PostType)
      */
-    public void Favourite(int PostID, Post.PostType Type)
+    public void Favourite(int PostID, Post.PostType Type) throws RecordException {
+        checkStatus();
+        Favourite(_accountInfo.UserID,PostID,Type);
+    }
+
+    /**
+     * 收藏该内容
+     * @param UserID
+     * @param PostID 收藏的内容编号
+     * @param Type 内容的类型(Post.PostType)
+     */
+    private static void Favourite(int UserID, int PostID, Post.PostType Type)
     {
 //        sqlite.ExecuteSql(String.format("INSERT INTO Favourites(UserID,PostID,Type) VALUES(%d,%d,'%s')",
 //                _accountInfo.UserID,PostID,Type.name()));
         ContentValues cv = new ContentValues();
-        cv.put("UserID",new Integer(_accountInfo.UserID));
+        cv.put("UserID",new Integer(UserID));
         cv.put("PostID",new Integer(PostID));
         cv.put("Type",new Integer(Type.name()));
         sqlite.insert("Favourites",cv);
@@ -558,9 +626,19 @@ public class Manager {
      * 取消收藏
      * @param PostID 内容编号
      */
-    public void RemoveFromFavourites(int PostID){
+    public void RemoveFromFavourites(int PostID) throws RecordException {
+        checkStatus();
+        RemoveFromFavourites(_accountInfo.UserID,PostID);
+    }
+
+    /**
+     * 取消收藏
+     * @param UserID
+     * @param PostID 内容编号
+     */
+    private static void RemoveFromFavourites(int UserID, int PostID){
         sqlite.ExecuteSql(String.format("DELETE FROM Favourites WHERE UserID=%d AND PostID=%d",
-                _accountInfo.UserID,PostID));
+                UserID,PostID));
     }
 
     /**
@@ -623,10 +701,34 @@ public class Manager {
         }
     }
 
-    //搜索获取博文或问题或者两者兼有
-    //ConnectException:No connection.
-    public static List<Post> Search(String SearchCommand, Post.PostType Type, int NumOfPosts){
-        return null;
+    /**
+     * 搜索获取博文或问题或回答或者三者兼有
+     * @param SearchCommand
+     * @param Type
+     * @param NumOfPosts
+     * @return
+     */
+    public static List<Post> Search(String SearchCommand, Post.PostType Type, int NumOfPosts) {
+        List<Post> posts = null;
+        List<Integer> postids = null;
+        if(Type == Post.PostType.Mix){
+            postids = sqlite.QueryInt("SELECT PostID FROM PostInfo WHERE Type='" +
+                    ""+ Type.name()+"' AND Title LIKE '%"+SearchCommand+"%'");
+        }else{
+            postids = sqlite.QueryInt("SELECT PostID FROM PostInfo WHERE (Type='" +
+                    Post.PostType.Blog.name()+"' OR Type='" +
+                    Post.PostType.Question.name()+"' OR Type='" +
+                    Post.PostType.Answer.name()+"' OR Type='" +
+                    "')" +
+                    " AND Title LIKE '%"+SearchCommand+"%'");
+        }
+
+        try {
+            posts = fromPostIDtoPostList(postids);
+        } catch (RecordException e) {
+            e.printStackTrace();
+        }
+        return posts;
     }
 
     /**
@@ -712,8 +814,18 @@ public class Manager {
      * @throws Exception Comment too long. No valid login.
      */
     public void PostComment(int PostID, String CommentText) throws Exception {
-        if(!_loginStatus)
-            throw new RecordException("No valid login.");
+        checkStatus();
+        PostComment(_accountInfo.UserID,PostID,CommentText);
+    }
+
+    /**
+     * 发表文章或问题id为PostID的内容的评论
+     * @param UserID
+     * @param PostID
+     * @param CommentText
+     * @throws Exception Comment too long. No valid login.
+     */
+    private static void PostComment(int UserID, int PostID, String CommentText) throws Exception {
         if(CommentText.length()>=400)
             throw new Exception("Comment length exceed 400.");
         //CHECK:这里是否能够自动生成日期和likes
@@ -722,10 +834,9 @@ public class Manager {
 //                ,PostID,_accountInfo.UserID,CommentText));
         ContentValues cv = new ContentValues();
         cv.put("PostID",PostID);
-        cv.put("UserID",_accountInfo.UserID);
+        cv.put("UserID",UserID);
         cv.put("Content",CommentText);
         sqlite.insert("Comment",cv);
-
     }
 
     /**
@@ -762,8 +873,25 @@ public class Manager {
      */
     public int PostArticle(String Title, TextContent _Content,
                             Post.PostCategory _Category, String[] KeyWords, Post.PostType _PostType) throws RecordException, FormatException {
-        if(!_loginStatus)
-            throw new RecordException("No valid login.");
+        checkStatus();
+        return PostArticle(_accountInfo.UserID,Title,_Content,_Category,KeyWords,_PostType);
+    }
+
+    /**
+     * 发表博文或者问题.
+     * @param UserID 发表的作者ID
+     * @param Title 标题
+     * @param _Content 内容
+     * @param _Category 分类
+     * @param KeyWords 关键词
+     * @param _PostType 博文还是提问
+     * @return 返回刚刚插入的Post的编号
+     * @throws RecordException No valid login.
+     * @throws FormatException Invalid PostType.
+     */
+    private static int PostArticle(int UserID,String Title, TextContent _Content,
+                            Post.PostCategory _Category, String[] KeyWords, Post.PostType _PostType) throws RecordException, FormatException {
+
         if(_PostType == Post.PostType.Mix)
             throw new FormatException("Invalid PostType.");
 
@@ -780,7 +908,7 @@ public class Manager {
         cv.put("Type",_PostType.name());
         cv.put("Category",_Category.name());
         cv.put("KeyWords",Tools.StringArrayToString(KeyWords));
-        cv.put("AuthorID",_accountInfo.UserID);
+        cv.put("AuthorID",UserID);
         sqlite.insert("PostInfo",cv);
 
         List<Integer> ltmp = sqlite.QueryInt(String.format("SELECT PostID FROM PostInfo" +
@@ -794,7 +922,7 @@ public class Manager {
 //                    "VALUES(%d,%s)",postID,Tools.ObjectToString(_Content)));
             ContentValues cv1 = new ContentValues();
             cv1.put("PostID",postID);
-            cv1.put("TextContent",Tools.ObjectToString(_Content));
+            cv1.put("TextContent",_Content.toJsonString());
             sqlite.insert("PostContent",cv1);
 
             if(_PostType == Post.PostType.Question){
@@ -829,8 +957,22 @@ public class Manager {
      */
     public void AcceptQuestion(int QuestionID, Integer[] SatisfiedAnswerID) throws RecordException {
         checkStatus();
+        AcceptQuestion(_accountInfo.UserID,QuestionID,SatisfiedAnswerID);
+    }
+
+    /**
+     * 接受问题
+     * @param userID
+     * @param QuestionID
+     * @param SatisfiedAnswerID
+     * @throws RecordException No valid account has logged in.
+     */
+    private static void AcceptQuestion(int userID, int QuestionID, Integer[] SatisfiedAnswerID) throws RecordException {
+        List<Integer> temp = sqlite.QueryInt("SELECT PostID FROM PostInfo WHERE AuthorID="+userID+" AND PostID="+QuestionID);
+        if(temp!=null||temp.size()!=0)
+            throw new RecordException("No valid question.");
         sqlite.ExecuteSql(String.format("UPDATE QuestionInfo SET Status='%s',StatisfiedAnswerIDs='%s' WHERE PostID=%d",
-                Question.QuestionStatus.Accepted.name(),Tools.IntArrayToString(SatisfiedAnswerID),_accountInfo.UserID));
+                Question.QuestionStatus.Accepted.name(),Tools.IntArrayToString(SatisfiedAnswerID),QuestionID));
     }
 
     /**
@@ -853,12 +995,24 @@ public class Manager {
      */
     public void Answer(String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
         checkStatus();
+        Answer(_accountInfo.UserID,AnswerTitle,QuestionID,_Content);
+    }
+
+    /**
+     * 回答问题
+     * @param UserID
+     * @param AnswerTitle 回答也要起一个标题
+     * @param QuestionID 回答的问题的ID
+     * @param _Content 回答的内容
+     * @throws RecordException
+     */
+    private static void Answer(int UserID, String AnswerTitle, int QuestionID, TextContent _Content) throws RecordException{
         List<Integer> tmpL = new LinkedList<Integer>();
         tmpL.add(QuestionID);
         Question tmpq = (Question)fromPostIDtoPostList(tmpL).get(0);
         int postID = -1;
         try {
-            postID = PostArticle(AnswerTitle,_Content, tmpq.Category,tmpq.KeyWords, Post.PostType.Answer);
+            postID = PostArticle(UserID, AnswerTitle,_Content, tmpq.Category,tmpq.KeyWords, Post.PostType.Answer);
 
             //ID,QuestionID,AnswerID
 //        sqlite.ExecuteSql(String.format("INSERT INTO AnswerInfo(QuestionID,AnswerID) " +
@@ -882,13 +1036,24 @@ public class Manager {
      * @throws RecordException
      */
     public void Like(int PostID) throws RecordException {
-        if(DoILikeThis(PostID))
+        checkStatus();
+        Like(_accountInfo.UserID,PostID);
+    }
+
+    /**
+     * 赞同内容
+     * @param UserID
+     * @param PostID
+     * @throws RecordException
+     */
+    private static void Like(int UserID, int PostID) throws RecordException {
+        if(DoILikeThis(UserID,PostID))
             return;
         try {
 //        sqlite.ExecuteSql(String.format("INSERT INTO Likes(PostID,UserID) VALUES(%d,d)",
 //                PostID,_accountInfo.UserID));
             sqlite.insert("Likes",Tools.formContentValuesInt("PostID","UserID",
-                    Integer.toString(PostID),Integer.toString(_accountInfo.UserID)));
+                    Integer.toString(PostID),Integer.toString(UserID)));
 
             sqlite.ExecuteSql(String.format("UPDATE PostInfo SET Likes=Likes+1 WHERE PostID=%d",PostID));
         } catch (FormatException e) {
@@ -903,14 +1068,25 @@ public class Manager {
      * @throws RecordException
      */
     public void Disapprove(int PostID) throws RecordException {
-        if(DoIDisapproveThis(PostID))
+        checkStatus();
+        Disapprove(_accountInfo.UserID,PostID);
+    }
+
+    /**
+     * 反对内容
+     * @param UserID
+     * @param PostID
+     * @throws RecordException
+     */
+    private static void Disapprove(int UserID, int PostID) throws RecordException {
+        if(DoIDisapproveThis(UserID,PostID))
             return;
 
         try {
 //        sqlite.ExecuteSql(String.format("INSERT INTO Disapproves(PostID,UserID) VALUES(%d,d)",
 //                PostID,_accountInfo.UserID));
             sqlite.insert("Disapproves",Tools.formContentValuesInt("PostID","UserID",
-                    Integer.toString(PostID),Integer.toString(_accountInfo.UserID)));
+                    Integer.toString(PostID),Integer.toString(UserID)));
         } catch (FormatException e) {
             e.printStackTrace();
         }
@@ -925,8 +1101,19 @@ public class Manager {
      */
     public boolean DoILikeThis(int PostID) throws RecordException {
         checkStatus();
+        return DoILikeThis(_accountInfo.UserID,PostID);
+    }
+
+    /**
+     * 查看我赞成这个内容吗
+     * @param UserID
+     * @param PostID
+     * @return
+     * @throws RecordException
+     */
+    private static boolean DoILikeThis(int UserID, int PostID) throws RecordException {
         List<String> list = sqlite.QueryString(String.format("SELECT * FROM Likes WHERE PostID=%d AND UserID=%d",
-                PostID,_accountInfo.UserID));
+                PostID,UserID));
         if(list==null)
             return false;
         else
@@ -941,8 +1128,19 @@ public class Manager {
      */
     public boolean DoIDisapproveThis(int PostID) throws RecordException {
         checkStatus();
+        return DoIDisapproveThis(_accountInfo.UserID,PostID);
+    }
+
+    /**
+     * 我反对这个内容吗
+     * @param UserID
+     * @param PostID
+     * @return
+     * @throws RecordException
+     */
+    private static boolean DoIDisapproveThis(int UserID, int PostID) throws RecordException {
         List<String> list = sqlite.QueryString(String.format("SELECT * FROM Disapproves WHERE PostID=%d AND UserID=%d",
-                PostID,_accountInfo.UserID));
+                PostID,UserID));
         if(list==null)
             return false;
         else
