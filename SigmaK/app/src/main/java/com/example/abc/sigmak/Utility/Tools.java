@@ -41,13 +41,18 @@ public class Tools {
         int p = CombinedSequence.indexOf(";;;");
         int b = p;
         list.add(CombinedSequence.substring(0,p));
-        for(;p<CombinedSequence.length();){
-            b = p;
-            p = CombinedSequence.indexOf(";;;",p+2);
-            list.add(CombinedSequence.substring(b+3,p));
-            if(p==CombinedSequence.length()-3)
-                break;
+        if(p+3==CombinedSequence.length()){
+
+        }else{
+            for(;p<CombinedSequence.length();){
+                b = p;
+                p = CombinedSequence.indexOf(";;;",p+2);
+                list.add(CombinedSequence.substring(b+3,p));
+                if(p==CombinedSequence.length()-3)
+                    break;
+            }
         }
+
         return list.toArray(new String[0]);
     }
 

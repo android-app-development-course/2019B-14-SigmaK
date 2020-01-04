@@ -20,11 +20,12 @@ import ezy.ui.view.RoundButton;
 public class Write extends AppCompatActivity {
     RadioGroup post_type;
     RadioGroup post_category;
-    Post.PostType type;
-    Post.PostCategory category;
+    Post.PostType type = Post.PostType.Question;//初始默认选择是问题
+    Post.PostCategory category = Post.PostCategory.计算机科学;;//初始默认选择是计算机
     RoundButton submit;
     TextView mytitle;
-    TextView mycontent;Manager manager;
+    TextView mycontent;
+    Manager manager;
     boolean ok=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +80,8 @@ public class Write extends AppCompatActivity {
             public void onClick(View v) {
                 if(ok)
                 {
-                    TextContent content=new TextContent(mycontent.getText().toString());
-                    String[] keyword={mycontent.getText().toString()};
+                    TextContent content=new TextContent(mycontent.getText().toString(),null,null);
+                    String[] keyword={"Default"};
                     try {
                         manager.PostArticle(getApplicationContext(),mytitle.getText().toString(),content,category,keyword,type);
                     } catch (RecordException e) {

@@ -13,8 +13,8 @@ import java.util.List;
 
 public class SQLiteTools extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAMEwithoutDB = "SigmaK_v1_5";
-    private static final String DATABASE_NAME = "SigmaK_v1_5.db";
+    private static final String DATABASE_NAMEwithoutDB = "SigmaK_v1_11";
+    private static final String DATABASE_NAME = "SigmaK_v1_11.db";
     private static final int DATABASE_VERSION = 1;
     private static SQLiteTools instance;
     public static final String TAG="SQLiteTools";

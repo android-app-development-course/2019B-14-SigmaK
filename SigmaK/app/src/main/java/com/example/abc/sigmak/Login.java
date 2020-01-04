@@ -2,6 +2,7 @@ package com.example.abc.sigmak;
 
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.nfc.FormatException;
 import android.support.v7.app.AlertDialog;
@@ -49,7 +50,8 @@ public class Login extends AppCompatActivity {
             Login();
         }
 
-        final Bitmap bitmap=((BitmapDrawable)getResources().getDrawable(R.drawable.user)).getBitmap();
+        final Bitmap bitmap=BitmapFactory.decodeResource(this.getApplicationContext().getResources(),R.drawable.default_photo);
+        //final Bitmap bitmap=((BitmapDrawable)getResources().getDrawable(R.drawable.user)).getBitmap();
 
         final AlertDialog.Builder builder= new AlertDialog.Builder(Login.this);
         builder.setTitle("Warning");
@@ -82,6 +84,7 @@ public class Login extends AppCompatActivity {
                 {
                     try {
                         manager.SignUp(getApplicationContext(), Username.getText().toString(),email.getText().toString(),Password.getText().toString().toCharArray(),bitmap);
+                        manager.LogIn(view.getContext(),Username.getText().toString(),Password.getText().toString().toCharArray());
                     } catch (FormatException e) {
                         builder.setMessage(e.getMessage());
                         builder.show();
@@ -90,6 +93,8 @@ public class Login extends AppCompatActivity {
                         builder.setMessage(e.getMessage()+"SignUp Fail");
                         builder.show();
                         return;
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }//注册
                 else

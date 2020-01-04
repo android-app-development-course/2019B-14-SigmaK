@@ -245,40 +245,80 @@ public class Manager {
 //        } catch (RecordException e) {
 //            e.printStackTrace();
 //        }
+//////
+////////
+////////        //Duo和Paul关注Colin,Duo 和Paul互相关注
+////////        Follow(context,2,3);
+////////        Follow(context,2,4);
+////////        Follow(context,4,3);
+////////        Follow(context,3,4);
+//        int postid = -1;
+//        int aid = -1;
+//        try {
 //
-////
-////        //Duo和Paul关注Colin,Duo 和Paul互相关注
-////        Follow(context,2,3);
-////        Follow(context,2,4);
-////        Follow(context,4,3);
-////        Follow(context,3,4);
-        int postid = -1;
-        int aid = -1;
-        try {
-
-                postid = PostArticle(context,3,"唔 你们是怎样学好数学基础的",
-                        new TextContent("感觉自己数学（微积分、线代、概率论）学得很糟糕，准备趁还比较闲的时候补一下。\n想问问各位大佬是怎么学习相关科目的？"),
-                                Post.PostCategory.计算机科学,new String[]{"线性代数","微积分","概率论","学习"},Post.PostType.Question);
-
-            Answer(context,4,"要用起来",postid,new TextContent(
-                    "要用起来，不用很快就会忘了。\n" +
-                            "\t用的方式有：做题(课后习题之类)或者多读好书。多深入读一些好书(论文也可以)就会用到数学知识了，不仅可以学习新知识，还能巩固数学知识，一举两得。",
-                    null,null));
-            aid = Answer(context,2,"目标驱动",postid,new TextContent(
-                    "学数学是一个长期循环反馈过程。讲到基础，就更加没人敢说自己基础好了。往往是走到更高一个层面，就发现自己各种不足。所以呢，怎么学怎么补还是需要目标驱动。就好比说，整本算法导论用到的概率无非就是条件概率、随机变量、期望等很少的概率论知识，如果够用，就没必要说自己概率不好，大量去补习概率论。说真的，花一整块时间去补一门数学课真是很奢侈，而且往往效率还不高。\n" +
-                            "简单来说，目标驱动很重要。如果要考研，就专门复习微积分吧。如果因此希望微积分能在以后工作帮多大忙也不大现实。不要在概念上拖后腿就好了。",
-                    null,null));
-
-                PostComment(3,aid,new String("BinTou说的很有道理！"));
-            PostComment(4,aid,new String("是这样！"));
-            PostComment(3,aid,new String("谢谢老师~！"));
-            }
-
-         catch (RecordException e) {
-            e.printStackTrace();
-    }catch (Exception e) {
-        e.printStackTrace();
-    }
+//                postid = PostArticle(context,3,"唔 你们是怎样学好数学基础的",
+//                        new TextContent("感觉自己数学（微积分、线代、概率论）学得很糟糕，准备趁还比较闲的时候补一下。\n想问问各位大佬是怎么学习相关科目的？"),
+//                                Post.PostCategory.计算机科学,new String[]{"线性代数","微积分","概率论","学习"},Post.PostType.Question);
+//
+//            Answer(context,4,"要用起来",postid,new TextContent(
+//                    "要用起来，不用很快就会忘了。\n" +
+//                            "\t用的方式有：做题(课后习题之类)或者多读好书。多深入读一些好书(论文也可以)就会用到数学知识了，不仅可以学习新知识，还能巩固数学知识，一举两得。",
+//                    null,null));
+//            aid = Answer(context,2,"目标驱动",postid,new TextContent(
+//                    "学数学是一个长期循环反馈过程。讲到基础，就更加没人敢说自己基础好了。往往是走到更高一个层面，就发现自己各种不足。所以呢，怎么学怎么补还是需要目标驱动。就好比说，整本算法导论用到的概率无非就是条件概率、随机变量、期望等很少的概率论知识，如果够用，就没必要说自己概率不好，大量去补习概率论。说真的，花一整块时间去补一门数学课真是很奢侈，而且往往效率还不高。\n" +
+//                            "简单来说，目标驱动很重要。如果要考研，就专门复习微积分吧。如果因此希望微积分能在以后工作帮多大忙也不大现实。不要在概念上拖后腿就好了。",
+//                    null,null));
+//
+//                PostComment(3,aid,new String("BinTou说的很有道理！"));
+//            PostComment(4,aid,new String("是这样！"));
+//            PostComment(3,aid,new String("谢谢老师~！"));
+//
+//            postid = PostArticle(context,3,"大家推荐一下看过的极好的计算机书籍呗(中英文都行)",
+//                    new TextContent("我看完的书不多…还在各种填坑……\n" +
+//                            "操作系统我推荐一本吧\n" +
+//                            "operating system：three easy pieces\n" +
+//                            "以前知乎上看到轮子哥推荐的，真的不错…\n" +
+//                            "不过还是要多实践自己才能真的理解吧⊙ω⊙\n" +
+//                            "所以有人回复吗(●'◡'●)ﾉ\n" +
+//                            "老哥们看过来！"),
+//                    Post.PostCategory.计算机科学,new String[]{"学习"},Post.PostType.Question);
+//
+//            Answer(context,4,"入门Linux",postid,new TextContent(
+//                    "如果需要入门Linux的Shell操作的话，推荐这本：\n" +
+//                            "The Linux Command Line by William E. Shotts, Jr.\n" +
+//                            "http://linuxcommand.org/tlcl.php\n" +
+//                            "对应的中文翻译是《快乐的Linux命令行》\n" +
+//                            "https://billie66.github.io/TLCL/\n" +
+//                            "（可以直接在线阅读哦）\n" +
+//                            "可以说是：“ 正如有位老师坐在你身边，指导你学习一样 “\n" +
+//                            "这是中文翻译作者的推荐：正在翻译一本我认为最好的 Linux 入门书籍－The Linux Command Line · Ruby China",
+//                    null,null));
+//
+//            aid = Answer(context,2,"bintou 老师五核（zhuan）心（tou）",postid,new TextContent(
+//                    "bintou 老师五核（zhuan）心（tou）\n" +
+//                            "你值得拥有x\n" +
+//                            "（趁着聚聚们潜水来卖一波x\n" +
+//                            "GSLA Introduction to Linear Algebra\n" +
+//                            "线性代数\n" +
+//                            "CLRS Introduction to Algorithm\n" +
+//                            "基本算法，数据结构，图论数论blabla以及证明\n" +
+//                            "CSAPP Computer Science a programmer's perspective\n" +
+//                            "计算机组成，汇编，操作系统blabla\n" +
+//                            "SICP Structure and Interpretation of Computer Programs\n" +
+//                            "程序的构造，抽象…\n" +
+//                            "ITOC Introduction to the Theory of Computation\n" +
+//                            "可计算，图灵机，复杂性…\n" +
+//                            "好像书架上除了这些就没了（逃\n" +
+//                            "其实觉得能把这些的细节都弄好就很强很强了，太急躁果然还是不行的orz",
+//                    null,null));
+//
+//            }
+//
+//         catch (RecordException e) {
+//            e.printStackTrace();
+//    }catch (Exception e) {
+//        e.printStackTrace();
+//    }
 
 
     }

@@ -170,11 +170,18 @@ public class MainActivity extends AppCompatActivity
         warning=builder.create();
 
         manager=Manager.getInstance(this.getApplicationContext());
+
         try {
             loginStatus=manager.LoginStatus(this.getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        try {
+//            manager.LogOut(this.getApplicationContext());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
         //manager.CreateTestData(this.getApplicationContext());
         if(!loginStatus)
         {
@@ -228,11 +235,6 @@ public class MainActivity extends AppCompatActivity
 
                                     break;
                                 case 6:
-                                    try {
-                                        manager.LogOut(view.getContext());
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
                                     try {
                                         manager.LogOut(MainActivity.this.getApplicationContext());
                                     } catch (Exception e) {
@@ -346,7 +348,7 @@ public class MainActivity extends AppCompatActivity
                 {
                     q1=tmp.get(i);
                     list.add(new Preview(
-                            q1.Title+"times:",
+                            q1.Title,
                             "good good study,day day up",
                             "Questioner:"+q1.AuthorID,
                             q1.Likes+"",
