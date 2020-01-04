@@ -1,6 +1,7 @@
 package com.example.abc.sigmak;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -130,5 +131,13 @@ public class Login extends AppCompatActivity {
         change.setText(R.string.Login);
         Username.setText("");
         Password.setText("");
+    }
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent=new Intent();
+        intent.setClass(Login.this,Enter.class);
+        startActivity(intent);
+        finish();
     }
 }

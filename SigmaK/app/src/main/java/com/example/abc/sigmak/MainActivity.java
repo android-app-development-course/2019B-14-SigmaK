@@ -57,6 +57,7 @@ import static java.sql.Types.NULL;
 
 public class MainActivity extends AppCompatActivity
 {
+    public static boolean is_destroyed=false;
     enum status{Question,Article};
     status Type=status.Question;
     private SegmentedView mScv1;
@@ -87,9 +88,15 @@ public class MainActivity extends AppCompatActivity
     AlertDialog.Builder builder;
     Bundle state;
     AlertDialog warning;
+    boolean havegot=false;
     @Override
     protected void onResume() {
         super.onResume();
+        if(is_destroyed==true)
+        {
+            finish();
+            System.exit(0);
+        }
         try {
             loginStatus=manager.LoginStatus(this.getApplicationContext());
         } catch (IOException e) {
@@ -188,6 +195,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent();
             intent.setClass(MainActivity.this,Enter.class);
             startActivity(intent);
+        }
+        try {
+            loginStatus=manager.LoginStatus(this.getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         drawer=new DrawerBuilder()
                 .withActivity(this)
@@ -333,7 +345,7 @@ public class MainActivity extends AppCompatActivity
     private void initData()
     {
         list=new ArrayList<Preview>();
-        if(loginStatus)
+        if(loginStatus&&havegot==false)
         {
             List<Post> tmp = null;
             try {
@@ -458,7 +470,7 @@ public class MainActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(loginStatus)
+        if(loginStatus&&havegot==false)
         {
             ArrayList<Preview>addList=new ArrayList<Preview>();
             List<Post> tmp = null;

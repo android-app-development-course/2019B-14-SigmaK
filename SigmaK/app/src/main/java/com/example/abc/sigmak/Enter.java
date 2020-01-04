@@ -1,6 +1,7 @@
 package com.example.abc.sigmak;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -48,6 +49,12 @@ public class Enter extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    @Override
+    public void onBackPressed()
+    {
+        MainActivity.is_destroyed=true;
+        finish();
     }
 
    /* @Override
