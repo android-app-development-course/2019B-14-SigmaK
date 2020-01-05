@@ -27,7 +27,7 @@ public class daily extends AppCompatActivity {
         setContentView(R.layout.activity_daily);
         id=getIntent().getIntExtra("ArticleID",0);
         manager= Manager.getInstance(this.getApplicationContext());
-        userid=(TextView)findViewById(R.id.UserName);
+        userid=(TextView)findViewById(R.id.daily_UserName);
         articletitle=(TextView)findViewById(R.id.Article_title);
         article=(TextView)findViewById(R.id.Article);
         Post post=null;
